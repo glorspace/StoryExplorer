@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StoryExplorer.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StoryExplorer.DataModel.Tests
+namespace StoryExplorer.Tests
 {
 	[TestClass()]
 	public class SceneTests
