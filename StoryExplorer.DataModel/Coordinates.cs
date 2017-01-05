@@ -66,5 +66,7 @@ namespace StoryExplorer.DataModel
 					break;
 			}
 		}
+
+		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}";
 	}	
 }

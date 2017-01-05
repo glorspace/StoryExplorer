@@ -101,5 +101,7 @@ namespace StoryExplorer.DataModel
 		{
 			return DirectoryListing(StorageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 		}
+
+		public override string ToString() => $"Name: {Name}";
 	}
 }

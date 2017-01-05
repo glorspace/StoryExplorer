@@ -138,5 +138,7 @@ namespace StoryExplorer.DataModel
 
 			return allowablesMoves;
 		}
+
+		public override string ToString() => $"Name: {Name}";
 	}
 }
