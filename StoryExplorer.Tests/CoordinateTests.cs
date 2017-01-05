@@ -15,8 +15,10 @@ namespace StoryExplorer.Tests
 		[TestMethod]
 		public void VerifyConstructor()
 		{
-			var adventurer = new Adventurer();
-			adventurer.CurrentPosition = new Coordinates(0, 0, 0);
+			// Arrange
+			var adventurer = new Adventurer {CurrentPosition = new Coordinates(0, 0, 0)};
+
+			// Assert
 			Assert.AreEqual(0, adventurer.CurrentPosition.X);
 			Assert.AreEqual(0, adventurer.CurrentPosition.Y);
 			Assert.AreEqual(0, adventurer.CurrentPosition.Z);
@@ -25,9 +27,13 @@ namespace StoryExplorer.Tests
 		[TestMethod]
 		public void MoveNorthByReinstantiating()
 		{
-			var adventurer = new Adventurer();
-			adventurer.CurrentPosition = new Coordinates(0, 0, 0);
+			// Arrange
+			var adventurer = new Adventurer {CurrentPosition = new Coordinates(0, 0, 0)};
+
+			// Act
 			adventurer.CurrentPosition = adventurer.CurrentPosition.Peek(Direction.North);
+
+			// Assert
 			Assert.AreEqual(0, adventurer.CurrentPosition.X);
 			Assert.AreEqual(1, adventurer.CurrentPosition.Y);
 			Assert.AreEqual(0, adventurer.CurrentPosition.Z);
@@ -36,9 +42,13 @@ namespace StoryExplorer.Tests
 		[TestMethod]
 		public void MoveNorthWithoutReinstantiating()
 		{
-			var adventurer = new Adventurer();
-			adventurer.CurrentPosition = new Coordinates(0, 0, 0);
+			// Arrange
+			var adventurer = new Adventurer {CurrentPosition = new Coordinates(0, 0, 0)};
+
+			// Act
 			adventurer.CurrentPosition.Move(Direction.North);
+
+			// Assert
 			Assert.AreEqual(0, adventurer.CurrentPosition.X);
 			Assert.AreEqual(1, adventurer.CurrentPosition.Y);
 			Assert.AreEqual(0, adventurer.CurrentPosition.Z);
