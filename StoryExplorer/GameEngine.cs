@@ -1,11 +1,7 @@
-﻿using StoryExplorer.DataModel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Speech.Synthesis;
-using System.Text;
-using System.Threading.Tasks;
+using StoryExplorer.DataModel;
 
 namespace StoryExplorer.ConsoleApp
 {
@@ -13,8 +9,8 @@ namespace StoryExplorer.ConsoleApp
 	{
 		public Adventurer Adventurer { get; set; }
 		public Region Region { get; set; }
-		private bool speechEnabled;
-		private SpeechSynthesizer synth = new SpeechSynthesizer();
+		private readonly bool speechEnabled;
+		private readonly SpeechSynthesizer synth = new SpeechSynthesizer();
 
 		public GameEngine (Adventurer adventurer, Region region, bool enableSpeech)
 		{
@@ -47,78 +43,79 @@ namespace StoryExplorer.ConsoleApp
 
 		internal void PromptForCommands()
 		{
-			Console.Write($"|{Adventurer.Name}:{Region.Name}:[{Adventurer.CurrentPosition.X},{Adventurer.CurrentPosition.Y},{Adventurer.CurrentPosition.Z}] > ");
-			var command = Console.ReadLine();
-			bool enableSpeech = this.speechEnabled;
-
-			switch (command.ToLower())
+			while (true)
 			{
-				case "p":
-				case "profile":
-					AdventurerHelpers.ShowAdventurerProfile(Adventurer);
-					break;
-				case "i":
-				case "inv":
-				case "inventory":
-					ShowInventory();
-					break;
-				case "n":
-				case "north":
-					AttemptMove(Direction.North);
-					break;
-				case "e":
-				case "east":
-					AttemptMove(Direction.East);
-					break;
-				case "s":
-				case "south":
-					AttemptMove(Direction.South);
-					break;
-				case "w":
-				case "west":
-					AttemptMove(Direction.West);
-					break;
-				case "u":
-				case "up":
-					AttemptMove(Direction.Up);
-					break;
-				case "d":
-				case "down":
-					AttemptMove(Direction.Down);
-					break;
-				case "edit":
-					if (Region.Mode == RegionMode.Author)
-					{
-						EditScene();
-					}
-					else
-					{
+				Console.Write($"|{Adventurer.Name}:{Region.Name}:[{Adventurer.CurrentPosition.X},{Adventurer.CurrentPosition.Y},{Adventurer.CurrentPosition.Z}] > ");
+				var command = Console.ReadLine();
+
+				switch (command?.ToLower())
+				{
+					case "p":
+					case "profile":
+						AdventurerHelpers.ShowAdventurerProfile(Adventurer);
+						break;
+					case "i":
+					case "inv":
+					case "inventory":
+						ShowInventory();
+						break;
+					case "n":
+					case "north":
+						AttemptMove(Direction.North);
+						break;
+					case "e":
+					case "east":
+						AttemptMove(Direction.East);
+						break;
+					case "s":
+					case "south":
+						AttemptMove(Direction.South);
+						break;
+					case "w":
+					case "west":
+						AttemptMove(Direction.West);
+						break;
+					case "u":
+					case "up":
+						AttemptMove(Direction.Up);
+						break;
+					case "d":
+					case "down":
+						AttemptMove(Direction.Down);
+						break;
+					case "edit":
+						if (Region.Mode == RegionMode.Author)
+						{
+							EditScene();
+						}
+						else
+						{
+							Console.WriteLine();
+							Console.WriteLine("ERROR: Invalid command.");
+						}
+						break;
+					case "h":
+					case "help":
+						ShowHelp();
+						break;
+					case "q":
+					case "quit":
+					case "x":
+					case "exit":
+					case "logoff":
+					case "logout":
+						Console.WriteLine();
+						Console.WriteLine("Saving current position in this story region...");
+						Adventurer.Save();
+						Console.WriteLine();
+						Console.WriteLine("Leaving the story world. Goodbye.");
+						return;
+					default:
 						Console.WriteLine();
 						Console.WriteLine("ERROR: Invalid command.");
-					}
-					break;
-				case "h":
-				case "help":
-					ShowHelp();
-					break;
-				case "q":
-				case "quit":
-				case "x":
-				case "exit":
-				case "logoff":
-				case "logout":
-					Console.WriteLine();
-					Console.WriteLine("Saving current position in this story region...");
-					Adventurer.Save();
-					Console.WriteLine();
-					Console.WriteLine("Leaving the story world. Goodbye.");
-					return;
-				default:
-					Console.WriteLine();
-					Console.WriteLine("ERROR: Invalid command.");
-					break;
+						break;
+				}
 			}
-			PromptForCommands();
 		}
 
 		private void ShowHelp()
@@ -203,7 +200,7 @@ namespace StoryExplorer.ConsoleApp
 
 		internal void ShowScene()
 		{
-			ShowScene(this.speechEnabled);
+			ShowScene(speechEnabled);
 		}
 
 		private static void ShowInventory()
