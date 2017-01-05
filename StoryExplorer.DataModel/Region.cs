@@ -90,7 +90,7 @@ namespace StoryExplorer.DataModel
 
 		public static List<string> GetNames()
 		{
-			return DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml")));
+			return DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 		}
 
 		public Scene GetScene(Coordinates newPosition)

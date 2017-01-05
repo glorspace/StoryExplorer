@@ -7,7 +7,7 @@ namespace StoryExplorer.DataModel
 {
 	public class Adventurer : PersistableObject
 	{
-		private static string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
+		private static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
 
 		public string Name { get; set; }
 		public string Password { get; set; }
@@ -58,8 +58,8 @@ namespace StoryExplorer.DataModel
 
 		public void New(string name)
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + name + ".xml";
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + name + ".xml";
 			try
 			{
 				New<Adventurer>(fileName);
@@ -72,8 +72,8 @@ namespace StoryExplorer.DataModel
 
 		public static Adventurer Load(string name)
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + name + ".xml";
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + name + ".xml";
 			try
 			{
 				return Load<Adventurer>(fileName);
@@ -86,20 +86,20 @@ namespace StoryExplorer.DataModel
 
 		public void Save()
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + Name + ".xml";
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + Name + ".xml";
 			Save<Adventurer>(fileName);
 		}
 
 		public void Delete()
 		{
-			string fileName = storageFolder + Name + ".xml";
+			string fileName = StorageFolder + Name + ".xml";
 			File.Delete(fileName);
 		}
 
 		public static List<string> GetNames()
 		{
-			return DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml")));
+			return DirectoryListing(StorageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 		}
 	}
 }

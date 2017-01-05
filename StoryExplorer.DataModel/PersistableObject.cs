@@ -1,10 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace StoryExplorer.DataModel
 {
@@ -12,7 +9,7 @@ namespace StoryExplorer.DataModel
 	{
 		public static T Load<T>(string fileName) where T : PersistableObject, new()
 		{
-			T result = default(T);
+			T result;
 
 			using (FileStream stream = File.OpenRead(fileName))
 			{

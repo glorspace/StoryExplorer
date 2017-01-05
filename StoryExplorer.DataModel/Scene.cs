@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace StoryExplorer.DataModel
 {
@@ -11,6 +7,6 @@ namespace StoryExplorer.DataModel
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public Coordinates Coordinates { get; set; }
-		List<Direction> AllowableMoves { get; set; }
+		public List<Direction> AllowableMoves { get; set; } = new List<Direction>();
 	}
 }
