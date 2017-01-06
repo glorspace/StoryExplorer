@@ -7,7 +7,7 @@ namespace StoryExplorer.DataModel
 {
 	public class Region : PersistableObject
 	{
-		private static string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
+		private static readonly string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
 		
 		public string Name { get; set; }
 		public string Description { get; set; }		

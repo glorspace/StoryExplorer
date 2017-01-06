@@ -79,6 +79,11 @@ namespace StoryExplorer.DataModel
 			return (X == testObject.X) && (Y == testObject.Y) && (Z == testObject.Z);
 		}
 
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
 		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}";
 	}	
 }
