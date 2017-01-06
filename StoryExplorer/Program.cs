@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace StoryExplorer.ConsoleApp
 {
@@ -6,6 +7,7 @@ namespace StoryExplorer.ConsoleApp
 	{
 		static void Main(string[] args)
 		{
+			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 			var adventurer = Menus.AdventurerMenu();
 			if (adventurer != null)
 			{

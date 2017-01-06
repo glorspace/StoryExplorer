@@ -23,7 +23,6 @@ namespace StoryExplorer.ConsoleApp
 
 		internal static void EditRegionDescription(Region region)
 		{
-			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 			ShowRegionProfile(region);
 			Console.WriteLine();
 			Console.Write("Enter a new description for this region: ");
@@ -106,7 +105,6 @@ namespace StoryExplorer.ConsoleApp
 
 		internal static Region CreateRegion(Adventurer creator)
 		{
-			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 			var name = String.Empty;
 			while (String.IsNullOrEmpty(name))
 			{

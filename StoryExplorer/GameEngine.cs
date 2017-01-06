@@ -7,10 +7,10 @@ namespace StoryExplorer.ConsoleApp
 {
 	public class GameEngine
 	{
-		public Adventurer Adventurer { get; set; }
-		public Region Region { get; set; }
 		private readonly bool speechEnabled;
 		private readonly SpeechSynthesizer synth = new SpeechSynthesizer();
+		public Adventurer Adventurer { get; set; }
+		public Region Region { get; set; }
 
 		public GameEngine (Adventurer adventurer, Region region, bool enableSpeech)
 		{
@@ -37,8 +37,6 @@ namespace StoryExplorer.ConsoleApp
 			{
 				RegionHelpers.OptionallyAssumeOwnership(Region, Adventurer);
 			}
-
-			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
 		}
 
 		internal void PromptForCommands()
