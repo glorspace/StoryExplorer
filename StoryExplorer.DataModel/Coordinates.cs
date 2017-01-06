@@ -67,6 +67,18 @@ namespace StoryExplorer.DataModel
 			}
 		}
 
+		public override bool Equals(object obj)
+		{
+			var testObject = obj as Coordinates;
+
+			if (testObject == null)
+			{
+				return false;
+			}
+
+			return (X == testObject.X) && (Y == testObject.Y) && (Z == testObject.Z);
+		}
+
 		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}";
 	}	
 }

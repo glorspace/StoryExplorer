@@ -49,6 +49,19 @@ namespace StoryExplorer.Tests
 		}
 
 		[TestMethod()]
+		public void EqualsTest()
+		{
+			// Arrange
+			var expectedCoords = new Coordinates(25, 12, 3);
+
+			// Act
+			var actualCoords = new Coordinates(25, 12, 3);
+
+			// Assert
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
 		public void ToStringTest()
 		{
 			// Arrange
@@ -65,6 +78,186 @@ namespace StoryExplorer.Tests
 
 			// Assert
 			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod()]
+		public void PeekNorthTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 1, 0);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.North);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveNorthTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 1, 0);
+
+			// Act
+			startingCoords.Move(Direction.North);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
+		}
+
+		[TestMethod()]
+		public void PeekEastTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(1, 0, 0);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.East);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveEastTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(1, 0, 0);
+
+			// Act
+			startingCoords.Move(Direction.East);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
+		}
+
+		[TestMethod()]
+		public void PeekSouthTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, -1, 0);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.South);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveSouthTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, -1, 0);
+
+			// Act
+			startingCoords.Move(Direction.South);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
+		}
+
+		[TestMethod()]
+		public void PeekWestTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(-1, 0, 0);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.West);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveWestTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(-1, 0, 0);
+
+			// Act
+			startingCoords.Move(Direction.West);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
+		}
+
+		[TestMethod()]
+		public void PeekUpTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 0, 1);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.Up);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveUpTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 0, 1);
+
+			// Act
+			startingCoords.Move(Direction.Up);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
+		}
+
+		[TestMethod()]
+		public void PeekDownTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 0, -1);
+
+			// Act
+			var actualCoords = startingCoords.Peek(Direction.Down);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, actualCoords);
+		}
+
+		[TestMethod()]
+		public void MoveDownTest()
+		{
+			// Arrange
+			var startingCoords = new Coordinates(0, 0, 0);
+			var expectedCoords = new Coordinates(0, 0, -1);
+
+			// Act
+			startingCoords.Move(Direction.Down);
+
+			// Assert
+
+			Assert.AreEqual(expectedCoords, startingCoords);
 		}
 	}
 }
