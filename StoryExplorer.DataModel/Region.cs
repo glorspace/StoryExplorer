@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace StoryExplorer.DataModel
 {
+	/// <summary>
+	/// Entity class to respresent a story region that an adventurer can explore.
+	/// </summary>
 	public class Region : PersistableObject
 	{
 		private static readonly string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
@@ -43,24 +46,33 @@ namespace StoryExplorer.DataModel
 			Name = name;
 			OwnerName = creator.Name;
 			Created = DateTime.Now;
-			New(name);
+			New();
 			Owner = Adventurer.Load(OwnerName);
 		}
 
-		public void New(string name)
+		/// <summary>
+		/// Creates a new XML file to persist the data for a newly-created Region instance.
+		/// </summary>
+		/// 
+		public void New()
 		{
 			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + name + ".xml";
+			string fileName = storageFolder + Name + ".xml";
 			try
 			{
 				New<Region>(fileName);
 			}
 			catch (IOException)
 			{
-				throw new IOException($"A region already exists with name '{name}'.");
+				throw new IOException($"A region already exists with name '{Name}'.");
 			}
 		}
 
+		/// <summary>
+		/// Loads a Region from a persisted XML file identified by name.
+		/// </summary>
+		/// <param name="name">The name of the Region to load.</param>
+		/// <returns>A populated Region instance that corresponds to the provided name.</returns>
 		public static Region Load(string name)
 		{
 			VerifyDirectory(storageFolder);
@@ -75,6 +87,9 @@ namespace StoryExplorer.DataModel
 			}
 		}
 
+		/// <summary>
+		/// Commits data in the Region instance to file.
+		/// </summary>
 		public void Save()
 		{
 			VerifyDirectory(storageFolder);
@@ -82,31 +97,53 @@ namespace StoryExplorer.DataModel
 			Save<Region>(fileName);
 		}
 
+		/// <summary>
+		/// Deletes the persisted data file for this Region.
+		/// </summary>
 		public void Delete()
 		{
 			string fileName = storageFolder + Name + ".xml";
 			File.Delete(fileName);
 		}
 
+		/// <summary>
+		/// Provides a list of all saved Regions on the local system.
+		/// </summary>
+		/// <returns>A list of all available persisted XML files for Regions.</returns>
 		public static List<string> GetNames()
 		{
 			return DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 		}
 
-		public Scene GetScene(Coordinates newPosition)
+		/// <summary>
+		/// Retrieves the Scene located at the specified position.
+		/// </summary>
+		/// <param name="position">The location for the Scene in a 3-dimensional grid.</param>
+		/// <returns>The Scene instance at the specified location.</returns>
+		public Scene GetScene(Coordinates position)
 		{
 			return Map.Find(scene =>
-				scene.Coordinates.X == newPosition.X && 
-				scene.Coordinates.Y == newPosition.Y && 
-				scene.Coordinates.Z == newPosition.Z);
+				scene.Coordinates.X == position.X && 
+				scene.Coordinates.Y == position.Y && 
+				scene.Coordinates.Z == position.Z);
 		}
 
+		/// <summary>
+		/// Adds the specified Scene instance to the Map list for the Region.
+		/// </summary>
+		/// <param name="scene">The Scene instance to add.</param>
 		public void AddScene(Scene scene)
 		{
 			Map.Add(scene);
 			Save();
 		}
 
+		/// <summary>
+		/// Discovers all directions in which a defined Scene could be found if an Adventurer was to move
+		/// that way and returns them in a list.
+		/// </summary>
+		/// <param name="scene">The Scene instance from which potential moves could be made.</param>
+		/// <returns>A list of directions in which an Adventurer could move from the specified Scene.</returns>
 		public List<Direction> GetAllowableMoves(Scene scene)
 		{
 			var allowablesMoves = new List<Direction>();
@@ -139,6 +176,10 @@ namespace StoryExplorer.DataModel
 			return allowablesMoves;
 		}
 
+		/// <summary>
+		/// Custom implementation to show a meaningful string representation of the Region instance.
+		/// </summary>
+		/// <returns>String representation of the Region instance.</returns>
 		public override string ToString() => $"Name: {Name}";
 	}
 }

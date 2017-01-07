@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StoryExplorer.DataModel
 {
+	/// <summary>
+	/// Represents a point in 3-dimensional space in a story region grid.
+	/// </summary>
 	public class Coordinates
 	{
 		public int X { get; set; }
@@ -21,6 +24,12 @@ namespace StoryExplorer.DataModel
 			Z = z;
 		}
 
+		/// <summary>
+		/// Peeks in the direction specified without moving. Returns the coordinates of the grid location one
+		/// unit in the specified direction from the current coordinates.
+		/// </summary>
+		/// <param name="direction">The direction in which to peek.</param>
+		/// <returns>Coordinates one unit away in the specified direction.</returns>
 		public Coordinates Peek(Direction direction)
 		{
 			switch (direction)
@@ -42,6 +51,11 @@ namespace StoryExplorer.DataModel
 			}
 		}
 
+		/// <summary>
+		/// Performs a move of one unit in the direction specified of the current Coordinates instance.
+		/// Unlike Peek(), this method changes the instance to a new value.
+		/// </summary>
+		/// <param name="direction">The direction in which to move.</param>
 		public void Move(Direction direction)
 		{
 			switch (direction)
@@ -67,6 +81,12 @@ namespace StoryExplorer.DataModel
 			}
 		}
 
+		/// <summary>
+		/// Custom implementation to define equality for Coordinates objects to be when X, Y and Z all have the
+		/// same values.
+		/// </summary>
+		/// <param name="obj">A Coordinates object to test for equality with the current Coordinates object.</param>
+		/// <returns>True is the test object is equal to the current object, false if not.</returns>
 		public override bool Equals(object obj)
 		{
 			var testObject = obj as Coordinates;
@@ -79,6 +99,11 @@ namespace StoryExplorer.DataModel
 			return (X == testObject.X) && (Y == testObject.Y) && (Z == testObject.Z);
 		}
 
+		/// <summary>
+		/// Override implementation because it is recommended to override GetHashCode() if you override
+		/// Equals(). Included simply to avoid a warning message.
+		/// </summary>
+		/// <returns>Integer hash code.</returns>
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();

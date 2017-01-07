@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace StoryExplorer.DataModel
 {
+	/// <summary>
+	/// Entity class to represent a character that can be played or navigated through a story region.
+	/// </summary>
 	public class Adventurer : PersistableObject
 	{
 		private static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
@@ -53,23 +56,32 @@ namespace StoryExplorer.DataModel
 		{
 			Name = name;
 			Created = DateTime.Now;
-			New(name);
+			New();
 		}
 
-		public void New(string name)
+		/// <summary>
+		/// Creates a new XML file to persist the data for a newly-created Adventurer instance.
+		/// </summary>
+		/// 
+		public void New()
 		{
 			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + name + ".xml";
+			string fileName = StorageFolder + Name + ".xml";
 			try
 			{
 				New<Adventurer>(fileName);
 			}
 			catch (IOException)
 			{
-				throw new IOException($"An adventurer already exists with name '{name}'.");
+				throw new IOException($"An adventurer already exists with name '{Name}'.");
 			}
 		}
 
+		/// <summary>
+		/// Loads an Adventurer from a persisted XML file identified by name.
+		/// </summary>
+		/// <param name="name">The name of the Adventurer to load.</param>
+		/// <returns>A populated Adventurer instance that corresponds to the provided name.</returns>
 		public static Adventurer Load(string name)
 		{
 			VerifyDirectory(StorageFolder);
@@ -84,6 +96,9 @@ namespace StoryExplorer.DataModel
 			}
 		}
 
+		/// <summary>
+		/// Commits data in the Adventurer instance to file.
+		/// </summary>
 		public void Save()
 		{
 			VerifyDirectory(StorageFolder);
@@ -91,17 +106,28 @@ namespace StoryExplorer.DataModel
 			Save<Adventurer>(fileName);
 		}
 
+		/// <summary>
+		/// Deletes the persisted data file for this Adventurer.
+		/// </summary>
 		public void Delete()
 		{
 			string fileName = StorageFolder + Name + ".xml";
 			File.Delete(fileName);
 		}
 
+		/// <summary>
+		/// Provides a list of all saved Adventurers on the local system.
+		/// </summary>
+		/// <returns>A list of all available persisted XML files for Adventurers.</returns>
 		public static List<string> GetNames()
 		{
 			return DirectoryListing(StorageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 		}
 
+		/// <summary>
+		/// Custom implementation to show a meaningful string representation of the Adventurer instance.
+		/// </summary>
+		/// <returns>String representation of the Adventurer instance.</returns>
 		public override string ToString() => $"Name: {Name}";
 	}
 }
