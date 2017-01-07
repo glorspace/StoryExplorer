@@ -11,18 +11,18 @@ namespace StoryExplorer.DataModel
 	/// </summary>
 	public class Coordinates
 	{
-		public int X { get; set; }
-		public int Y { get; set; }
-		public int Z { get; set; }
-
 		public Coordinates() { }
 
-		public Coordinates(int x, int y, int z)
+		public Coordinates(int x, int y, int z) : this()
 		{
 			X = x;
 			Y = y;
 			Z = z;
 		}
+
+		public int X { get; set; }
+		public int Y { get; set; }
+		public int Z { get; set; }
 
 		/// <summary>
 		/// Peeks in the direction specified without moving. Returns the coordinates of the grid location one

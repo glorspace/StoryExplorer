@@ -11,15 +11,25 @@ namespace StoryExplorer.DataModel
 	public class Region : PersistableObject
 	{
 		private static readonly string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
-		
+		private Adventurer owner;
+
+		public Region() { }
+
+		public Region(string name, Adventurer creator) : this()
+		{
+			Name = name;
+			OwnerName = creator.Name;
+			Created = DateTime.Now;
+			New();
+			Owner = Adventurer.Load(OwnerName);
+		}
+
 		public string Name { get; set; }
 		public string Description { get; set; }		
 		public string OwnerName { get; set; }
 		public List<string> DesignatedAuthors { get; set; } = new List<string>();
 		public List<Scene> Map { get; set; } = new List<Scene>();
-		public DateTime Created { get; set; }
-
-		private Adventurer owner;
+		public DateTime Created { get; set; }		
 		[XmlIgnoreAttribute]
 		public Adventurer Owner
 		{
@@ -38,17 +48,6 @@ namespace StoryExplorer.DataModel
 		}
 		[XmlIgnoreAttribute]
 		public RegionMode Mode { get; set; }
-
-		public Region() { }
-
-		public Region(string name, Adventurer creator)
-		{
-			Name = name;
-			OwnerName = creator.Name;
-			Created = DateTime.Now;
-			New();
-			Owner = Adventurer.Load(OwnerName);
-		}
 
 		/// <summary>
 		/// Creates a new XML file to persist the data for a newly-created Region instance.

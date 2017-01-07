@@ -11,6 +11,17 @@ namespace StoryExplorer.DataModel
 	public class Adventurer : PersistableObject
 	{
 		private static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
+		private Region currentRegion;
+
+
+		public Adventurer() { }
+
+		public Adventurer(string name) : this()
+		{
+			Name = name;
+			Created = DateTime.Now;
+			New();
+		}
 
 		public string Name { get; set; }
 		public string Password { get; set; }
@@ -24,8 +35,6 @@ namespace StoryExplorer.DataModel
 		public DateTime Created { get; set; }		
 		public string CurrentRegionName { get; set; }
 		public Coordinates CurrentPosition { get; set; }
-
-		private Region currentRegion;
 		[XmlIgnoreAttribute]
 		public Region CurrentRegion
 		{
@@ -48,15 +57,6 @@ namespace StoryExplorer.DataModel
 			{
 				currentRegion = value;
 			}
-		}
-
-		public Adventurer()	{}
-
-		public Adventurer(string name)
-		{
-			Name = name;
-			Created = DateTime.Now;
-			New();
 		}
 
 		/// <summary>
