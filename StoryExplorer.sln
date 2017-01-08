@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Tests", "Stor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.DataModel", "StoryExplorer.DataModel\StoryExplorer.DataModel.csproj", "{B8278331-100A-42ED-99F6-42F79840F6CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.WpfApp", "StoryExplorer.WpfApp\StoryExplorer.WpfApp.csproj", "{6BC8F6AA-8773-44CC-86AA-95BDE9287136}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B8278331-100A-42ED-99F6-42F79840F6CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8278331-100A-42ED-99F6-42F79840F6CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8278331-100A-42ED-99F6-42F79840F6CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BC8F6AA-8773-44CC-86AA-95BDE9287136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BC8F6AA-8773-44CC-86AA-95BDE9287136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BC8F6AA-8773-44CC-86AA-95BDE9287136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BC8F6AA-8773-44CC-86AA-95BDE9287136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
