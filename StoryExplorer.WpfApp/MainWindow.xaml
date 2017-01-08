@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Story Explorer" Height="734" Width="900" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <local:ViewModel/>
+        <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.Background>
@@ -25,43 +25,45 @@
             <Button x:Name="loadAdventurer" Width="200" Margin="0,0,0,10" Click="loadAdventurer_Click" FontSize="16" Height="36">
                 Load a Saved Adventurer
             </Button>
-            <ComboBox x:Name="selectAdventurer" SelectedItem="{Binding SelectedAdventurer}" ItemsSource="{Binding AllSavedAdventurers}" DisplayMemberPath="Name" Width="251" Margin="0,0,0,10" FontSize="14" DropDownClosed="selectAdventurer_DropDownClosed" Visibility="Hidden"/>
-            <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715" Visibility="Hidden">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Gender:</Label>
-                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Color:</Label>
-                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Style:</Label>
-                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Skin Color:</Label>
-                <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Eye Color:</Label>
-                <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Personality:</Label>
-                <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Current Region:</Label>
-                <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Created Date:</Label>
-                <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedAdventurer.Gender}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedAdventurer.HairColor}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedAdventurer.HairStyle}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="3" Grid.Column="1" Content="{Binding SelectedAdventurer.SkinColor}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="4" Grid.Column="1" Content="{Binding SelectedAdventurer.EyeColor}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="5" Grid.Column="1" Content="{Binding SelectedAdventurer.Personality}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="6" Grid.Column="1" Content="{Binding SelectedAdventurer.CurrentRegionName}" Foreground="#FFB1CFAE"/>
-                <Label Grid.Row="7" Grid.Column="1" Content="{Binding SelectedAdventurer.Created}" Foreground="#FFB1CFAE"/>
-            </Grid>
-            <WrapPanel Width="200" Margin="0,10,0,0">
-                <Button x:Name="loadSelect" Width="90" Margin="0,0,10,0" FontSize="16" IsEnabled="False" Visibility="Hidden">Select</Button>
-                <Button x:Name="loadCancel" Width="90" Margin="10,0,0,0" FontSize="16" Click="loadCancel_Click" IsEnabled="False" Visibility="Hidden">Cancel</Button>
-            </WrapPanel>
+            <StackPanel x:Name="loadAdventurerElements" Visibility="{Binding LoadAdventurerElementsVisibility}">
+                <ComboBox x:Name="selectAdventurer" SelectedItem="{Binding SelectedAdventurer}" ItemsSource="{Binding AllSavedAdventurers}" DisplayMemberPath="Name" Width="251" Margin="0,0,0,10" FontSize="14" DropDownClosed="selectAdventurer_DropDownClosed"/>
+                <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Gender:</Label>
+                    <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Color:</Label>
+                    <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Style:</Label>
+                    <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Skin Color:</Label>
+                    <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Eye Color:</Label>
+                    <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Personality:</Label>
+                    <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Current Region:</Label>
+                    <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Created Date:</Label>
+                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedAdventurer.Gender}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedAdventurer.HairColor}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedAdventurer.HairStyle}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding SelectedAdventurer.SkinColor}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="4" Grid.Column="1" Content="{Binding SelectedAdventurer.EyeColor}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="5" Grid.Column="1" Content="{Binding SelectedAdventurer.Personality}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="6" Grid.Column="1" Content="{Binding SelectedAdventurer.CurrentRegionName}" Foreground="#FFB1CFAE"/>
+                    <Label Grid.Row="7" Grid.Column="1" Content="{Binding SelectedAdventurer.Created}" Foreground="#FFB1CFAE"/>
+                </Grid>
+                <WrapPanel Width="200" Margin="0,10,0,0">
+                    <Button x:Name="loadSelect" Width="90" Margin="0,0,10,0" FontSize="16" IsEnabled="False" Click="loadSelect_Click">Select</Button>
+                    <Button x:Name="loadCancel" Width="90" Margin="10,0,0,0" FontSize="16" Click="loadCancel_Click">Cancel</Button>
+                </WrapPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

@@ -27,26 +27,22 @@ namespace StoryExplorer.WpfApp
 
 		private void loadAdventurer_Click(object sender, RoutedEventArgs e)
 		{
-			//ViewModel currentViewModel = (ViewModel)DataContext;
+			MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
 			newAdventurer.IsEnabled = false;
 			loadAdventurer.IsEnabled = false;
-			selectAdventurer.Visibility = Visibility.Visible;
-			adventurerProfile.Visibility = Visibility.Visible;
-			loadSelect.Visibility = Visibility.Visible;
-			loadCancel.Visibility = Visibility.Visible;
+			viewModel.LoadAdventurerElementsVisibility = Visibility.Visible;
+			BindingOperations.GetBindingExpressionBase(loadAdventurerElements, StackPanel.VisibilityProperty).UpdateTarget();
 		}
 
 		private void loadCancel_Click(object sender, RoutedEventArgs e)
 		{
+			MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
 			newAdventurer.IsEnabled = true;
 			loadAdventurer.IsEnabled = true;
 			selectAdventurer.SelectedItem = null;
-			selectAdventurer.Visibility = Visibility.Hidden;
-			adventurerProfile.Visibility = Visibility.Hidden;
 			loadSelect.IsEnabled = false;
-			loadCancel.IsEnabled = false;
-			loadSelect.Visibility = Visibility.Hidden;
-			loadCancel.Visibility = Visibility.Hidden;
+			viewModel.LoadAdventurerElementsVisibility = Visibility.Hidden;
+			BindingOperations.GetBindingExpressionBase(loadAdventurerElements, StackPanel.VisibilityProperty).UpdateTarget();
 		}
 
 		private void selectAdventurer_DropDownClosed(object sender, EventArgs e)
@@ -54,8 +50,13 @@ namespace StoryExplorer.WpfApp
 			if (selectAdventurer.SelectedItem != null)
 			{
 				loadSelect.IsEnabled = true;
-				loadCancel.IsEnabled = true;
 			}
+		}
+
+		private void loadSelect_Click(object sender, RoutedEventArgs e)
+		{
+			this.Hide();
+			// instantiate new window
 		}
 	}
 }
