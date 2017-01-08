@@ -12,6 +12,6 @@ namespace StoryExplorer.WpfApp
 		public List<Adventurer> AllSavedAdventurers => Adventurer.GetAllSavedAdventurers();
 		public Adventurer SelectedAdventurer { get; set; }
 		public Visibility NewAdventurerElementsVisibility { get; set; } = Visibility.Visible;
-		public Visibility LoadAdventurerElementsVisibility { get; set; } = Visibility.Collapsed;
+		public Visibility LoadAdventurerElementsVisibility { get; set; } = Visibility.Visible;
 	}
 }

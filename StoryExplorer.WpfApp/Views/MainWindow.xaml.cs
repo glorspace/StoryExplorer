@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoryExplorer.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,23 +41,40 @@ namespace StoryExplorer.WpfApp
 			newAdventurer.IsEnabled = true;
 			loadAdventurer.IsEnabled = true;
 			selectAdventurer.SelectedItem = null;
-			loadSelect.IsEnabled = false;
+			loadLogin.IsEnabled = false;
 			viewModel.LoadAdventurerElementsVisibility = Visibility.Hidden;
 			BindingOperations.GetBindingExpressionBase(loadAdventurerElements, StackPanel.VisibilityProperty).UpdateTarget();
 		}
 
-		private void selectAdventurer_DropDownClosed(object sender, EventArgs e)
+		private void selectAdventurer_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (selectAdventurer.SelectedItem != null)
-			{
-				loadSelect.IsEnabled = true;
-			}
+			loadLogin.IsEnabled = true;
+			adventurerPassword.IsEnabled = true;
+			adventurerPassword.Password = String.Empty;
 		}
 
-		private void loadSelect_Click(object sender, RoutedEventArgs e)
+		private void loadLogin_Click(object sender, RoutedEventArgs e)
 		{
-			this.Hide();
+			var adventurer = (Adventurer)selectAdventurer.SelectedItem;
+			if (adventurerPassword.Password == adventurer.Password)
+			{
+				this.Hide();
+				AdventurerMenu adventurerMenuWindow = new AdventurerMenu(this, adventurer);
+				adventurerMenuWindow.Show();
+			} else
+			{
+				passwordLabel.Content = "Password Incorrect! Please try again...";
+				passwordLabel.Foreground = new SolidColorBrush(Colors.Red);
+				adventurerPassword.BorderBrush = new SolidColorBrush(Colors.Red);
+			}
 			// instantiate new window
+		}
+
+		private void adventurerPassword_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			passwordLabel.Content = "Password:";
+			passwordLabel.Foreground = new SolidColorBrush(Colors.White);
+			adventurerPassword.BorderBrush = new SolidColorBrush(Colors.LightGray);
 		}
 	}
 }
