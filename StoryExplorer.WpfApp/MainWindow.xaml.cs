@@ -32,6 +32,30 @@ namespace StoryExplorer.WpfApp
 			loadAdventurer.IsEnabled = false;
 			selectAdventurer.Visibility = Visibility.Visible;
 			adventurerProfile.Visibility = Visibility.Visible;
+			loadSelect.Visibility = Visibility.Visible;
+			loadCancel.Visibility = Visibility.Visible;
+		}
+
+		private void loadCancel_Click(object sender, RoutedEventArgs e)
+		{
+			newAdventurer.IsEnabled = true;
+			loadAdventurer.IsEnabled = true;
+			selectAdventurer.SelectedItem = null;
+			selectAdventurer.Visibility = Visibility.Hidden;
+			adventurerProfile.Visibility = Visibility.Hidden;
+			loadSelect.IsEnabled = false;
+			loadCancel.IsEnabled = false;
+			loadSelect.Visibility = Visibility.Hidden;
+			loadCancel.Visibility = Visibility.Hidden;
+		}
+
+		private void selectAdventurer_DropDownClosed(object sender, EventArgs e)
+		{
+			if (selectAdventurer.SelectedItem != null)
+			{
+				loadSelect.IsEnabled = true;
+				loadCancel.IsEnabled = true;
+			}
 		}
 	}
 }

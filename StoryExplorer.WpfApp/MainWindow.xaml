@@ -14,19 +14,19 @@
             <ImageBrush ImageSource="Images\treefence.jpg"/>
         </Grid.Background>
         <StackPanel>
-            <Label HorizontalAlignment="Center" FontSize="72" Margin="0,60" Foreground="#FFB1CFAE" FontFamily="Gabriola">
+            <Label HorizontalAlignment="Center" FontSize="72" Margin="0,80,0,40" Foreground="#FFB1CFAE" FontFamily="Gabriola">
                 <Label.Effect>
                     <DropShadowEffect/>
-                </Label.Effect>Story Explorer
+                </Label.Effect> Story Explorer
             </Label>
             <Button x:Name="newAdventurer" Width="200" Margin="0,0,0,20" FontSize="16" Height="36">
                 Create a New Adventurer
             </Button>
-            <Button x:Name="loadAdventurer" Width="200" Margin="0,0,0,10" Click="loadAdventurer_Click" FontSize="16" Height="36" Foreground="#FF224D0D">
+            <Button x:Name="loadAdventurer" Width="200" Margin="0,0,0,10" Click="loadAdventurer_Click" FontSize="16" Height="36">
                 Load a Saved Adventurer
             </Button>
-            <ComboBox x:Name="selectAdventurer" SelectedItem="{Binding SelectedAdventurer}" ItemsSource="{Binding AllSavedAdventurers}" DisplayMemberPath="Name" Width="251" Margin="0,0,0,10" FontSize="14"/>
-            <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715">
+            <ComboBox x:Name="selectAdventurer" SelectedItem="{Binding SelectedAdventurer}" ItemsSource="{Binding AllSavedAdventurers}" DisplayMemberPath="Name" Width="251" Margin="0,0,0,10" FontSize="14" DropDownClosed="selectAdventurer_DropDownClosed" Visibility="Hidden"/>
+            <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715" Visibility="Hidden">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -58,6 +58,10 @@
                 <Label Grid.Row="6" Grid.Column="1" Content="{Binding SelectedAdventurer.CurrentRegionName}" Foreground="#FFB1CFAE"/>
                 <Label Grid.Row="7" Grid.Column="1" Content="{Binding SelectedAdventurer.Created}" Foreground="#FFB1CFAE"/>
             </Grid>
+            <WrapPanel Width="200" Margin="0,10,0,0">
+                <Button x:Name="loadSelect" Width="90" Margin="0,0,10,0" FontSize="16" IsEnabled="False" Visibility="Hidden">Select</Button>
+                <Button x:Name="loadCancel" Width="90" Margin="10,0,0,0" FontSize="16" Click="loadCancel_Click" IsEnabled="False" Visibility="Hidden">Cancel</Button>
+            </WrapPanel>
         </StackPanel>
     </Grid>
 </Window>
