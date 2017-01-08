@@ -11,7 +11,7 @@
     </Window.DataContext>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Images\treefence.jpg"/>
+            <ImageBrush ImageSource="..\Images\treefence.jpg"/>
         </Grid.Background>
         <StackPanel>
             <Label HorizontalAlignment="Center" FontSize="72" Margin="0,80,0,40" Foreground="#FFB1CFAE" FontFamily="Gabriola">
