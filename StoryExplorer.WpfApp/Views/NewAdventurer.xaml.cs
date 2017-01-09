@@ -25,16 +25,14 @@ namespace StoryExplorer.WpfApp
 			InitializeComponent();
 		}
 
-		public Adventurer GetNewAdventurer()
+		public string GetNewAdventurerName()
 		{
-			var viewModel = (NewAdventurerViewModel)DataContext;
-			return viewModel.NewAdventurer;
+			return adventurerName.Text;
 		}
 
 		private void create_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (NewAdventurerViewModel)DataContext;
-			if (String.IsNullOrWhiteSpace(viewModel.NewAdventurer.Name) ||
+			if (String.IsNullOrWhiteSpace(adventurerName.Text) ||
 				selectGender.SelectedItem == null ||
 				selectHairColor.SelectedItem == null ||
 				selectHairStyle.SelectedItem == null ||
@@ -47,18 +45,22 @@ namespace StoryExplorer.WpfApp
 			}
 			else
 			{
-				viewModel.NewAdventurer.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(viewModel.NewAdventurer.Name);
-				viewModel.NewAdventurer.Password = adventurerPassword.Password;
-				viewModel.NewAdventurer.Gender = (Gender)selectGender.SelectedItem;
-				viewModel.NewAdventurer.HairColor = (HairColor)selectHairColor.SelectedItem;
-				viewModel.NewAdventurer.HairStyle = (HairStyle)selectHairStyle.SelectedItem;
-				viewModel.NewAdventurer.SkinColor = (SkinColor)selectSkinColor.SelectedItem;
-				viewModel.NewAdventurer.EyeColor = (EyeColor)selectEyeColor.SelectedItem;
-				viewModel.NewAdventurer.Personality = (Personality)selectPersonality.SelectedItem;
-
 				try
 				{
-					viewModel.NewAdventurer.New();
+					var newAdventurer = new Adventurer(adventurerName.Text);
+					newAdventurer.Password = adventurerPassword.Password;
+					newAdventurer.Gender = (Gender)selectGender.SelectedItem;
+					newAdventurer.HairColor = (HairColor)selectHairColor.SelectedItem;
+					newAdventurer.HairStyle = (HairStyle)selectHairStyle.SelectedItem;
+					newAdventurer.SkinColor = (SkinColor)selectSkinColor.SelectedItem;
+					newAdventurer.EyeColor = (EyeColor)selectEyeColor.SelectedItem;
+					newAdventurer.Personality = (Personality)selectPersonality.SelectedItem;
+					newAdventurer.Height = (Height)selectHeight.SelectedItem;
+					newAdventurer.Save();
+
+					// resetting name to title-cased version for retrieval by the main window
+					adventurerName.Text = newAdventurer.Name;
+
 					DialogResult = true;
 				}
 				catch (Exception exc)

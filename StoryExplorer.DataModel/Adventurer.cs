@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -18,7 +19,7 @@ namespace StoryExplorer.DataModel
 
 		public Adventurer(string name) : this()
 		{
-			Name = name;
+			Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
 			Created = DateTime.Now;
 			New();
 		}
@@ -63,7 +64,7 @@ namespace StoryExplorer.DataModel
 		/// Creates a new XML file to persist the data for a newly-created Adventurer instance.
 		/// </summary>
 		/// 
-		public void New()
+		private void New()
 		{
 			VerifyDirectory(StorageFolder);
 			string fileName = StorageFolder + Name + ".xml";

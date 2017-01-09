@@ -69,14 +69,14 @@ namespace StoryExplorer.WpfApp
 			var adventurerCreated = newAdventurerWindow.ShowDialog();
 			if (adventurerCreated.HasValue && adventurerCreated.Value)
 			{
-				var newAdventurer = newAdventurerWindow.GetNewAdventurer();
+				var newAdventurerName = newAdventurerWindow.GetNewAdventurerName();
 				newAdventurerWindow.Close();
 
 				var viewModel = (MainWindowViewModel)DataContext;
 				viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
 				foreach (var adventurer in viewModel.AllSavedAdventurers)
 				{
-					if (adventurer.Name == newAdventurer.Name)
+					if (adventurer.Name == newAdventurerName)
 					{
 						selectAdventurer.SelectedItem = adventurer;
 						break;

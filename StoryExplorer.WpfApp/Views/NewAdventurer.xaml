@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoryExplorer.WpfApp"
         mc:Ignorable="d"
-        Title="New Adventurer" Height="400" Width="544" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="New Adventurer" Height="426" Width="579" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Window.DataContext>
         <local:NewAdventurerViewModel/>
     </Window.DataContext>
@@ -14,13 +14,13 @@
             <ImageBrush ImageSource="../Images/silvan-tracker-small.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1">
             <StackPanel Margin="0,10" Background="#B1082715" Width="260">
                 <Label Foreground="White" FontSize="14" HorizontalAlignment="Center" Content="Name:"/>
-                <TextBox x:Name="selectAdventurer" Width="200" Margin="0,0,0,10" FontSize="14" Height="22" Text="{Binding NewAdventurer.Name}"/>
+                <TextBox x:Name="adventurerName" Width="200" Margin="0,0,0,10" FontSize="14" Height="22"/>
             </StackPanel>
             <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
                 <Label x:Name="passwordLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">Password:</Label>
@@ -28,6 +28,7 @@
             </StackPanel>
             <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715">
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -45,12 +46,14 @@
                 <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Skin Color:</Label>
                 <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Eye Color:</Label>
                 <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Personality:</Label>
+                <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Height:</Label>
                 <ComboBox x:Name="selectGender" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding GenderList}" Margin="2,4,2,2" Width="141" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="selectHairColor" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HairColorList}" Margin="2" Width="141" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="selectHairStyle" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding HairStyleList}" Margin="2" Width="141" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="selectSkinColor" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding SkinColorList}" Margin="2" Width="141" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="selectEyeColor" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding EyeColorList}" Margin="2" Width="141" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="selectPersonality" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding PersonalityList}" Margin="2,2,2,4" Width="141" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="selectPersonality" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding PersonalityList}" Margin="2" Width="141" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="selectHeight" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding HeightList}" Margin="2,2,2,4" Width="141" HorizontalAlignment="Left"/>
             </Grid>
             <WrapPanel Width="200" Margin="20,10,0,0">
                 <Button x:Name="create" IsDefault="True" Width="80" Margin="0,0,20,0" Click="create_Click" Height="26" Background="#FFB1CFAE">Create</Button>

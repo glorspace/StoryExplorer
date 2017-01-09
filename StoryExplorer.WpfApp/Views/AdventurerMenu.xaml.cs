@@ -19,7 +19,6 @@ namespace StoryExplorer.WpfApp
 	/// </summary>
 	public partial class AdventurerMenu : Window
 	{
-		private Adventurer adventurer;
 		private MainWindow mainWindow;
 
 		public AdventurerMenu()
@@ -30,7 +29,23 @@ namespace StoryExplorer.WpfApp
 		public AdventurerMenu(MainWindow mainWindow, Adventurer adventurer) : this()
 		{
 			this.mainWindow = mainWindow;
-			this.adventurer = adventurer;
+
+			var viewModel = (AdventurerMenuViewModel)DataContext;
+			viewModel.SelectedAdventurer = adventurer;
+
+			adventurerName.Content = adventurer.Name;
+			labelGender.Content = adventurer.Gender;
+			labelHairColor.Content = adventurer.HairColor;
+			labelHairStyle.Content = adventurer.HairStyle;
+			labelSkinColor.Content = adventurer.SkinColor;
+			labelEyeColor.Content = adventurer.EyeColor;
+			labelPersonality.Content = adventurer.Personality;
+			labelHeight.Content = adventurer.Height;
+			labelCurrentRegion.Content = adventurer.CurrentRegion?.Name ?? "None";
+			labelCreatedDate.Content = adventurer.Created.ToString();
+
+			if (adventurer.Gender == Gender.Female)
+				background.ImageSource = new ImageSourceConverter().ConvertFromString("pack://application:,,,/StoryExplorer.WpfApp;component/Images/silvan-tracker.jpg") as ImageSource;
 		}
 
 		private void Window_Closed(object sender, EventArgs e)

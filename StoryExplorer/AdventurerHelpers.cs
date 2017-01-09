@@ -21,7 +21,7 @@ namespace StoryExplorer.ConsoleApp
 
 			try
 			{
-				adventurer = new Adventurer(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+				adventurer = new Adventurer(name);
 			}
 			catch (IOException)
 			{
