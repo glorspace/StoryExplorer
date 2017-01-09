@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoryExplorer.WpfApp"
         mc:Ignorable="d"
-        Title="Story Explorer: Adventurer Menu" Height="449" Width="597.5" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="Story Explorer: Adventurer Menu" Height="615" Width="840" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.DataContext>
         <local:AdventurerMenuViewModel/>
     </Window.DataContext>
@@ -14,8 +14,8 @@
             <ImageBrush x:Name="background" ImageSource="..\Images\watching-elf.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <Label x:Name="adventurerName" HorizontalAlignment="Center" FontSize="24" Margin="0,20,0,0" Foreground="#FFB1CFAE" FontFamily="Gabriola" BorderThickness="0">
@@ -23,7 +23,7 @@
                     <DropShadowEffect/>
                 </Label.Effect> AdventurerName
             </Label>
-            <Grid x:Name="adventurerProfile" Width="264" Background="#B1082715" HorizontalAlignment="Center" Margin="0">
+            <Grid x:Name="adventurerProfile" Width="200" Background="#B1082715" HorizontalAlignment="Center" Margin="0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -58,8 +58,8 @@
                 <Label x:Name="labelCurrentRegion" Grid.Row="7" Grid.Column="1" Foreground="#FFB1CFAE"/>
                 <Label x:Name="labelCreatedDate" Grid.Row="8" Grid.Column="1" Foreground="#FFB1CFAE"/>
             </Grid>
-            <Button Margin="0,10" Width="264" HorizontalAlignment="Center" Height="34" FontSize="16">Change Password</Button>
-            <Button Width="264" Height="36" Margin="0,10" HorizontalAlignment="Center" FontSize="16" Foreground="Red">Delete Adventurer</Button>
+            <Button Margin="0,10,0,0" Width="200" HorizontalAlignment="Center" Height="34" FontSize="16" Background="#FFB1CFAE">Change Password</Button>
+            <Button Width="200" Height="36" Margin="0,10,0,0" HorizontalAlignment="Center" FontSize="16" Background="#FFB1CFAE" Foreground="Red">Delete Adventurer</Button>
         </StackPanel>
     </Grid>
 </Window>
