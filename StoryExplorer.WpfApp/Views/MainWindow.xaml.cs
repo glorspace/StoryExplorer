@@ -26,24 +26,10 @@ namespace StoryExplorer.WpfApp
 			InitializeComponent();
 		}
 
-		private void loadAdventurer_Click(object sender, RoutedEventArgs e)
-		{
-			MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
-			newAdventurer.IsEnabled = false;
-			loadAdventurer.IsEnabled = false;
-			viewModel.LoadAdventurerElementsVisibility = Visibility.Visible;
-			BindingOperations.GetBindingExpressionBase(loadAdventurerElements, StackPanel.VisibilityProperty).UpdateTarget();
-		}
-
 		private void loadCancel_Click(object sender, RoutedEventArgs e)
 		{
-			MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
-			newAdventurer.IsEnabled = true;
-			loadAdventurer.IsEnabled = true;
 			selectAdventurer.SelectedItem = null;
 			loadLogin.IsEnabled = false;
-			viewModel.LoadAdventurerElementsVisibility = Visibility.Hidden;
-			BindingOperations.GetBindingExpressionBase(loadAdventurerElements, StackPanel.VisibilityProperty).UpdateTarget();
 		}
 
 		private void selectAdventurer_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,7 +39,7 @@ namespace StoryExplorer.WpfApp
 			adventurerPassword.Password = String.Empty;
 		}
 
-		private void loadLogin_Click(object sender, RoutedEventArgs e)
+		private void login_Click(object sender, RoutedEventArgs e)
 		{
 			var adventurer = (Adventurer)selectAdventurer.SelectedItem;
 			if (adventurerPassword.Password == adventurer.Password)
@@ -75,6 +61,32 @@ namespace StoryExplorer.WpfApp
 			passwordLabel.Content = "Password:";
 			passwordLabel.Foreground = new SolidColorBrush(Colors.White);
 			adventurerPassword.BorderBrush = new SolidColorBrush(Colors.LightGray);
+		}
+
+		private void newAdventurer_Click(object sender, RoutedEventArgs e)
+		{
+			NewAdventurer newAdventurerWindow = new NewAdventurer();
+			var adventurerCreated = newAdventurerWindow.ShowDialog();
+			if (adventurerCreated.HasValue && adventurerCreated.Value)
+			{
+				var newAdventurer = newAdventurerWindow.GetNewAdventurer();
+				newAdventurerWindow.Close();
+
+				var viewModel = (MainWindowViewModel)DataContext;
+				viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
+				foreach (var adventurer in viewModel.AllSavedAdventurers)
+				{
+					if (adventurer.Name == newAdventurer.Name)
+					{
+						selectAdventurer.SelectedItem = adventurer;
+						break;
+					}
+				}
+
+				BindingOperations.GetBindingExpressionBase(selectAdventurer, ComboBox.ItemsSourceProperty).UpdateTarget();
+				BindingOperations.GetBindingExpressionBase(selectAdventurer, ComboBox.SelectedItemProperty).UpdateTarget();
+			}
+
 		}
 	}
 }

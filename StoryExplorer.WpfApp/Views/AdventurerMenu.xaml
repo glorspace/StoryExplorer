@@ -16,6 +16,38 @@
                     <DropShadowEffect/>
                 </Label.Effect> Story Explorer
             </Label>
+            <Grid x:Name="adventurerProfile" Width="260" Background="#B1082715">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Gender:</Label>
+                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Color:</Label>
+                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Hair Style:</Label>
+                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Skin Color:</Label>
+                <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Eye Color:</Label>
+                <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Personality:</Label>
+                <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Current Region:</Label>
+                <Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Foreground="White">Created Date:</Label>
+                <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedAdventurer.Gender}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedAdventurer.HairColor}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedAdventurer.HairStyle}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="3" Grid.Column="1" Content="{Binding SelectedAdventurer.SkinColor}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="4" Grid.Column="1" Content="{Binding SelectedAdventurer.EyeColor}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="5" Grid.Column="1" Content="{Binding SelectedAdventurer.Personality}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="6" Grid.Column="1" Content="{Binding SelectedAdventurer.CurrentRegionName}" Foreground="#FFB1CFAE"/>
+                <Label Grid.Row="7" Grid.Column="1" Content="{Binding SelectedAdventurer.Created}" Foreground="#FFB1CFAE"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>
