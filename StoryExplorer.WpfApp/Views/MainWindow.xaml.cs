@@ -83,10 +83,8 @@ namespace StoryExplorer.WpfApp
 					}
 				}
 
-				BindingOperations.GetBindingExpressionBase(selectAdventurer, ComboBox.ItemsSourceProperty).UpdateTarget();
-				BindingOperations.GetBindingExpressionBase(selectAdventurer, ComboBox.SelectedItemProperty).UpdateTarget();
+				BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
 			}
-
 		}
 	}
 }

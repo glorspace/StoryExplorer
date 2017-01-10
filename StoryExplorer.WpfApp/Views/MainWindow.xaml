@@ -21,7 +21,7 @@
             </Label>
             <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
                 <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Adventurer:</Label>
-                <ComboBox x:Name="selectAdventurer" SelectedItem="{Binding SelectedAdventurer}" ItemsSource="{Binding AllSavedAdventurers}"
+                <ComboBox x:Name="selectAdventurer" ItemsSource="{Binding AllSavedAdventurers}"
                           DisplayMemberPath="Name" Width="200" Margin="0,0,0,10" FontSize="14" SelectionChanged="selectAdventurer_SelectionChanged"/>
             </StackPanel>
             <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
