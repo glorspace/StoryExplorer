@@ -20,6 +20,7 @@ namespace StoryExplorer.WpfApp
 	public partial class AdventurerMenu : Window
 	{
 		private MainWindow mainWindow;
+		private bool goBack = false;
 
 		public AdventurerMenu()
 		{
@@ -42,7 +43,7 @@ namespace StoryExplorer.WpfApp
 			labelPersonality.Content = adventurer.Personality;
 			labelHeight.Content = adventurer.Height;
 			labelCurrentRegion.Content = adventurer.CurrentRegion?.Name ?? "None";
-			labelCreatedDate.Content = adventurer.Created.ToString();
+			labelCreatedDate.Content = adventurer.Created.ToShortDateString();
 
 			if (adventurer.Gender == Gender.Female)
 				background.ImageSource = new ImageSourceConverter().ConvertFromString("pack://application:,,,/StoryExplorer.WpfApp;component/Images/silvan-tracker.jpg") as ImageSource;
@@ -50,7 +51,20 @@ namespace StoryExplorer.WpfApp
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			mainWindow.Close();
+			if (goBack)
+			{
+				mainWindow.Show();
+			}
+			else
+			{
+				mainWindow.Close();
+			}
+		}
+
+		private void back_Click(object sender, RoutedEventArgs e)
+		{
+			this.goBack = true;
+			this.Close();
 		}
 	}
 }
