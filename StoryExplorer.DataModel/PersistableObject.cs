@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -10,13 +11,15 @@ namespace StoryExplorer.DataModel
 	/// </summary>
 	public class PersistableObject
 	{
+		public virtual string Name { get; set; }
+
 		/// <summary>
 		/// Deserializes XML data to populate an entity class instance.
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
 		/// <param name="fileName">The XML file to deserialize.</param>
 		/// <returns>A populated entity class instance.</returns>
-		public static T Load<T>(string fileName) where T : PersistableObject, new()
+		protected static T Load<T>(string fileName) where T : PersistableObject, new()
 		{
 			T result;
 
@@ -33,7 +36,7 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
 		/// <param name="fileName">The XML file to create.</param>
-		public void New<T>(string fileName) where T : PersistableObject
+		protected void New<T>(string fileName) where T : PersistableObject
 		{
 			using (FileStream stream = new FileStream(fileName, FileMode.CreateNew))
 			{
@@ -46,7 +49,7 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
 		/// <param name="fileName">The XML file to persist data to.</param>
-		public void Save<T>(string fileName) where T : PersistableObject
+		protected void Save<T>(string fileName) where T : PersistableObject
 		{
 			using (FileStream stream = new FileStream(fileName, FileMode.Truncate))
 			{
@@ -58,7 +61,7 @@ namespace StoryExplorer.DataModel
 		/// A helper method that checks for the existence of the specified directory and creates it if it doesn't.
 		/// </summary>
 		/// <param name="folderPath">The directory to verify.</param>
-		public static void VerifyDirectory(string folderPath)
+		protected static void VerifyDirectory(string folderPath)
 		{
 			if (!Directory.Exists(folderPath))
 			{
@@ -71,10 +74,28 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		/// <param name="folderPath">The directory to read.</param>
 		/// <returns>A list of files in the directory.</returns>
-		public static List<string> DirectoryListing(string folderPath)
+		protected static List<string> DirectoryListing(string folderPath)
 		{
 			VerifyDirectory(folderPath);
 			return Directory.EnumerateFiles(folderPath).ToList().ConvertAll(x => x.Substring(folderPath.Length));
 		}
+
+		/// <summary>
+		/// Provides a list of the names of all saved entities on the local system.
+		/// </summary>
+		/// <returns>A list of all available persisted XML files for the specified entity type.</returns>
+		protected static List<string> GetNames(string storageFolder) => DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
+
+		/// <summary>
+		/// Provides a list of Region instances for all saved Regions on the local system.
+		/// </summary>
+		/// <returns>A list of Region instances.</returns>
+		public static List<T> GetAll<T>(string storageFolder) where T : PersistableObject, new() => GetNames(storageFolder)?.Select(Load<T>).ToList();
+
+		/// <summary>
+		/// Custom implementation to show a meaningful string representation of the instance.
+		/// </summary>
+		/// <returns>String representation of the instance based on specified name.</returns>
+		public override string ToString() => $"Name: {Name}";
 	}
 }

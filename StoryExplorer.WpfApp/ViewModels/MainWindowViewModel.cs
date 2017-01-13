@@ -14,6 +14,7 @@ namespace StoryExplorer.WpfApp
 		public MainWindowViewModel()
 		{
 			AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
+			//AllSavedAdventurers = Adventurer.GetAll<Adventurer>(Adventurer.StorageFolder);
 		}
 	}
 }

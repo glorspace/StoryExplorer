@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace StoryExplorer.DataModel
@@ -10,7 +11,7 @@ namespace StoryExplorer.DataModel
 	/// </summary>
 	public class Region : PersistableObject
 	{
-		private static readonly string storageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
+		private static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Regions\\";
 		private Adventurer owner;
 
 		public Region() { }
@@ -24,7 +25,7 @@ namespace StoryExplorer.DataModel
 			Owner = Adventurer.Load(OwnerName);
 		}
 
-		public string Name { get; set; }
+		public override string Name { get; set; }
 		public string Description { get; set; }		
 		public string OwnerName { get; set; }
 		public List<string> DesignatedAuthors { get; set; } = new List<string>();
@@ -55,8 +56,13 @@ namespace StoryExplorer.DataModel
 		/// 
 		public void New()
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + Name + ".xml";
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Region before calling the New() method.");
+			}
+
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + Name + ".xml";
 			try
 			{
 				New<Region>(fileName);
@@ -74,8 +80,13 @@ namespace StoryExplorer.DataModel
 		/// <returns>A populated Region instance that corresponds to the provided name.</returns>
 		public static Region Load(string name)
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + name + ".xml";
+			if (String.IsNullOrWhiteSpace(name))
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
+
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + name + ".xml";
 			try
 			{
 				return Load<Region>(fileName);
@@ -91,8 +102,13 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		public void Save()
 		{
-			VerifyDirectory(storageFolder);
-			string fileName = storageFolder + Name + ".xml";
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Region before calling the Save() method.");
+			}
+
+			VerifyDirectory(StorageFolder);
+			string fileName = StorageFolder + Name + ".xml";
 			Save<Region>(fileName);
 		}
 
@@ -101,7 +117,12 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		public void Delete()
 		{
-			string fileName = storageFolder + Name + ".xml";
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Region before calling the Delete() method.");
+			}
+
+			string fileName = StorageFolder + Name + ".xml";
 			File.Delete(fileName);
 		}
 
@@ -109,10 +130,13 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for Regions.</returns>
-		public static List<string> GetNames()
-		{
-			return DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
-		}
+		public static List<string> GetNames() => GetNames(StorageFolder);
+
+		/// <summary>
+		/// Provides a list of Region instances for all saved Regions on the local system.
+		/// </summary>
+		/// <returns>A list of Region instances.</returns>
+		public static List<Region> GetAllSavedRegions() => GetNames()?.Select(Load).ToList();
 
 		/// <summary>
 		/// Retrieves the Scene located at the specified position.
@@ -174,11 +198,5 @@ namespace StoryExplorer.DataModel
 
 			return allowablesMoves;
 		}
-
-		/// <summary>
-		/// Custom implementation to show a meaningful string representation of the Region instance.
-		/// </summary>
-		/// <returns>String representation of the Region instance.</returns>
-		public override string ToString() => $"Name: {Name}";
 	}
 }

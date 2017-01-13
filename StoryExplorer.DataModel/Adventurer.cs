@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace StoryExplorer.DataModel
@@ -11,7 +12,7 @@ namespace StoryExplorer.DataModel
 	/// </summary>
 	public class Adventurer : PersistableObject
 	{
-		private static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
+		public static readonly string StorageFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\StoryExplorer\\Adventurers\\";
 		private Region currentRegion;
 
 
@@ -24,7 +25,7 @@ namespace StoryExplorer.DataModel
 			New();
 		}
 
-		public string Name { get; set; }
+		public override string Name { get; set; }
 		public string Password { get; set; }
 		public Gender Gender { get; set; }
 		public HairColor HairColor { get; set; }
@@ -66,6 +67,11 @@ namespace StoryExplorer.DataModel
 		/// 
 		private void New()
 		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the New() method.");
+			}
+
 			VerifyDirectory(StorageFolder);
 			string fileName = StorageFolder + Name + ".xml";
 			try
@@ -85,6 +91,11 @@ namespace StoryExplorer.DataModel
 		/// <returns>A populated Adventurer instance that corresponds to the provided name.</returns>
 		public static Adventurer Load(string name)
 		{
+			if (String.IsNullOrWhiteSpace(name))
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
+
 			VerifyDirectory(StorageFolder);
 			string fileName = StorageFolder + name + ".xml";
 			try
@@ -102,6 +113,11 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		public void Save()
 		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the Save() method.");
+			}
+
 			VerifyDirectory(StorageFolder);
 			string fileName = StorageFolder + Name + ".xml";
 			Save<Adventurer>(fileName);
@@ -112,6 +128,11 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		public void Delete()
 		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the Delete() method.");
+			}
+
 			string fileName = StorageFolder + Name + ".xml";
 			File.Delete(fileName);
 		}
@@ -120,32 +141,12 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of the names of all saved Adventurers on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for Adventurers.</returns>
-		public static List<string> GetNames()
-		{
-			return DirectoryListing(StorageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
-		}
+		public static List<string> GetNames() => GetNames(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of Adventurer instances for all saved Adventurers on the local system.
 		/// </summary>
 		/// <returns>A list of Adventurer instances.</returns>
-		public static List<Adventurer> GetAllSavedAdventurers()
-		{
-			var names = GetNames();
-			var adventurers = new List<Adventurer>();
-			foreach (string name in names)
-			{
-				var adventurer = Load(name);
-				adventurers.Add(adventurer);
-			}
-
-			return adventurers;
-		}
-
-		/// <summary>
-		/// Custom implementation to show a meaningful string representation of the Adventurer instance.
-		/// </summary>
-		/// <returns>String representation of the Adventurer instance.</returns>
-		public override string ToString() => $"Name: {Name}";
+		public static List<Adventurer> GetAllSavedAdventurers() => GetNames()?.Select(Load).ToList();
 	}
 }
