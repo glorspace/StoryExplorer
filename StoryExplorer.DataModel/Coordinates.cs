@@ -47,7 +47,7 @@ namespace StoryExplorer.DataModel
 				case Direction.Down:
 					return new Coordinates(X, Y, Z - 1);
 				default:
-					throw new Exception("Unexpected direction provided.");
+					throw new ArgumentException("Unexpected direction provided to Peek().");
 			}
 		}
 
@@ -78,6 +78,8 @@ namespace StoryExplorer.DataModel
 				case Direction.Down:
 					Z -= 1;
 					break;
+				default:
+					throw new ArgumentException("Unexpected direction provided to Move().");
 			}
 		}
 
