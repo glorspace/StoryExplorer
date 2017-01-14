@@ -14,7 +14,34 @@ namespace StoryExplorer.DataModel
 		public virtual string Name { get; set; }
 
 		/// <summary>
-		/// Deserializes XML data to populate an entity class instance.
+		/// Creates a new XML data file for the entity.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="folderPath"></param>
+		public void New<T>(string folderPath) where T : PersistableObject
+		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException($"You must assign a Name for the {typeof(T).Name} before calling the New() method.");
+			}
+
+			VerifyDirectory(folderPath);
+			string fileName = folderPath + Name + ".xml";
+			try
+			{
+				using (FileStream stream = new FileStream(fileName, FileMode.CreateNew))
+				{
+					new XmlSerializer(typeof(T)).Serialize(stream, this);
+				}
+			}
+			catch (IOException)
+			{
+				throw new IOException($"A saved {typeof(T).Name} already exists with name '{Name}'.");
+			}
+		}
+
+		/// <summary>
+		/// Deserializes XML data to populate an entity class instance based on a specified filename.
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
 		/// <param name="fileName">The XML file to deserialize.</param>
@@ -32,15 +59,28 @@ namespace StoryExplorer.DataModel
 		}
 
 		/// <summary>
-		/// Creates a new XML data file with the specified filename.
+		/// Populates an entity class instance based on a specified name and folder path.
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
-		/// <param name="fileName">The XML file to create.</param>
-		protected void New<T>(string fileName) where T : PersistableObject
+		/// <param name="name">The name for the desired entity.</param>
+		/// <param name="folderPath">The folder where instances of this entity type are stored.</param>
+		/// <returns>A populated entity class instance.</returns>
+		public static T Load<T>(string name, string folderPath) where T : PersistableObject, new()
 		{
-			using (FileStream stream = new FileStream(fileName, FileMode.CreateNew))
+			if (String.IsNullOrWhiteSpace(name))
 			{
-				new XmlSerializer(typeof(T)).Serialize(stream, this);
+				throw new ArgumentNullException(nameof(name));
+			}
+
+			VerifyDirectory(folderPath);
+			string fileName = folderPath + name + ".xml";
+			try
+			{
+				return Load<T>(fileName);
+			}
+			catch (FileNotFoundException)
+			{
+				throw new FileNotFoundException($"No saved {typeof(T).Name} found with the name '{name}'.");
 			}
 		}
 
@@ -48,13 +88,35 @@ namespace StoryExplorer.DataModel
 		/// Persists data from the entity class instance to the specified XML file.
 		/// </summary>
 		/// <typeparam name="T">The entity class type.</typeparam>
-		/// <param name="fileName">The XML file to persist data to.</param>
-		protected void Save<T>(string fileName) where T : PersistableObject
+		/// <param name="folderPath">The XML file to persist data to.</param>
+		protected void Save<T>(string folderPath) where T : PersistableObject
 		{
+			if(String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException($"You must assign a name for the {typeof(T).Name} before calling the Save() method.");
+			}
+
+			VerifyDirectory(folderPath);
+			string fileName = folderPath + Name + ".xml";
+
 			using (FileStream stream = new FileStream(fileName, FileMode.Truncate))
 			{
 				new XmlSerializer(typeof(T)).Serialize(stream, this);
 			}
+		}
+
+		/// <summary>
+		/// Deletes the persisted data file for this entity class instance.
+		/// </summary>
+		public void Delete<T>(string folderPath)
+		{
+			if (String.IsNullOrWhiteSpace(Name))
+			{
+				throw new MissingMemberException($"You must assign a name for the {typeof(T).Name} before calling the Delete() method.");
+			}
+
+			string fileName = folderPath + Name + ".xml";
+			File.Delete(fileName);
 		}
 
 		/// <summary>
@@ -84,13 +146,13 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of the names of all saved entities on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for the specified entity type.</returns>
-		protected static List<string> GetNames(string storageFolder) => DirectoryListing(storageFolder).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
+		protected static List<string> GetNames(string folderPath) => DirectoryListing(folderPath).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 
 		/// <summary>
 		/// Provides a list of Region instances for all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of Region instances.</returns>
-		public static List<T> GetAll<T>(string storageFolder) where T : PersistableObject, new() => GetNames(storageFolder)?.Select(Load<T>).ToList();
+		public static List<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.ToList().Select(Load<T>).ToList();
 
 		/// <summary>
 		/// Custom implementation to show a meaningful string representation of the instance.

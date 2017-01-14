@@ -54,77 +54,24 @@ namespace StoryExplorer.DataModel
 		/// Creates a new XML file to persist the data for a newly-created Region instance.
 		/// </summary>
 		/// 
-		public void New()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Region before calling the New() method.");
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + Name + ".xml";
-			try
-			{
-				New<Region>(fileName);
-			}
-			catch (IOException)
-			{
-				throw new IOException($"A region already exists with name '{Name}'.");
-			}
-		}
+		public void New() => New<Region>(StorageFolder);
 
 		/// <summary>
 		/// Loads a Region from a persisted XML file identified by name.
 		/// </summary>
 		/// <param name="name">The name of the Region to load.</param>
 		/// <returns>A populated Region instance that corresponds to the provided name.</returns>
-		public static Region Load(string name)
-		{
-			if (String.IsNullOrWhiteSpace(name))
-			{
-				throw new ArgumentNullException(nameof(name));
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + name + ".xml";
-			try
-			{
-				return Load<Region>(fileName);
-			}
-			catch (FileNotFoundException)
-			{
-				throw new FileNotFoundException($"No saved region found with the name '{name}'.");
-			}
-		}
+		public static Region Load(string name) => Load<Region>(name, StorageFolder);
 
 		/// <summary>
 		/// Commits data in the Region instance to file.
 		/// </summary>
-		public void Save()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Region before calling the Save() method.");
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + Name + ".xml";
-			Save<Region>(fileName);
-		}
+		public void Save() => Save<Region>(StorageFolder);
 
 		/// <summary>
 		/// Deletes the persisted data file for this Region.
 		/// </summary>
-		public void Delete()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Region before calling the Delete() method.");
-			}
-
-			string fileName = StorageFolder + Name + ".xml";
-			File.Delete(fileName);
-		}
+		public void Delete() => Delete<Adventurer>(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of all saved Regions on the local system.
@@ -136,7 +83,7 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of Region instances for all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of Region instances.</returns>
-		public static List<Region> GetAllSavedRegions() => GetNames()?.Select(Load).ToList();
+		public static List<Region> GetAllSavedRegions() => GetAll<Region>(StorageFolder);
 
 		/// <summary>
 		/// Retrieves the Scene located at the specified position.

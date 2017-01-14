@@ -74,7 +74,6 @@ namespace StoryExplorer.WpfApp
 
 				var viewModel = (MainWindowViewModel)DataContext;
 				viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
-				//viewModel.AllSavedAdventurers = Adventurer.GetAll<Adventurer>(Adventurer.StorageFolder);
 				foreach (var adventurer in viewModel.AllSavedAdventurers)
 				{
 					if (adventurer.Name == newAdventurerName)

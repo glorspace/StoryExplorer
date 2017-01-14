@@ -65,77 +65,24 @@ namespace StoryExplorer.DataModel
 		/// Creates a new XML file to persist the data for a newly-created Adventurer instance.
 		/// </summary>
 		/// 
-		private void New()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the New() method.");
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + Name + ".xml";
-			try
-			{
-				New<Adventurer>(fileName);
-			}
-			catch (IOException)
-			{
-				throw new IOException($"An adventurer already exists with name '{Name}'.");
-			}
-		}
+		private void New() => New<Adventurer>(StorageFolder);
 
 		/// <summary>
 		/// Loads an Adventurer from a persisted XML file identified by name.
 		/// </summary>
 		/// <param name="name">The name of the Adventurer to load.</param>
 		/// <returns>A populated Adventurer instance that corresponds to the provided name.</returns>
-		public static Adventurer Load(string name)
-		{
-			if (String.IsNullOrWhiteSpace(name))
-			{
-				throw new ArgumentNullException(nameof(name));
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + name + ".xml";
-			try
-			{
-				return Load<Adventurer>(fileName);
-			}
-			catch (FileNotFoundException)
-			{
-				throw new FileNotFoundException($"No saved adventurer found with the name '{name}'.");
-			}
-		}
+		public static Adventurer Load(string name) => Load<Adventurer>(name, StorageFolder);
 
 		/// <summary>
 		/// Commits data in the Adventurer instance to file.
 		/// </summary>
-		public void Save()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the Save() method.");
-			}
-
-			VerifyDirectory(StorageFolder);
-			string fileName = StorageFolder + Name + ".xml";
-			Save<Adventurer>(fileName);
-		}
+		public void Save() => Save<Adventurer>(StorageFolder);
 
 		/// <summary>
 		/// Deletes the persisted data file for this Adventurer.
 		/// </summary>
-		public void Delete()
-		{
-			if (String.IsNullOrWhiteSpace(Name))
-			{
-				throw new MissingMemberException("You must assign a Name for the Adventurer before calling the Delete() method.");
-			}
-
-			string fileName = StorageFolder + Name + ".xml";
-			File.Delete(fileName);
-		}
+		public void Delete() => Delete<Adventurer>(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of the names of all saved Adventurers on the local system.
@@ -147,6 +94,6 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of Adventurer instances for all saved Adventurers on the local system.
 		/// </summary>
 		/// <returns>A list of Adventurer instances.</returns>
-		public static List<Adventurer> GetAllSavedAdventurers() => GetNames()?.Select(Load).ToList();
+		public static List<Adventurer> GetAllSavedAdventurers() => GetAll<Adventurer>(StorageFolder);
 	}
 }
