@@ -18,11 +18,11 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="folderPath"></param>
-		public void New<T>(string folderPath) where T : PersistableObject
+		protected void New<T>(string folderPath) where T : PersistableObject
 		{
 			if (String.IsNullOrWhiteSpace(Name))
 			{
-				throw new MissingMemberException($"You must assign a Name for the {typeof(T).Name} before calling the New() method.");
+				throw new MissingMemberException($"You must assign a name for the {typeof(T).Name} before calling the New() method.");
 			}
 
 			VerifyDirectory(folderPath);
@@ -65,7 +65,7 @@ namespace StoryExplorer.DataModel
 		/// <param name="name">The name for the desired entity.</param>
 		/// <param name="folderPath">The folder where instances of this entity type are stored.</param>
 		/// <returns>A populated entity class instance.</returns>
-		public static T Load<T>(string name, string folderPath) where T : PersistableObject, new()
+		protected static T Load<T>(string name, string folderPath) where T : PersistableObject, new()
 		{
 			if (String.IsNullOrWhiteSpace(name))
 			{
@@ -108,7 +108,7 @@ namespace StoryExplorer.DataModel
 		/// <summary>
 		/// Deletes the persisted data file for this entity class instance.
 		/// </summary>
-		public void Delete<T>(string folderPath)
+		protected void Delete<T>(string folderPath)
 		{
 			if (String.IsNullOrWhiteSpace(Name))
 			{
@@ -152,7 +152,7 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of Region instances for all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of Region instances.</returns>
-		public static List<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.ToList().Select(Load<T>).ToList();
+		protected static List<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.ToList().Select(Load<T>).ToList();
 
 		/// <summary>
 		/// Custom implementation to show a meaningful string representation of the instance.

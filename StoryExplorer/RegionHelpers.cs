@@ -117,7 +117,7 @@ namespace StoryExplorer.ConsoleApp
 
 			try
 			{
-				region = new Region(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name), creator);
+				region = new Region(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name), creator.Name);
 				Console.Write("Describe this new region in a few sentences: ");
 				region.Description = Console.ReadLine();
 				region.Save();

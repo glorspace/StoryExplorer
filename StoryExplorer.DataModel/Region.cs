@@ -16,10 +16,10 @@ namespace StoryExplorer.DataModel
 
 		public Region() { }
 
-		public Region(string name, Adventurer creator) : this()
+		public Region(string name, string creatorName) : this()
 		{
 			Name = name;
-			OwnerName = creator.Name;
+			OwnerName = creatorName;
 			Created = DateTime.Now;
 			New();
 			Owner = Adventurer.Load(OwnerName);
@@ -71,7 +71,7 @@ namespace StoryExplorer.DataModel
 		/// <summary>
 		/// Deletes the persisted data file for this Region.
 		/// </summary>
-		public void Delete() => Delete<Adventurer>(StorageFolder);
+		public void Delete() => Delete<Region>(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of all saved Regions on the local system.
