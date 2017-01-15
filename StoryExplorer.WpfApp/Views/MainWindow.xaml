@@ -9,28 +9,26 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Grid.Background>
+    <StackPanel>
+        <StackPanel.Background>
             <ImageBrush ImageSource="..\Images\treefence.jpg"/>
-        </Grid.Background>
-        <StackPanel>
-            <Label HorizontalAlignment="Center" FontSize="72" Margin="0,100,0,0" Foreground="#FFB1CFAE" FontFamily="Gabriola">
-                <Label.Effect>
-                    <DropShadowEffect/>
-                </Label.Effect> Story Explorer
-            </Label>
-            <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
-                <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Adventurer:</Label>
-                <ComboBox x:Name="selectAdventurer" ItemsSource="{Binding AllSavedAdventurers}"
-                          DisplayMemberPath="Name" Width="200" Margin="0,0,0,10" FontSize="14" SelectionChanged="selectAdventurer_SelectionChanged"/>
-            </StackPanel>
-            <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
-                <Label x:Name="passwordLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">Password:</Label>
-                <PasswordBox x:Name="adventurerPassword" Width="200" FontSize="14" Margin="0,0,0,10"
-                             GotKeyboardFocus="adventurerPassword_GotKeyboardFocus" IsEnabled="False" Height="25"></PasswordBox>
-            </StackPanel>
-            <Button x:Name="loadLogin" Width="200" Margin="0,0,0,10" FontSize="16" IsEnabled="False" Click="login_Click" IsDefault="True" Height="36" Background="#FFB1CFAE">Login</Button>
-            <Button x:Name="newAdventurer" Width="200" FontSize="16" Height="36" Content="Create a New Adventurer" Background="#FFB1CFAE" Click="newAdventurer_Click"/>
+        </StackPanel.Background>
+        <Label HorizontalAlignment="Center" FontSize="72" Margin="0,100,0,0" Foreground="#FFB1CFAE" FontFamily="Gabriola">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect> Story Explorer
+        </Label>
+        <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
+            <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Adventurer:</Label>
+            <ComboBox x:Name="selectAdventurer" ItemsSource="{Binding AllSavedAdventurers}"
+                        DisplayMemberPath="Name" Width="200" Margin="0,0,0,10" FontSize="14" SelectionChanged="selectAdventurer_SelectionChanged"/>
         </StackPanel>
-    </Grid>
+        <StackPanel Margin="0,0,0,10" Background="#B1082715" Width="260">
+            <Label x:Name="passwordLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">Password:</Label>
+            <PasswordBox x:Name="adventurerPassword" Width="200" FontSize="14" Margin="0,0,0,10"
+                            GotKeyboardFocus="adventurerPassword_GotKeyboardFocus" IsEnabled="False" Height="25" KeyUp="adventurerPassword_KeyUp"></PasswordBox>
+        </StackPanel>
+        <Button x:Name="login" Width="200" Margin="0,0,0,10" FontSize="16" IsEnabled="False" Click="login_Click" IsDefault="True" Height="36" Background="#FFB1CFAE">Login</Button>
+        <Button x:Name="newAdventurer" Width="200" FontSize="16" Height="36" Content="Create a New Adventurer" Background="#FFB1CFAE" Click="newAdventurer_Click"/>
+    </StackPanel>
 </Window>

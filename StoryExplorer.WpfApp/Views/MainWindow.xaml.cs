@@ -29,12 +29,12 @@ namespace StoryExplorer.WpfApp
 		private void loadCancel_Click(object sender, RoutedEventArgs e)
 		{
 			selectAdventurer.SelectedItem = null;
-			loadLogin.IsEnabled = false;
+			login.IsEnabled = false;
 		}
 
 		private void selectAdventurer_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			loadLogin.IsEnabled = true;
+			login.IsEnabled = true;
 			adventurerPassword.IsEnabled = true;
 			adventurerPassword.Password = String.Empty;
 		}
@@ -53,19 +53,31 @@ namespace StoryExplorer.WpfApp
 				passwordLabel.Foreground = new SolidColorBrush(Colors.Red);
 				adventurerPassword.BorderBrush = new SolidColorBrush(Colors.Red);
 			}
-			// instantiate new window
 		}
 
-		private void adventurerPassword_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		private void resetPasswordError()
 		{
 			passwordLabel.Content = "Password:";
 			passwordLabel.Foreground = new SolidColorBrush(Colors.White);
 			adventurerPassword.BorderBrush = new SolidColorBrush(Colors.LightGray);
 		}
 
+		private void adventurerPassword_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key != Key.Enter)
+			{
+				resetPasswordError();
+			}
+		}
+
+		private void adventurerPassword_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			resetPasswordError();
+		}
+
 		private void newAdventurer_Click(object sender, RoutedEventArgs e)
 		{
-			NewAdventurer newAdventurerWindow = new NewAdventurer();
+			var newAdventurerWindow = new NewAdventurer();
 			var adventurerCreated = newAdventurerWindow.ShowDialog();
 			if (adventurerCreated.HasValue && adventurerCreated.Value)
 			{
@@ -85,6 +97,13 @@ namespace StoryExplorer.WpfApp
 
 				BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
 			}
+		}
+
+		public void refreshAdventurers()
+		{
+			var viewModel = (MainWindowViewModel)DataContext;
+			viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
+			BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
 		}
 	}
 }

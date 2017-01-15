@@ -58,11 +58,22 @@
     <Compile Include="ViewModels\AdventurerMenuViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NewAdventurerViewModel.cs" />
+    <Compile Include="ViewModels\NewRegionViewModel.cs" />
+    <Compile Include="ViewModels\RegionEntryViewModel.cs" />
     <Compile Include="Views\AdventurerMenu.xaml.cs">
       <DependentUpon>AdventurerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewAdventurer.xaml.cs">
       <DependentUpon>NewAdventurer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewRegion.xaml.cs">
+      <DependentUpon>NewRegion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegionEntry.xaml.cs">
+      <DependentUpon>RegionEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegionMenu.xaml.cs">
+      <DependentUpon>RegionMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +92,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewAdventurer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewRegion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegionEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegionMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,6 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\watching-elf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\treecreek-small.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\deciduous-reflection.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

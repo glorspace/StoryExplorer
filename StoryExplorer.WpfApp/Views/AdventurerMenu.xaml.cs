@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using StoryExplorer.DataModel;
 
 namespace StoryExplorer.WpfApp
@@ -27,9 +18,9 @@ namespace StoryExplorer.WpfApp
 			InitializeComponent();
 		}
 
-		public AdventurerMenu(MainWindow mainWindow, Adventurer adventurer) : this()
+		public AdventurerMenu(MainWindow previous, Adventurer adventurer) : this()
 		{
-			this.mainWindow = mainWindow;
+			mainWindow = previous;
 
 			var viewModel = (AdventurerMenuViewModel)DataContext;
 			viewModel.SelectedAdventurer = adventurer;
@@ -63,8 +54,90 @@ namespace StoryExplorer.WpfApp
 
 		private void back_Click(object sender, RoutedEventArgs e)
 		{
-			this.goBack = true;
-			this.Close();
+			goBack = true;
+			Close();
+		}
+
+		private void changePassword_Click(object sender, RoutedEventArgs e)
+		{
+			changePasswordPanel.Visibility = Visibility.Visible;
+			changePassword.IsEnabled = false;
+			delete.IsEnabled = false;
+			chooseRegion.IsEnabled = false;
+			back.IsEnabled = false;
+		}
+
+		private void delete_Click(object sender, RoutedEventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to delete this adventurer permanently?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+			{
+				var viewModel = (AdventurerMenuViewModel)DataContext;
+				viewModel.SelectedAdventurer.Delete();
+				mainWindow.refreshAdventurers();
+				mainWindow.Show();
+				goBack = true;
+				Close();
+			}
+		}
+
+		private void chooseRegion_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (AdventurerMenuViewModel)DataContext;
+			Hide();
+			var regionEntryWindow = new RegionEntry(this, viewModel.SelectedAdventurer);
+			regionEntryWindow.Show();
+		}
+
+		private void checkPasswordFields()
+		{
+			var viewModel = (AdventurerMenuViewModel)DataContext;
+
+			if (oldPassword.Password == viewModel.SelectedAdventurer.Password &&
+				newPassword.Password == confirmPassword.Password)
+			{
+				commitPassword.IsEnabled = true;
+			}
+			else
+			{
+				commitPassword.IsEnabled = false;
+			}
+		}
+
+		private void oldPassword_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			checkPasswordFields();
+		}
+
+		private void newPassword_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			checkPasswordFields();
+		}
+
+		private void confirmPassword_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			checkPasswordFields();
+		}
+
+		private void hideChangePasswordControls()
+		{
+			changePasswordPanel.Visibility = Visibility.Hidden;
+			changePassword.IsEnabled = true;
+			delete.IsEnabled = true;
+			chooseRegion.IsEnabled = true;
+			back.IsEnabled = true;
+		}
+
+		private void commitPassword_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (AdventurerMenuViewModel)DataContext;
+			viewModel.SelectedAdventurer.Password = newPassword.Password;
+			viewModel.SelectedAdventurer.Save();
+			hideChangePasswordControls();
+		}
+
+		private void cancelPassword_Click(object sender, RoutedEventArgs e)
+		{
+			hideChangePasswordControls();
 		}
 	}
 }
