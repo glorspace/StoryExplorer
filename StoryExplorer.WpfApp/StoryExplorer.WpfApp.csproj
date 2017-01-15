@@ -60,6 +60,7 @@
     <Compile Include="ViewModels\NewAdventurerViewModel.cs" />
     <Compile Include="ViewModels\NewRegionViewModel.cs" />
     <Compile Include="ViewModels\RegionEntryViewModel.cs" />
+    <Compile Include="ViewModels\RegionMenuViewModel.cs" />
     <Compile Include="Views\AdventurerMenu.xaml.cs">
       <DependentUpon>AdventurerMenu.xaml</DependentUpon>
     </Compile>
@@ -158,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\deciduous-reflection.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\forest-ruins.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

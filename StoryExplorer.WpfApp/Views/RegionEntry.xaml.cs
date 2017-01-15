@@ -79,5 +79,14 @@ namespace StoryExplorer.WpfApp
 				BindingOperations.GetBindingExpressionBase(selectRegion, ItemsControl.ItemsSourceProperty).UpdateTarget();
 			}
 		}
+
+		private void load_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionEntryViewModel)DataContext;
+			var region = (Region)selectRegion.SelectedItem;
+			this.Hide();
+			RegionMenu regionMenuWindow = new RegionMenu(this, viewModel.Adventurer, region);
+			regionMenuWindow.Show();
+		}
 	}
 }

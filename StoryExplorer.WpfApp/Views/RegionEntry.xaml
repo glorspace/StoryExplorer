@@ -18,7 +18,7 @@
             <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Choose a Story Region:</Label>
             <ComboBox x:Name="selectRegion" ItemsSource="{Binding AllSavedRegions}" DisplayMemberPath="Name" Width="200" Margin="0,0,0,10" FontSize="14" SelectionChanged="selectRegion_SelectionChanged"/>
         </StackPanel>
-        <Button x:Name="load" Width="200" Margin="0,0,0,10" FontSize="16" IsEnabled="False" IsDefault="True" Height="36" Background="#FFB1CFAE">Load</Button>
+        <Button x:Name="load" Width="200" Margin="0,0,0,10" FontSize="16" IsEnabled="False" IsDefault="True" Height="36" Background="#FFB1CFAE" Click="load_Click">Load</Button>
         <Button x:Name="newRegion" Width="200" FontSize="16" Height="36" Background="#FFB1CFAE" Click="newRegion_Click">Create a New Region</Button>
     </StackPanel>
 </Window>
