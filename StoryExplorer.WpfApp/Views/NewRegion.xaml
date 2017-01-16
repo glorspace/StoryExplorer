@@ -21,25 +21,33 @@
             <RowDefinition/>
             <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0">
-            <StackPanel Margin="20,20,20,10" Background="#B1082715" VerticalAlignment="Stretch" >
-                <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Region Name:</Label>
-                <TextBox x:Name="regionName" Margin="20,0,20,10" KeyUp="regionName_KeyUp"></TextBox>
-                <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Description:</Label>
-                <TextBox x:Name="regionDescription" MinHeight="100" Margin="20,0,20,10" TextWrapping="Wrap" VerticalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" KeyUp="regionDescription_KeyUp"></TextBox>
-            </StackPanel>
-        </DockPanel>
-        <StackPanel  Grid.Column="1">
-            <StackPanel Margin="20,20,20,10" Background="#B1082715">
-                <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Opening Scene Title:</Label>
-                <TextBox x:Name="sceneTitle" Margin="20,0,20,10" KeyUp="sceneTitle_KeyUp"></TextBox>
-                <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Description:</Label>
-                <TextBox x:Name="sceneDescription" MinHeight="100" Margin="20,0,20,10" TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" KeyUp="sceneDescription_KeyUp"></TextBox>
-            </StackPanel>
-        </StackPanel>
+        <Grid Grid.Column="0" Margin="20,20,20,10" Background="#B1082715">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Foreground="White" FontSize="14" HorizontalAlignment="Center">Region Name:</Label>
+            <TextBox x:Name="regionName" Grid.Row="1" Margin="20,0,20,0" KeyUp="regionName_KeyUp"></TextBox>
+            <Label Grid.Row="2" Foreground="White" FontSize="14" HorizontalAlignment="Center">Description:</Label>
+            <TextBox x:Name="regionDescription" Grid.Row="3" Margin="20,0,20,20" TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" KeyUp="regionDescription_KeyUp"></TextBox>
+        </Grid>
+        <Grid Grid.Column="1" Margin="20,20,20,10" Background="#B1082715">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Foreground="White" FontSize="14" HorizontalAlignment="Center">Opening Scene Title:</Label>
+            <TextBox x:Name="sceneTitle" Grid.Row="1" Margin="20,0,20,0" KeyUp="regionName_KeyUp"></TextBox>
+            <Label Grid.Row="2" Foreground="White" FontSize="14" HorizontalAlignment="Center">Description:</Label>
+            <TextBox x:Name="sceneDescription" Grid.Row="3" Margin="20,0,20,20" TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" KeyUp="regionDescription_KeyUp"></TextBox>
+        </Grid>
         <WrapPanel Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
             <Button x:Name="create" IsDefault="True" Width="80" Margin="0,0,20,0" Height="26" Background="#FFB1CFAE" Click="create_Click">Create</Button>
-            <Button IsCancel="True" Width="80" Margin="0,0,20,0" Height="26" Background="#FFB1CFAE">Cancel</Button>
+            <Button IsCancel="True" Width="80" Margin="20,0,0,0" Height="26" Background="#FFB1CFAE">Cancel</Button>
         </WrapPanel>
     </Grid>
 </Window>

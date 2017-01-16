@@ -85,7 +85,7 @@ namespace StoryExplorer.WpfApp
 			var viewModel = (RegionEntryViewModel)DataContext;
 			var region = (Region)selectRegion.SelectedItem;
 			this.Hide();
-			RegionMenu regionMenuWindow = new RegionMenu(this, viewModel.Adventurer, region);
+			RegionExplorer regionMenuWindow = new RegionExplorer(this, viewModel.Adventurer, region);
 			regionMenuWindow.Show();
 		}
 	}
