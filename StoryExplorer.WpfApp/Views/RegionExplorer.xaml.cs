@@ -22,6 +22,7 @@ namespace StoryExplorer.WpfApp
 		private Window previousWindow;
 		private bool goBack;
 		private bool isOwner = true;
+		private string regionDescriptionCache = String.Empty;
 
 		public RegionExplorer()
 		{
@@ -37,13 +38,15 @@ namespace StoryExplorer.WpfApp
 			viewModel.Region = region;
 			viewModel.Mode = RegionMode.Author;
 
+			Title = "Story Explorer: [" + region.Name + "]";
+
 			regionName.Content = region.Name;
 			regionDescription.Text = region.Description;
 
 			if (adventurer.Name != region.OwnerName)
 			{
 				isOwner = false;
-				edit.Visibility = Visibility.Collapsed;
+				editRegionDescription.Visibility = Visibility.Collapsed;
 				manageAuthors.Visibility = Visibility.Collapsed;
 				mode.IsChecked = false;
 				mode.Visibility = Visibility.Collapsed;
@@ -65,29 +68,14 @@ namespace StoryExplorer.WpfApp
 
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
-			exit.Visibility = Visibility.Collapsed;
-			explorerControls.Visibility = Visibility.Hidden;
-
-			if (isOwner)
-			{
-				edit.Visibility = Visibility.Visible;
-				manageAuthors.Visibility = Visibility.Visible;
-				mode.Visibility = Visibility.Visible;
-			}
-			back.Visibility = Visibility.Visible;
-			enter.Visibility = Visibility.Visible;
+			hideExplorerControls();
+			showRegionMenuControls();
 		}
 
 		private void enter_Click(object sender, RoutedEventArgs e)
 		{
-			edit.Visibility = Visibility.Collapsed;
-			manageAuthors.Visibility = Visibility.Collapsed;
-			back.Visibility = Visibility.Collapsed;
-			mode.Visibility = Visibility.Collapsed;
-			enter.Visibility = Visibility.Collapsed;
-
-			exit.Visibility = Visibility.Visible;
-			explorerControls.Visibility = Visibility.Visible;
+			hideRegionMenuControls();
+			showExplorerControls();
 
 			var viewModel = (RegionExplorerViewModel)DataContext;
 
@@ -104,6 +92,39 @@ namespace StoryExplorer.WpfApp
 			viewModel.Mode = mode.IsChecked.Value ? RegionMode.Author : RegionMode.Explorer;
 
 			RefreshSceneElements();
+		}
+
+		private void showRegionMenuControls()
+		{
+			if (isOwner)
+			{
+				editRegionDescription.Visibility = Visibility.Visible;
+				manageAuthors.Visibility = Visibility.Visible;
+				mode.Visibility = Visibility.Visible;
+			}
+			back.Visibility = Visibility.Visible;
+			enter.Visibility = Visibility.Visible;
+		}
+
+		private void hideRegionMenuControls()
+		{
+			editRegionDescription.Visibility = Visibility.Collapsed;
+			manageAuthors.Visibility = Visibility.Collapsed;
+			back.Visibility = Visibility.Collapsed;
+			mode.Visibility = Visibility.Collapsed;
+			enter.Visibility = Visibility.Collapsed;
+		}
+
+		private void showExplorerControls()
+		{
+			exit.Visibility = Visibility.Visible;
+			explorerControls.Visibility = Visibility.Visible;
+		}
+
+		private void hideExplorerControls()
+		{
+			exit.Visibility = Visibility.Collapsed;
+			explorerControls.Visibility = Visibility.Hidden;
 		}
 
 		private void RefreshSceneElements()
@@ -233,6 +254,44 @@ namespace StoryExplorer.WpfApp
 			{
 				RefreshSceneElements();
 			}
+		}
+
+		private void regionDescriptionEdit_KeyUp(object sender, KeyEventArgs e)
+		{
+			saveDescription.IsEnabled = true;
+		}
+
+		private void closeDescriptionEditor()
+		{
+			editControls.Visibility = Visibility.Collapsed;
+
+			regionDescription.Visibility = Visibility.Visible;
+			showRegionMenuControls();
+		}
+
+		private void cancelDescription_Click(object sender, RoutedEventArgs e)
+		{
+			closeDescriptionEditor();
+		}
+
+		private void saveDescription_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.Region.Description = regionDescriptionEdit.Text;
+			regionDescription.Text = viewModel.Region.Description;
+			viewModel.Region.Save();
+
+			closeDescriptionEditor();
+		}
+
+		private void editRegionDescription_Click(object sender, RoutedEventArgs e)
+		{
+			regionDescriptionCache = regionDescription.Text;
+			regionDescription.Visibility = Visibility.Collapsed;
+			hideRegionMenuControls();
+
+			editControls.Visibility = Visibility.Visible;
+			regionDescriptionEdit.Text = regionDescription.Text;
 		}
 	}
 }

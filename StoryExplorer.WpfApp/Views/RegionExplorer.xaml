@@ -24,17 +24,27 @@
                         <DropShadowEffect/>
                     </Label.Effect> RegionName
                 </Label>
-                <TextBlock x:Name="regionDescription" HorizontalAlignment="Center" FontSize="16" Margin="10" TextWrapping="Wrap" TextAlignment="Center" Foreground="#FFB1CFAE" FontFamily="Gabriola">
-                    This is where region description text will go. For now, this is dummy text which will simply occupy the space while designing the UI.
-                </TextBlock>
-                <Button x:Name="edit" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE">Edit Description</Button>
+                <ScrollViewer MaxHeight="300" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                    <TextBlock x:Name="regionDescription" HorizontalAlignment="Center" FontSize="16" Margin="10" TextWrapping="Wrap" TextAlignment="Center" Foreground="#FFB1CFAE" FontFamily="Gabriola">
+                        This is where region description text will go. For now, this is dummy text which will simply occupy the space while designing the UI.
+                    </TextBlock>
+                </ScrollViewer>
+                <WrapPanel x:Name="editControls" Margin="0,0,0,10" Width="240" Visibility="Collapsed">
+                    <TextBox x:Name="regionDescriptionEdit" Width="240" Height="100" TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" KeyUp="regionDescriptionEdit_KeyUp" Margin="0,0,0,10"></TextBox>
+                    <Button x:Name="saveDescription" Width="80" Margin="30,0,10,0" FontSize="16" Background="#FFB1CFAE" Click="saveDescription_Click" IsEnabled="False">Save</Button>
+                    <Button x:Name="cancelDescription" Width="80" Margin="10,0,30,0" FontSize="16" Background="#FFB1CFAE" Click="cancelDescription_Click">Cancel</Button>
+                </WrapPanel>
                 <Button x:Name="manageAuthors" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE">Manage Authors</Button>
-                <Button x:Name="back" Width="200" FontSize="16" Background="#FFB1CFAE" Click="back_Click">Back to Previous Menu</Button>
                 <CheckBox x:Name="mode" Foreground="#FFB1CFAE" Margin="29,10,0,0" IsChecked="True">Enable Author Mode</CheckBox>
                 <Button x:Name="enter" Width="200" Margin="0,20,0,20" FontSize="24" Height="64" Background="#FFB1CFAE" Click="enter_Click">Enter Region</Button>
                 <Button x:Name="exit" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE" Click="exit_Click" Visibility="Collapsed">Exit Region</Button>
             </StackPanel>
         </StackPanel>
+        <Button x:Name="editRegionDescription" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,40,0" BorderThickness="0" ToolTip="Edit description" Click="editRegionDescription_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/Edit_grey_32x.png"/>
+            </Button.Background>
+        </Button>
         <Grid x:Name="explorerControls" Grid.Column="1" Visibility="Hidden">
             <Grid.RowDefinitions>
                 <RowDefinition Height="130"/>
@@ -67,5 +77,10 @@
                 <Button x:Name="east" Grid.Column="2" Width="40" Height="40" HorizontalAlignment="Left" Background="#FFB1CFAE" Click="east_Click">East</Button>
             </Grid>
         </Grid>
+        <Button x:Name="back" Width="32" Click="back_Click" Grid.Column="1" Margin="0,20,20,0" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="Back" BorderThickness="0">
+            <Button.Background>
+                <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/VSO_Backward_outline_24x.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
