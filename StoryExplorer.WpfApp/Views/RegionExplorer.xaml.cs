@@ -174,6 +174,16 @@ namespace StoryExplorer.WpfApp
 			down.IsEnabled = true;
 		}
 
+		private void DisableAllDirectionalButtons()
+		{
+			north.IsEnabled = false;
+			east.IsEnabled = false;
+			south.IsEnabled = false;
+			west.IsEnabled = false;
+			up.IsEnabled = false;
+			down.IsEnabled = false;
+		}
+
 		private bool AttemptMove(Direction direction)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
@@ -292,6 +302,59 @@ namespace StoryExplorer.WpfApp
 
 			editControls.Visibility = Visibility.Visible;
 			regionDescriptionEdit.Text = regionDescription.Text;
+		}
+
+		private void editSceneTitle_Click(object sender, RoutedEventArgs e)
+		{
+			sceneTitle.Visibility = Visibility.Collapsed;
+
+			sceneTitleTextBox.Visibility = Visibility.Visible;
+			saveSceneTitle.Visibility = Visibility.Visible;
+			cancelSceneTitle.Visibility = Visibility.Visible;
+
+			editSceneDescription.IsEnabled = false;
+
+			DisableAllDirectionalButtons();
+
+			exit.IsEnabled = false;
+
+			var viewModel = (RegionExplorerViewModel)DataContext;
+
+			sceneTitleTextBox.Text = viewModel.CurrentScene.Title;
+		}
+
+		private void sceneTitleTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			saveSceneTitle.IsEnabled = true;
+		}
+
+		private void closeSceneTitleEditor()
+		{
+			sceneTitleTextBox.Visibility = Visibility.Collapsed;
+			saveSceneTitle.Visibility = Visibility.Collapsed;
+			cancelSceneTitle.Visibility = Visibility.Collapsed;
+
+			sceneTitle.Visibility = Visibility.Visible;
+			EnableAllDirectionalButtons();
+			exit.IsEnabled = true;
+			editSceneDescription.IsEnabled = true;
+			saveSceneTitle.IsEnabled = false;
+		}
+
+		private void saveSceneTitle_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+
+			viewModel.CurrentScene.Title = sceneTitleTextBox.Text;
+			viewModel.Region.Save();
+			BindingOperations.GetBindingExpressionBase(sceneTitle, Label.ContentProperty).UpdateTarget();
+
+			closeSceneTitleEditor();
+		}
+
+		private void cancelSceneTitle_Click(object sender, RoutedEventArgs e)
+		{
+			closeSceneTitleEditor();
 		}
 	}
 }
