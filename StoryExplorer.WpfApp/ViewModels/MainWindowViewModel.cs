@@ -9,7 +9,7 @@ namespace StoryExplorer.WpfApp
 {
 	public class MainWindowViewModel
 	{
-		public List<Adventurer> AllSavedAdventurers { get; set; }
+		public IEnumerable<Adventurer> AllSavedAdventurers { get; set; }
 
 		public MainWindowViewModel()
 		{

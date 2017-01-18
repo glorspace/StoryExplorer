@@ -88,12 +88,12 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of the names of all saved Adventurers on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for Adventurers.</returns>
-		public static List<string> GetNames() => GetNames(StorageFolder);
+		public static IEnumerable<string> GetNames() => GetNames(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of Adventurer instances for all saved Adventurers on the local system.
 		/// </summary>
 		/// <returns>A list of Adventurer instances.</returns>
-		public static List<Adventurer> GetAllSavedAdventurers() => GetAll<Adventurer>(StorageFolder);
+		public static IEnumerable<Adventurer> GetAllSavedAdventurers() => GetAll<Adventurer>(StorageFolder);
 	}
 }

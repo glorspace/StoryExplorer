@@ -136,23 +136,23 @@ namespace StoryExplorer.DataModel
 		/// </summary>
 		/// <param name="folderPath">The directory to read.</param>
 		/// <returns>A list of files in the directory.</returns>
-		protected static List<string> DirectoryListing(string folderPath)
+		protected static IEnumerable<string> DirectoryListing(string folderPath)
 		{
 			VerifyDirectory(folderPath);
-			return Directory.EnumerateFiles(folderPath).ToList().ConvertAll(x => x.Substring(folderPath.Length));
+			return Directory.EnumerateFiles(folderPath).Select(x => x.Substring(folderPath.Length));
 		}
 
 		/// <summary>
 		/// Provides a list of the names of all saved entities on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for the specified entity type.</returns>
-		protected static List<string> GetNames(string folderPath) => DirectoryListing(folderPath).ConvertAll(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
+		protected static IEnumerable<string> GetNames(string folderPath) => DirectoryListing(folderPath).Select(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 
 		/// <summary>
 		/// Provides a list of Region instances for all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of Region instances.</returns>
-		protected static List<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.ToList().Select(Load<T>).ToList();
+		protected static IEnumerable<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.Select(Load<T>).ToList();
 
 		/// <summary>
 		/// Custom implementation to show a meaningful string representation of the instance.

@@ -8,7 +8,7 @@ namespace StoryExplorer.WpfApp
 {
 	public class RegionEntryViewModel
 	{
-		public List<Region> AllSavedRegions { get; set; }
+		public IEnumerable<Region> AllSavedRegions { get; set; }
 		public Adventurer Adventurer { get; set; }
 
 		public RegionEntryViewModel()
