@@ -17,6 +17,14 @@
             <Button.Background>
                 <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/VSO_Backward_outline_24x.png"/>
             </Button.Background>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
         <StackPanel Margin="0,180,0,10" Background="#B1082715" Width="260">
             <Label Foreground="White" FontSize="14" HorizontalAlignment="Center">Choose a Story Region:</Label>

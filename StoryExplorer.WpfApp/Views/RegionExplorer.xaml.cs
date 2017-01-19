@@ -271,7 +271,7 @@ namespace StoryExplorer.WpfApp
 			saveRegionDescription.IsEnabled = true;
 		}
 
-		private void closeRegionDescriptionEditor()
+		private void CloseRegionDescriptionEditor()
 		{
 			regionDescriptionEditor.Visibility = Visibility.Collapsed;
 
@@ -281,7 +281,7 @@ namespace StoryExplorer.WpfApp
 
 		private void cancelRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
-			closeRegionDescriptionEditor();
+			CloseRegionDescriptionEditor();
 		}
 
 		private void saveRegionDescription_Click(object sender, RoutedEventArgs e)
@@ -291,7 +291,7 @@ namespace StoryExplorer.WpfApp
 			regionDescription.Text = viewModel.Region.Description;
 			viewModel.Region.Save();
 
-			closeRegionDescriptionEditor();
+			CloseRegionDescriptionEditor();
 		}
 
 		private void editRegionDescription_Click(object sender, RoutedEventArgs e)
@@ -307,6 +307,7 @@ namespace StoryExplorer.WpfApp
 		private void editSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
 			sceneTitle.Visibility = Visibility.Collapsed;
+			editSceneTitle.Visibility = Visibility.Collapsed;
 
 			sceneTitleTextBox.Visibility = Visibility.Visible;
 			saveSceneTitle.Visibility = Visibility.Visible;
@@ -328,13 +329,14 @@ namespace StoryExplorer.WpfApp
 			saveSceneTitle.IsEnabled = true;
 		}
 
-		private void closeSceneTitleEditor()
+		private void CloseSceneTitleEditor()
 		{
 			sceneTitleTextBox.Visibility = Visibility.Collapsed;
 			saveSceneTitle.Visibility = Visibility.Collapsed;
 			cancelSceneTitle.Visibility = Visibility.Collapsed;
 
 			sceneTitle.Visibility = Visibility.Visible;
+			editSceneTitle.Visibility = Visibility.Visible;
 			EnableAllDirectionalButtons();
 			exit.IsEnabled = true;
 			editSceneDescription.IsEnabled = true;
@@ -349,12 +351,12 @@ namespace StoryExplorer.WpfApp
 			viewModel.Region.Save();
 			BindingOperations.GetBindingExpressionBase(sceneTitle, Label.ContentProperty).UpdateTarget();
 
-			closeSceneTitleEditor();
+			CloseSceneTitleEditor();
 		}
 
 		private void cancelSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
-			closeSceneTitleEditor();
+			CloseSceneTitleEditor();
 		}
 
 		private void editSceneDescription_Click(object sender, RoutedEventArgs e)
