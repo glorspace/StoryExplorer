@@ -77,13 +77,13 @@ namespace StoryExplorer.DataModel
 		/// Provides a list of all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of all available persisted XML files for Regions.</returns>
-		public static List<string> GetNames() => GetNames(StorageFolder);
+		public static IEnumerable<string> GetNames() => GetNames(StorageFolder);
 
 		/// <summary>
 		/// Provides a list of Region instances for all saved Regions on the local system.
 		/// </summary>
 		/// <returns>A list of Region instances.</returns>
-		public static List<Region> GetAllSavedRegions() => GetAll<Region>(StorageFolder);
+		public static IEnumerable<Region> GetAllSavedRegions() => GetAll<Region>(StorageFolder);
 
 		/// <summary>
 		/// Retrieves the Scene located at the specified position.
