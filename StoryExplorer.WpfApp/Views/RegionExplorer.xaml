@@ -20,7 +20,7 @@
         <Grid Grid.Column="0" Margin="20" Background="#B1082715">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="160"/>
+                <RowDefinition Height="164"/>
             </Grid.RowDefinitions>
             <Label x:Name="regionName"  Margin="10" HorizontalAlignment="Center" FontSize="24" Foreground="#FFB1CFAE" FontFamily="Gabriola" BorderThickness="0">
                 <Label.Effect>
