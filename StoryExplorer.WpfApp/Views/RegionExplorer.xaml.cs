@@ -268,30 +268,30 @@ namespace StoryExplorer.WpfApp
 
 		private void regionDescriptionEdit_KeyUp(object sender, KeyEventArgs e)
 		{
-			saveDescription.IsEnabled = true;
+			saveRegionDescription.IsEnabled = true;
 		}
 
-		private void closeDescriptionEditor()
+		private void closeRegionDescriptionEditor()
 		{
-			editControls.Visibility = Visibility.Collapsed;
+			regionDescriptionEditor.Visibility = Visibility.Collapsed;
 
 			regionDescription.Visibility = Visibility.Visible;
 			showRegionMenuControls();
 		}
 
-		private void cancelDescription_Click(object sender, RoutedEventArgs e)
+		private void cancelRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
-			closeDescriptionEditor();
+			closeRegionDescriptionEditor();
 		}
 
-		private void saveDescription_Click(object sender, RoutedEventArgs e)
+		private void saveRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.Region.Description = regionDescriptionEdit.Text;
+			viewModel.Region.Description = regionDescriptionTextBox.Text;
 			regionDescription.Text = viewModel.Region.Description;
 			viewModel.Region.Save();
 
-			closeDescriptionEditor();
+			closeRegionDescriptionEditor();
 		}
 
 		private void editRegionDescription_Click(object sender, RoutedEventArgs e)
@@ -300,8 +300,8 @@ namespace StoryExplorer.WpfApp
 			regionDescription.Visibility = Visibility.Collapsed;
 			hideRegionMenuControls();
 
-			editControls.Visibility = Visibility.Visible;
-			regionDescriptionEdit.Text = regionDescription.Text;
+			regionDescriptionEditor.Visibility = Visibility.Visible;
+			regionDescriptionTextBox.Text = regionDescription.Text;
 		}
 
 		private void editSceneTitle_Click(object sender, RoutedEventArgs e)
@@ -355,6 +355,37 @@ namespace StoryExplorer.WpfApp
 		private void cancelSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
 			closeSceneTitleEditor();
+		}
+
+		private void editSceneDescription_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			sceneDescriptionTextBox.Text = viewModel.CurrentScene.Description;
+
+			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
+			sceneDescriptionEditor.Visibility = Visibility.Visible;			
+		}
+
+		private void sceneDescriptionTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			saveSceneDescription.IsEnabled = true;
+		}
+
+		private void saveSceneDescription_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.CurrentScene.Description = sceneDescriptionTextBox.Text;
+			viewModel.Region.Save();
+			BindingOperations.GetBindingExpressionBase(sceneDescription, TextBlock.TextProperty).UpdateTarget();
+
+			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			sceneDescriptionViewer.Visibility = Visibility.Visible;
+		}
+
+		private void cancelSceneDescription_Click(object sender, RoutedEventArgs e)
+		{
+			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			sceneDescriptionViewer.Visibility = Visibility.Visible;
 		}
 	}
 }
