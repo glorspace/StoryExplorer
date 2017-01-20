@@ -22,7 +22,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="166"/>
             </Grid.RowDefinitions>
-            <Label x:Name="regionName"  Margin="10" HorizontalAlignment="Center" FontSize="24" Foreground="#FFB1CFAE" FontFamily="Gabriola" BorderThickness="0">
+            <Label x:Name="regionName" Margin="10" HorizontalAlignment="Center" FontSize="24" Foreground="#FFB1CFAE" FontFamily="Gabriola" BorderThickness="0">
                 <Label.Effect>
                     <DropShadowEffect/>
                 </Label.Effect> RegionName
@@ -57,10 +57,10 @@
             <StackPanel x:Name="regionMenuControls" Grid.Row="1" VerticalAlignment="Bottom">
                 <Button x:Name="manageAuthors" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE">Manage Authors</Button>
                 <CheckBox x:Name="mode" Foreground="#FFB1CFAE" Margin="29,10,0,0" IsChecked="True">Enable Author Mode</CheckBox>
-                <Button x:Name="enter" Width="200" Margin="0,20,0,20" FontSize="24" Height="64" Background="#FFB1CFAE" Click="enter_Click">Enter Region</Button>
+                <Button x:Name="enterRegion" Width="200" Margin="0,20,0,20" FontSize="24" Height="64" Background="#FFB1CFAE" Click="enterRegion_Click">Enter Region</Button>
                 
             </StackPanel>
-            <Button x:Name="exit" Grid.Row="1" Width="200" Margin="0,0,0,20" FontSize="16" Background="#FFB1CFAE" Click="exit_Click" Visibility="Collapsed" VerticalAlignment="Bottom">Exit Region</Button>
+            <Button x:Name="exitRegion" Grid.Row="1" Width="200" Margin="0,0,0,20" FontSize="16" Background="#FFB1CFAE" Click="exitRegion_Click" Visibility="Collapsed" VerticalAlignment="Bottom">Exit Region</Button>
         </Grid>
         <Grid x:Name="explorerControls" Grid.Column="1" Visibility="Collapsed">
             <Grid.RowDefinitions>
@@ -68,29 +68,31 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="160"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="20" Background="#B1082715">
+            <Grid x:Name="sceneTitleViewer" Margin="20" Background="#B1082715">
                 <Label x:Name="sceneTitle" Content="{Binding CurrentScene.Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,20,0,0" Foreground="#FFB1CFAE" FontFamily="Gabriola" BorderThickness="0">
                     <Label.Effect>
                         <DropShadowEffect/>
                     </Label.Effect>
                 </Label>
-                <TextBox x:Name="sceneTitleTextBox" FontSize="16" Margin="20,32,180,32" KeyUp="sceneTitleTextBox_KeyUp" Visibility="Collapsed"></TextBox>
-                <Button x:Name="saveSceneTitle" Width="70" FontSize="16" Margin="0,0,100,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="saveSceneTitle_Click" IsEnabled="False" Visibility="Collapsed">Save</Button>
-                <Button x:Name="cancelSceneTitle" FontSize="16" Width="70" Margin="10,0,20,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="cancelSceneTitle_Click" Visibility="Collapsed">Cancel</Button>
-            </Grid>
-            <Button x:Name="editSceneTitle" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,20,0" BorderThickness="0" ToolTip="Edit description" Click="editSceneTitle_Click">
-                <Button.Background>
-                    <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/Edit_grey_32x.png"/>
-                </Button.Background>
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center"
+                <Button x:Name="editSceneTitle" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="0" ToolTip="Edit description" Click="editSceneTitle_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/Edit_grey_32x.png"/>
+                    </Button.Background>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+            <Grid x:Name="sceneTitleEditor" Margin="20" Background="#B1082715" Visibility="Collapsed">
+                <TextBox x:Name="sceneTitleTextBox" FontSize="16" Margin="20,32,180,32" KeyUp="sceneTitleTextBox_KeyUp"/>
+                <Button x:Name="saveSceneTitle" Width="70" FontSize="16" Margin="0,0,100,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="saveSceneTitle_Click" IsEnabled="False">Save</Button>
+                <Button x:Name="cancelSceneTitle" FontSize="16" Width="70" Margin="10,0,20,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="cancelSceneTitle_Click">Cancel</Button>
+            </Grid>
             <Grid x:Name="sceneDescriptionViewer" Grid.Row="1" Margin="20,0" Background="#B1082715">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="20">
                     <TextBlock x:Name="sceneDescription" Text="{Binding CurrentScene.Description}" HorizontalAlignment="Center" FontSize="16" TextWrapping="Wrap" TextAlignment="Center" Foreground="#FFB1CFAE" FontFamily="Gabriola"/>
