@@ -69,12 +69,12 @@ namespace StoryExplorer.WpfApp
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
 			hideExplorerControls();
-			showRegionMenuControls();
+			ShowRegionMenuControls();
 		}
 
 		private void enter_Click(object sender, RoutedEventArgs e)
 		{
-			hideRegionMenuControls();
+			HideRegionMenuControls();
 			showExplorerControls();
 
 			var viewModel = (RegionExplorerViewModel)DataContext;
@@ -94,7 +94,7 @@ namespace StoryExplorer.WpfApp
 			RefreshSceneElements();
 		}
 
-		private void showRegionMenuControls()
+		private void ShowRegionMenuControls()
 		{
 			if (isOwner)
 			{
@@ -106,7 +106,7 @@ namespace StoryExplorer.WpfApp
 			enter.Visibility = Visibility.Visible;
 		}
 
-		private void hideRegionMenuControls()
+		private void HideRegionMenuControls()
 		{
 			editRegionDescription.Visibility = Visibility.Collapsed;
 			manageAuthors.Visibility = Visibility.Collapsed;
@@ -276,7 +276,7 @@ namespace StoryExplorer.WpfApp
 			regionDescriptionEditor.Visibility = Visibility.Collapsed;
 
 			regionDescription.Visibility = Visibility.Visible;
-			showRegionMenuControls();
+			ShowRegionMenuControls();
 		}
 
 		private void cancelRegionDescription_Click(object sender, RoutedEventArgs e)
@@ -298,7 +298,7 @@ namespace StoryExplorer.WpfApp
 		{
 			regionDescriptionCache = regionDescription.Text;
 			regionDescription.Visibility = Visibility.Collapsed;
-			hideRegionMenuControls();
+			HideRegionMenuControls();
 
 			regionDescriptionEditor.Visibility = Visibility.Visible;
 			regionDescriptionTextBox.Text = regionDescription.Text;
@@ -308,6 +308,7 @@ namespace StoryExplorer.WpfApp
 		{
 			sceneTitle.Visibility = Visibility.Collapsed;
 			editSceneTitle.Visibility = Visibility.Collapsed;
+			editSceneDescription.Visibility = Visibility.Collapsed;
 
 			sceneTitleTextBox.Visibility = Visibility.Visible;
 			saveSceneTitle.Visibility = Visibility.Visible;
@@ -337,6 +338,7 @@ namespace StoryExplorer.WpfApp
 
 			sceneTitle.Visibility = Visibility.Visible;
 			editSceneTitle.Visibility = Visibility.Visible;
+			editSceneDescription.Visibility = Visibility.Visible;
 			EnableAllDirectionalButtons();
 			exit.IsEnabled = true;
 			editSceneDescription.IsEnabled = true;
@@ -365,6 +367,9 @@ namespace StoryExplorer.WpfApp
 			sceneDescriptionTextBox.Text = viewModel.CurrentScene.Description;
 
 			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
+			editSceneTitle.Visibility = Visibility.Collapsed;
+			DisableAllDirectionalButtons();
+			exit.IsEnabled = false;
 			sceneDescriptionEditor.Visibility = Visibility.Visible;			
 		}
 
@@ -381,12 +386,18 @@ namespace StoryExplorer.WpfApp
 			BindingOperations.GetBindingExpressionBase(sceneDescription, TextBlock.TextProperty).UpdateTarget();
 
 			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			editSceneTitle.Visibility = Visibility.Visible;
+			EnableAllDirectionalButtons();
+			exit.IsEnabled = true;
 			sceneDescriptionViewer.Visibility = Visibility.Visible;
 		}
 
 		private void cancelSceneDescription_Click(object sender, RoutedEventArgs e)
 		{
 			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			editSceneTitle.Visibility = Visibility.Visible;
+			EnableAllDirectionalButtons();
+			exit.IsEnabled = true;
 			sceneDescriptionViewer.Visibility = Visibility.Visible;
 		}
 	}
