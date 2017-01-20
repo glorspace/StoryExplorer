@@ -48,9 +48,12 @@ namespace StoryExplorer.WpfApp
 				isOwner = false;
 				editRegionDescription.Visibility = Visibility.Collapsed;
 				manageAuthors.Visibility = Visibility.Collapsed;
-				mode.IsChecked = false;
-				mode.Visibility = Visibility.Collapsed;
-				viewModel.Mode = RegionMode.Explorer;
+				
+				if (!region.DesignatedAuthors.Contains(adventurer.Name))
+				{
+					mode.IsChecked = false;
+					mode.Visibility = Visibility.Collapsed;
+				}
 			}
 		}
 
@@ -91,6 +94,17 @@ namespace StoryExplorer.WpfApp
 
 			viewModel.Mode = mode.IsChecked.Value ? RegionMode.Author : RegionMode.Explorer;
 
+			if (viewModel.Mode == RegionMode.Author)
+			{
+				editSceneTitle.Visibility = Visibility.Visible;
+				editSceneDescription.Visibility = Visibility.Visible;
+			}
+			else if (viewModel.Mode == RegionMode.Explorer)
+			{
+				editSceneTitle.Visibility = Visibility.Collapsed;
+				editSceneDescription.Visibility = Visibility.Collapsed;
+			}
+
 			RefreshSceneElements();
 		}
 
@@ -99,8 +113,7 @@ namespace StoryExplorer.WpfApp
 			if (isOwner)
 			{
 				editRegionDescription.Visibility = Visibility.Visible;
-				manageAuthors.Visibility = Visibility.Visible;
-				mode.Visibility = Visibility.Visible;
+				regionMenuControls.Visibility = Visibility.Visible;
 			}
 			back.Visibility = Visibility.Visible;
 			enter.Visibility = Visibility.Visible;
@@ -109,10 +122,11 @@ namespace StoryExplorer.WpfApp
 		private void HideRegionMenuControls()
 		{
 			editRegionDescription.Visibility = Visibility.Collapsed;
-			manageAuthors.Visibility = Visibility.Collapsed;
+			regionMenuControls.Visibility = Visibility.Collapsed;
 			back.Visibility = Visibility.Collapsed;
-			mode.Visibility = Visibility.Collapsed;
 			enter.Visibility = Visibility.Collapsed;
+
+			
 		}
 
 		private void showExplorerControls()

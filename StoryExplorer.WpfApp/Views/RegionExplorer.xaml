@@ -54,12 +54,13 @@
                     <Button Width="80" Margin="10,0,0,0" FontSize="16" Background="#FFB1CFAE" Click="cancelRegionDescription_Click">Cancel</Button>
                 </WrapPanel>
             </Grid>
-            <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+            <StackPanel x:Name="regionMenuControls" Grid.Row="1" VerticalAlignment="Bottom">
                 <Button x:Name="manageAuthors" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE">Manage Authors</Button>
                 <CheckBox x:Name="mode" Foreground="#FFB1CFAE" Margin="29,10,0,0" IsChecked="True">Enable Author Mode</CheckBox>
                 <Button x:Name="enter" Width="200" Margin="0,20,0,20" FontSize="24" Height="64" Background="#FFB1CFAE" Click="enter_Click">Enter Region</Button>
-                <Button x:Name="exit" Width="200" Margin="0,0,0,10" FontSize="16" Background="#FFB1CFAE" Click="exit_Click" Visibility="Collapsed">Exit Region</Button>
+                
             </StackPanel>
+            <Button x:Name="exit" Grid.Row="1" Width="200" Margin="0,0,0,20" FontSize="16" Background="#FFB1CFAE" Click="exit_Click" Visibility="Collapsed" VerticalAlignment="Bottom">Exit Region</Button>
         </Grid>
         <Grid x:Name="explorerControls" Grid.Column="1" Visibility="Collapsed">
             <Grid.RowDefinitions>
