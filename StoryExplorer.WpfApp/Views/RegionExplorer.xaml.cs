@@ -71,14 +71,14 @@ namespace StoryExplorer.WpfApp
 
 		private void exit_Click(object sender, RoutedEventArgs e)
 		{
-			hideExplorerControls();
+			HideExplorerControls();
 			ShowRegionMenuControls();
 		}
 
 		private void enter_Click(object sender, RoutedEventArgs e)
 		{
 			HideRegionMenuControls();
-			showExplorerControls();
+			ShowExplorerControls();
 
 			var viewModel = (RegionExplorerViewModel)DataContext;
 
@@ -112,9 +112,9 @@ namespace StoryExplorer.WpfApp
 		{
 			if (isOwner)
 			{
-				editRegionDescription.Visibility = Visibility.Visible;
-				regionMenuControls.Visibility = Visibility.Visible;
+				editRegionDescription.Visibility = Visibility.Visible;				
 			}
+			regionMenuControls.Visibility = Visibility.Visible;
 			back.Visibility = Visibility.Visible;
 			enter.Visibility = Visibility.Visible;
 		}
@@ -129,13 +129,13 @@ namespace StoryExplorer.WpfApp
 			
 		}
 
-		private void showExplorerControls()
+		private void ShowExplorerControls()
 		{
 			exit.Visibility = Visibility.Visible;
 			explorerControls.Visibility = Visibility.Visible;
 		}
 
-		private void hideExplorerControls()
+		private void HideExplorerControls()
 		{
 			exit.Visibility = Visibility.Collapsed;
 			explorerControls.Visibility = Visibility.Hidden;
