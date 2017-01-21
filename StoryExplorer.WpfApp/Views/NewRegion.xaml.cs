@@ -56,10 +56,12 @@ namespace StoryExplorer.WpfApp
 			var viewModel = (NewRegionViewModel)DataContext;
 			viewModel.RegionName = regionName.Text;
 			var region = new Region(regionName.Text, viewModel.AdventurerName);
+			region.Description = regionDescription.Text;
 			var scene = new Scene()
 			{
 				Title = sceneTitle.Text,
-				Description = sceneDescription.Text
+				Description = sceneDescription.Text,
+				Coordinates = new Coordinates(0, 0, 0)
 			};
 			region.AddScene(scene);
 			region.Save();
