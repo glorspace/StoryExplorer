@@ -19,9 +19,15 @@ namespace StoryExplorer.WpfApp
 	/// </summary>
 	public partial class RegionExplorer : Window
 	{
+		#region Private Fields
+
 		private readonly Window previousWindow;
-		private bool goBack;
 		private readonly bool isOwner = true;
+		private bool goBack;
+
+		#endregion
+
+		#region Constructors
 
 		public RegionExplorer()
 		{
@@ -55,41 +61,12 @@ namespace StoryExplorer.WpfApp
 			}
 		}
 
-		private void Window_Closed(object sender, EventArgs e)
+		#endregion
+
+		#region Private Methods
+
+		private void SetRegionMode(RegionExplorerViewModel viewModel)
 		{
-			if (goBack)
-			{
-				previousWindow.Show();
-			}
-			else
-			{
-				previousWindow.Close();
-			}
-		}
-
-		private void exitRegion_Click(object sender, RoutedEventArgs e)
-		{
-			HideExplorerControls();
-			ShowRegionMenuControls();
-		}
-
-		private void enterRegion_Click(object sender, RoutedEventArgs e)
-		{
-			HideRegionMenuControls();
-			ShowExplorerControls();
-
-			var viewModel = (RegionExplorerViewModel)DataContext;
-
-			viewModel.Adventurer.CurrentRegion = viewModel.Region;
-			viewModel.Adventurer.CurrentRegionName = viewModel.Region.Name;
-
-			if (viewModel.Adventurer.CurrentPosition == null)
-			{
-				viewModel.Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
-			}
-
-			viewModel.Adventurer.Save();
-
 			viewModel.Mode = mode.IsChecked.HasValue && mode.IsChecked.Value ? RegionMode.Author : RegionMode.Explorer;
 
 			if (viewModel.Mode == RegionMode.Author)
@@ -102,8 +79,6 @@ namespace StoryExplorer.WpfApp
 				editSceneTitle.Visibility = Visibility.Collapsed;
 				editSceneDescription.Visibility = Visibility.Collapsed;
 			}
-
-			RefreshSceneElements();
 		}
 
 		private void ShowRegionMenuControls()
@@ -138,13 +113,10 @@ namespace StoryExplorer.WpfApp
 		private void RefreshSceneElements()
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.CurrentScene = viewModel.Region.GetScene(viewModel.Adventurer.CurrentPosition);
-			//BindingOperations.GetBindingExpressionBase(sceneTitle, Label.ContentProperty).UpdateTarget();
-			//BindingOperations.GetBindingExpressionBase(sceneDescription, TextBlock.TextProperty).UpdateTarget();
+			viewModel.RefreshCurrentScene();
+
 			sceneTitle.GetBindingExpression(ContentProperty)?.UpdateTarget();
 			sceneDescription.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
-
-			viewModel.CurrentScene.AllowableMoves = viewModel.Region.GetAllowableMoves(viewModel.CurrentScene);
 
 			RefreshDirectionalButtonColors(viewModel);
 			if (viewModel.Mode == RegionMode.Explorer)
@@ -197,9 +169,8 @@ namespace StoryExplorer.WpfApp
 		private bool AttemptMove(Direction direction)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			if (viewModel.Region.GetScene(viewModel.Adventurer.CurrentPosition.Peek(direction)) != null)
+			if (viewModel.AttemptMove(direction))
 			{
-				viewModel.Adventurer.CurrentPosition.Move(direction);
 				return true;
 			}
 			else
@@ -208,21 +179,138 @@ namespace StoryExplorer.WpfApp
 				{
 					if (MessageBox.Show("This scene has not yet been written. Would you like to create it now?", "Scene Creation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 					{
-						var scene = new Scene
-						{
-							Coordinates = viewModel.Adventurer.CurrentPosition.Peek(direction),
-							Title = String.Empty,
-							Description = String.Empty
-						};
-						viewModel.Region.Map.Add(scene);
-						viewModel.Adventurer.CurrentPosition.Move(direction);
-
-						RefreshSceneElements();
-						OpenSceneTitleEditor();
-						OpenSceneDescriptionEditor();
+						OpenNewSceneEditor(direction);
 					}
 				}
 				return false;				
+			}
+		}
+
+		private void OpenRegionDescriptionEditor()
+		{
+			regionDescriptionTextBox.Text = regionDescription.Text;
+			regionDescription.Visibility = Visibility.Collapsed;
+			HideRegionMenuControls();
+			regionDescriptionEditor.Visibility = Visibility.Visible;
+		}
+
+		private void CloseRegionDescriptionEditor()
+		{
+			regionDescriptionEditor.Visibility = Visibility.Collapsed;
+			ShowRegionMenuControls();
+			regionDescription.Visibility = Visibility.Visible;
+		}
+
+		private void OpenSceneTitleEditor()
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			sceneTitleTextBox.Text = viewModel.CurrentScene.Title;
+
+			sceneTitleViewer.Visibility = Visibility.Collapsed;
+			editSceneDescription.Visibility = Visibility.Collapsed;
+			HideDirectionalButtons();
+			exitRegion.Visibility = Visibility.Collapsed;
+
+			sceneTitleEditor.Visibility = Visibility.Visible;
+		}
+
+		private void CloseSceneTitleEditor()
+		{
+			sceneTitleEditor.Visibility = Visibility.Collapsed;
+			saveSceneTitle.IsEnabled = false;
+			sceneTitleViewer.Visibility = Visibility.Visible;
+			editSceneTitle.Visibility = Visibility.Visible;
+			editSceneDescription.Visibility = Visibility.Visible;
+			ShowDirectionalButtons();
+			exitRegion.Visibility = Visibility.Visible;
+			
+		}
+
+		private void OpenSceneDescriptionEditor()
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			sceneDescriptionTextBox.Text = viewModel.CurrentScene.Description;
+
+			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
+			sceneDescriptionEditor.Visibility = Visibility.Visible;
+			editSceneTitle.Visibility = Visibility.Collapsed;
+			HideDirectionalButtons();
+			exitRegion.Visibility = Visibility.Collapsed;
+		}
+
+		private void CloseSceneDescriptionEditor()
+		{
+			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			saveSceneDescription.IsEnabled = false;
+			sceneDescriptionViewer.Visibility = Visibility.Visible;
+			editSceneDescription.Visibility = Visibility.Visible;
+			editSceneTitle.Visibility = Visibility.Visible;
+			ShowDirectionalButtons();
+			exitRegion.Visibility = Visibility.Visible;
+		}
+
+		private void OpenNewSceneEditor(Direction direction)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.CreateNewScene(direction);			
+
+			sceneTitleViewer.Visibility = Visibility.Collapsed;
+			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
+			exitRegion.Visibility = Visibility.Collapsed;
+			HideDirectionalButtons();
+			newSceneTitleEditor.Visibility = Visibility.Visible;
+			newSceneDescriptionEditor.Visibility = Visibility.Visible;
+		}
+
+		private void CloseNewSceneEditor()
+		{
+			newSceneTitleEditor.Visibility = Visibility.Collapsed;
+			newSceneDescriptionEditor.Visibility = Visibility.Collapsed;
+			exitRegion.Visibility = Visibility.Visible;
+			RefreshSceneElements();
+			sceneTitleViewer.Visibility = Visibility.Visible;
+			sceneDescriptionViewer.Visibility = Visibility.Visible;
+		}
+
+		private void RefreshDesignatedAuthorsEditor()
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+
+			if (viewModel.NonAuthors.Count == 0)
+			{
+				addDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				addDesignatedAuthorsControls.Visibility = Visibility.Visible;
+			}
+
+			if (viewModel.Region.DesignatedAuthors.Count == 0)
+			{
+				removeDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				removeDesignatedAuthorsControls.Visibility = Visibility.Visible;
+			}
+
+			nonAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+			designatedAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+		}
+
+		#endregion
+
+		#region Event Handlers
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			if (goBack)
+			{
+				previousWindow.Show();
+			}
+			else
+			{
+				previousWindow.Close();
 			}
 		}
 
@@ -230,6 +318,24 @@ namespace StoryExplorer.WpfApp
 		{
 			goBack = true;
 			Close();
+		}
+
+		private void exitRegion_Click(object sender, RoutedEventArgs e)
+		{
+			HideExplorerControls();
+			ShowRegionMenuControls();
+		}
+
+		private void enterRegion_Click(object sender, RoutedEventArgs e)
+		{
+			HideRegionMenuControls();
+			ShowExplorerControls();
+
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.InitializeAdventurer();
+			SetRegionMode(viewModel);
+
+			RefreshSceneElements();
 		}
 
 		private void north_Click(object sender, RoutedEventArgs e)
@@ -290,21 +396,6 @@ namespace StoryExplorer.WpfApp
 			saveRegionDescription.IsEnabled = true;
 		}
 
-		private void OpenRegionDescriptionEditor()
-		{
-			regionDescriptionTextBox.Text = regionDescription.Text;
-			regionDescription.Visibility = Visibility.Collapsed;
-			HideRegionMenuControls();
-			regionDescriptionEditor.Visibility = Visibility.Visible;
-		}
-
-		private void CloseRegionDescriptionEditor()
-		{
-			regionDescriptionEditor.Visibility = Visibility.Collapsed;
-			ShowRegionMenuControls();
-			regionDescription.Visibility = Visibility.Visible;
-		}
-
 		private void cancelRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
 			CloseRegionDescriptionEditor();
@@ -313,9 +404,8 @@ namespace StoryExplorer.WpfApp
 		private void saveRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.Region.Description = regionDescriptionTextBox.Text;
+			viewModel.SetRegionDescription(regionDescriptionTextBox.Text);
 			regionDescription.Text = viewModel.Region.Description;
-			viewModel.Region.Save();
 
 			CloseRegionDescriptionEditor();
 		}
@@ -335,46 +425,11 @@ namespace StoryExplorer.WpfApp
 			saveSceneTitle.IsEnabled = true;
 		}
 
-		private void OpenSceneTitleEditor()
-		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
-			sceneTitleTextBox.Text = viewModel.CurrentScene.Title;
-
-			sceneTitleViewer.Visibility = Visibility.Collapsed;
-			editSceneDescription.Visibility = Visibility.Collapsed;
-			HideDirectionalButtons();
-			exitRegion.Visibility = Visibility.Collapsed;
-
-			sceneTitleEditor.Visibility = Visibility.Visible;
-		}
-
-		private void CloseSceneTitleEditor()
-		{
-			sceneTitleEditor.Visibility = Visibility.Collapsed;
-			sceneTitleViewer.Visibility = Visibility.Visible;
-			saveSceneTitle.IsEnabled = false;
-
-			if (sceneDescriptionEditor.Visibility == Visibility.Visible)
-			{
-				editSceneTitle.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				editSceneTitle.Visibility = Visibility.Visible;
-				editSceneDescription.Visibility = Visibility.Visible;
-				ShowDirectionalButtons();
-				exitRegion.Visibility = Visibility.Visible;
-			}
-		}
-
 		private void saveSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-
-			viewModel.CurrentScene.Title = sceneTitleTextBox.Text;
-			viewModel.Region.Save();
+			viewModel.SetCurrentSceneTitle(sceneTitleTextBox.Text);
 			sceneTitle.GetBindingExpression(ContentProperty)?.UpdateTarget();
-
 			CloseSceneTitleEditor();
 		}
 
@@ -388,37 +443,6 @@ namespace StoryExplorer.WpfApp
 			OpenSceneDescriptionEditor();
 		}
 
-		private void OpenSceneDescriptionEditor()
-		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
-			sceneDescriptionTextBox.Text = viewModel.CurrentScene.Description;
-
-			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
-			sceneDescriptionEditor.Visibility = Visibility.Visible;
-			editSceneTitle.Visibility = Visibility.Collapsed;
-			HideDirectionalButtons();
-			exitRegion.Visibility = Visibility.Collapsed;
-		}
-
-		private void CloseSceneDescriptionEditor()
-		{
-			sceneDescriptionEditor.Visibility = Visibility.Collapsed;
-			sceneDescriptionViewer.Visibility = Visibility.Visible;
-			saveSceneDescription.IsEnabled = false;
-
-			if (sceneTitleEditor.Visibility == Visibility.Visible)
-			{
-				editSceneDescription.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				editSceneDescription.Visibility = Visibility.Visible;
-				editSceneTitle.Visibility = Visibility.Visible;
-				ShowDirectionalButtons();
-				exitRegion.Visibility = Visibility.Visible;
-			}
-		}
-
 		private void sceneDescriptionTextBox_KeyUp(object sender, KeyEventArgs e)
 		{
 			saveSceneDescription.IsEnabled = true;
@@ -427,10 +451,8 @@ namespace StoryExplorer.WpfApp
 		private void saveSceneDescription_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.CurrentScene.Description = sceneDescriptionTextBox.Text;
-			viewModel.Region.Save();
+			viewModel.SetCurrentSceneDescription(sceneDescriptionTextBox.Text);
 			sceneDescription.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
-
 			CloseSceneDescriptionEditor();
 		}
 
@@ -442,8 +464,7 @@ namespace StoryExplorer.WpfApp
 		private void addDesignatedAuthor_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.Region.DesignatedAuthors.Add((String)nonAuthors.SelectedItem);
-			viewModel.Region.Save();
+			viewModel.AddDesignatedAuthor((string)nonAuthors.SelectedItem);
 			RefreshDesignatedAuthorsEditor();
 			addDesignatedAuthor.IsEnabled = false;
 		}
@@ -451,9 +472,7 @@ namespace StoryExplorer.WpfApp
 		private void removeDesignatedAuthor_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.Region.DesignatedAuthors.Remove((String)designatedAuthors.SelectedItem);
-			viewModel.Region.Save();
-
+			viewModel.RemoveDesignatedAuthor((string)designatedAuthors.SelectedItem);
 			RefreshDesignatedAuthorsEditor();
 			removeDesignatedAuthor.IsEnabled = false;
 		}
@@ -476,37 +495,37 @@ namespace StoryExplorer.WpfApp
 			RefreshDesignatedAuthorsEditor();
 		}
 
-		private void RefreshDesignatedAuthorsEditor()
-		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
-
-			if (viewModel.NonAuthors.Count == 0)
-			{
-				addDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				addDesignatedAuthorsControls.Visibility = Visibility.Visible;
-			}
-
-			if (viewModel.Region.DesignatedAuthors.Count == 0)
-			{
-				removeDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				removeDesignatedAuthorsControls.Visibility = Visibility.Visible;
-			}
-
-			nonAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-			designatedAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
-		}
-
 		private void exitDesignatedAuthorsEditor_Click(object sender, RoutedEventArgs e)
 		{
 			designatedAuthorsEditor.Visibility = Visibility.Collapsed;
 			regionDescriptionViewer.Visibility = Visibility.Visible;
 			ShowRegionMenuControls();
 		}
+
+		private void newSceneDescriptionTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			saveNewScene.IsEnabled = !String.IsNullOrWhiteSpace(newSceneTitleTextBox.Text) && !String.IsNullOrWhiteSpace(newSceneDescriptionTextBox.Text);
+		}
+
+		private void newSceneTitleTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			saveNewScene.IsEnabled = !String.IsNullOrWhiteSpace(newSceneTitleTextBox.Text) && !String.IsNullOrWhiteSpace(newSceneDescriptionTextBox.Text);
+		}
+
+		private void saveNewScene_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.CurrentScene.Title = newSceneTitleTextBox.Text;
+			viewModel.CurrentScene.Description = newSceneDescriptionTextBox.Text;
+			viewModel.SaveNewScene();
+			CloseNewSceneEditor();
+		}
+
+		private void cancelNewScene_Click(object sender, RoutedEventArgs e)
+		{
+			CloseNewSceneEditor();
+		}
+
+		#endregion
 	}
 }

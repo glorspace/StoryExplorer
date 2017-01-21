@@ -44,5 +44,92 @@ namespace StoryExplorer.WpfApp
 				return authors;
 			}
 		}
+
+		public void InitializeAdventurer()
+		{
+			if (Adventurer.CurrentRegionName != Region.Name)
+			{
+				Adventurer.CurrentRegionName = Region.Name;
+				Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
+			}
+
+			Adventurer.CurrentRegion = Region;
+
+			if (Adventurer.CurrentPosition == null)
+			{
+				Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
+			}
+
+			Adventurer.Save();
+		}
+
+		public void SetRegionDescription(string description)
+		{
+			Region.Description = description;
+			Region.Save();
+		}
+
+		public void AddDesignatedAuthor(string name)
+		{
+			Region.DesignatedAuthors.Add(name);
+			Region.Save();
+		}
+
+		public void RemoveDesignatedAuthor(string name)
+		{
+			Region.DesignatedAuthors.Remove(name);
+			Region.Save();
+		}
+
+		public void SetCurrentSceneTitle(string title)
+		{
+			CurrentScene.Title = title;
+			Region.Save();
+		}
+
+		public void SetCurrentSceneDescription(string description)
+		{
+			CurrentScene.Description = description;
+			Region.Save();
+		}
+
+		public void RefreshCurrentScene()
+		{
+			CurrentScene = Region.GetScene(Adventurer.CurrentPosition);
+			CurrentScene.AllowableMoves = Region.GetAllowableMoves(CurrentScene);
+		}
+
+		public bool AttemptMove(Direction direction)
+		{
+			if (Region.GetScene(Adventurer.CurrentPosition.Peek(direction)) != null)
+			{
+				Adventurer.CurrentPosition.Move(direction);
+				Adventurer.Save();
+				return true;
+			}
+
+			return false;
+		}
+
+		public void CreateNewScene(Direction direction)
+		{
+			var scene = new Scene
+			{
+				Coordinates = Adventurer.CurrentPosition.Peek(direction),
+				Title = String.Empty,
+				Description = String.Empty
+			};
+			CurrentScene = scene;
+			//Region.Map.Add(scene);
+			//Adventurer.CurrentPosition.Move(direction);
+		}
+
+		public void SaveNewScene()
+		{
+			Region.Map.Add(CurrentScene);
+			Region.Save();
+			Adventurer.CurrentPosition = new Coordinates(CurrentScene.Coordinates.X, CurrentScene.Coordinates.Y, CurrentScene.Coordinates.Z);
+			Adventurer.Save();
+		}
 	}
 }

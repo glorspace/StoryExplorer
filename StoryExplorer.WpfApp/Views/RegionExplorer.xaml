@@ -91,7 +91,7 @@
                         <DropShadowEffect/>
                     </Label.Effect>
                 </Label>
-                <Button x:Name="editSceneTitle" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="0" ToolTip="Edit description" Click="editSceneTitle_Click">
+                <Button x:Name="editSceneTitle" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="0" ToolTip="Edit title" Click="editSceneTitle_Click">
                     <Button.Background>
                         <ImageBrush ImageSource="/StoryExplorer.WpfApp;component/Images/Edit_grey_32x.png"/>
                     </Button.Background>
@@ -109,6 +109,9 @@
                 <TextBox x:Name="sceneTitleTextBox" FontSize="16" Margin="20,30,180,30" KeyUp="sceneTitleTextBox_KeyUp"/>
                 <Button x:Name="saveSceneTitle" Width="70" FontSize="16" Margin="0,0,100,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="saveSceneTitle_Click" IsEnabled="False">Save</Button>
                 <Button x:Name="cancelSceneTitle" FontSize="16" Width="70" Margin="10,0,20,0" HorizontalAlignment="Right" Height="36" Background="#FFB1CFAE" Click="cancelSceneTitle_Click">Cancel</Button>
+            </Grid>
+            <Grid x:Name="newSceneTitleEditor" Margin="20" Background="#B1082715" Visibility="Collapsed">
+                <TextBox x:Name="newSceneTitleTextBox" FontSize="16" Margin="20,30" KeyUp="newSceneTitleTextBox_KeyUp"/>
             </Grid>
             <Grid x:Name="sceneDescriptionViewer" Grid.Row="1" Margin="20,0" Background="#B1082715">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="20">
@@ -135,6 +138,15 @@
                 <WrapPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <Button x:Name="saveSceneDescription" Width="70" FontSize="16" Margin="0,0,10,20" Height="36" Background="#FFB1CFAE" IsEnabled="False" VerticalAlignment="Bottom" Click="saveSceneDescription_Click">Save</Button>
                     <Button x:Name="cancelSceneDescription" FontSize="16" Width="70" Margin="10,0,0,20" Height="36" Background="#FFB1CFAE" VerticalAlignment="Bottom" Click="cancelSceneDescription_Click">Cancel</Button>
+                </WrapPanel>
+            </Grid>
+            <Grid x:Name="newSceneDescriptionEditor" Grid.Row="1" Margin="20,0" Visibility="Collapsed" Background="#B1082715">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="20,20,20,76">
+                    <TextBox x:Name="newSceneDescriptionTextBox" TextWrapping="Wrap" KeyUp="newSceneDescriptionTextBox_KeyUp"/>
+                </ScrollViewer>
+                <WrapPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <Button x:Name="saveNewScene" Width="70" FontSize="16" Margin="0,0,10,20" Height="36" Background="#FFB1CFAE" IsEnabled="False" VerticalAlignment="Bottom" Click="saveNewScene_Click">Save</Button>
+                    <Button x:Name="cancelNewScene" FontSize="16" Width="70" Margin="10,0,0,20" Height="36" Background="#FFB1CFAE" VerticalAlignment="Bottom" Click="cancelNewScene_Click">Cancel</Button>
                 </WrapPanel>
             </Grid>
             <Grid Grid.Row="2">
