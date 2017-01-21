@@ -120,7 +120,7 @@ namespace StoryExplorer.WpfApp
 
 			RefreshDirectionalButtonColors(viewModel);
 			if (viewModel.Mode == RegionMode.Explorer)
-				RefreshDirectionalButtonEnables(viewModel);
+				RefreshDirectionalButtonVisibility(viewModel);
 			else
 				ShowDirectionalButtons();
 		}
@@ -144,6 +144,22 @@ namespace StoryExplorer.WpfApp
 			up.IsEnabled = viewModel.CurrentScene.AllowableMoves.Contains(Direction.Up);
 			down.IsEnabled = viewModel.CurrentScene.AllowableMoves.Contains(Direction.Down);
 
+		}
+
+		private void RefreshDirectionalButtonVisibility(RegionExplorerViewModel viewModel)
+		{
+			north.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.North));
+			east.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.East));
+			south.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.South));
+			west.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.West));
+			up.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.Up));
+			down.Visibility = ConvertBooleanToVisibility(viewModel.CurrentScene.AllowableMoves.Contains(Direction.Down));
+
+		}
+
+		private Visibility ConvertBooleanToVisibility(bool allowableMove)
+		{
+			return allowableMove ? Visibility.Visible : Visibility.Hidden;
 		}
 
 		private void ShowDirectionalButtons()
