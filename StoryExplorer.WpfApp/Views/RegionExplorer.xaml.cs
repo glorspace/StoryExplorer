@@ -438,5 +438,75 @@ namespace StoryExplorer.WpfApp
 		{
 			CloseSceneDescriptionEditor();
 		}
+
+		private void addDesignatedAuthor_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.Region.DesignatedAuthors.Add((String)nonAuthors.SelectedItem);
+			viewModel.Region.Save();
+			RefreshDesignatedAuthorsEditor();
+			addDesignatedAuthor.IsEnabled = false;
+		}
+
+		private void removeDesignatedAuthor_Click(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+			viewModel.Region.DesignatedAuthors.Remove((String)designatedAuthors.SelectedItem);
+			viewModel.Region.Save();
+
+			RefreshDesignatedAuthorsEditor();
+			removeDesignatedAuthor.IsEnabled = false;
+		}
+
+		private void nonAuthors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			addDesignatedAuthor.IsEnabled = true;
+		}
+
+		private void designatedAuthors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			removeDesignatedAuthor.IsEnabled = true;
+		}
+
+		private void manageAuthors_Click(object sender, RoutedEventArgs e)
+		{
+			HideRegionMenuControls();
+			regionDescriptionViewer.Visibility = Visibility.Collapsed;
+			designatedAuthorsEditor.Visibility = Visibility.Visible;
+			RefreshDesignatedAuthorsEditor();
+		}
+
+		private void RefreshDesignatedAuthorsEditor()
+		{
+			var viewModel = (RegionExplorerViewModel)DataContext;
+
+			if (viewModel.NonAuthors.Count == 0)
+			{
+				addDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				addDesignatedAuthorsControls.Visibility = Visibility.Visible;
+			}
+
+			if (viewModel.Region.DesignatedAuthors.Count == 0)
+			{
+				removeDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				removeDesignatedAuthorsControls.Visibility = Visibility.Visible;
+			}
+
+			nonAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+			designatedAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+		}
+
+		private void exitDesignatedAuthorsEditor_Click(object sender, RoutedEventArgs e)
+		{
+			designatedAuthorsEditor.Visibility = Visibility.Collapsed;
+			regionDescriptionViewer.Visibility = Visibility.Visible;
+			ShowRegionMenuControls();
+		}
 	}
 }
