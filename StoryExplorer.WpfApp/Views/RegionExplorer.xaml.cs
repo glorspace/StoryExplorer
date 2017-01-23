@@ -420,7 +420,7 @@ namespace StoryExplorer.WpfApp
 		private void saveRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.SetRegionDescription(regionDescriptionTextBox.Text);
+			viewModel.SetRegionDescription(regionDescriptionTextBox.Text.Trim());
 			regionDescription.Text = viewModel.Region.Description;
 
 			CloseRegionDescriptionEditor();
@@ -444,7 +444,7 @@ namespace StoryExplorer.WpfApp
 		private void saveSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.SetCurrentSceneTitle(sceneTitleTextBox.Text);
+			viewModel.SetCurrentSceneTitle(sceneTitleTextBox.Text.Trim());
 			sceneTitle.GetBindingExpression(ContentProperty)?.UpdateTarget();
 			CloseSceneTitleEditor();
 		}
@@ -467,7 +467,7 @@ namespace StoryExplorer.WpfApp
 		private void saveSceneDescription_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.SetCurrentSceneDescription(sceneDescriptionTextBox.Text);
+			viewModel.SetCurrentSceneDescription(sceneDescriptionTextBox.Text.Trim());
 			sceneDescription.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
 			CloseSceneDescriptionEditor();
 		}
@@ -531,8 +531,8 @@ namespace StoryExplorer.WpfApp
 		private void saveNewScene_Click(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (RegionExplorerViewModel)DataContext;
-			viewModel.CurrentScene.Title = newSceneTitleTextBox.Text;
-			viewModel.CurrentScene.Description = newSceneDescriptionTextBox.Text;
+			viewModel.CurrentScene.Title = newSceneTitleTextBox.Text.Trim();
+			viewModel.CurrentScene.Description = newSceneDescriptionTextBox.Text.Trim();
 			viewModel.SaveNewScene();
 			CloseNewSceneEditor();
 		}

@@ -47,7 +47,7 @@ namespace StoryExplorer.WpfApp
 			{
 				try
 				{
-					var newAdventurer = new Adventurer(adventurerName.Text);
+					var newAdventurer = new Adventurer(adventurerName.Text.Trim());
 					newAdventurer.Password = adventurerPassword.Password;
 					newAdventurer.Gender = (Gender)selectGender.SelectedItem;
 					newAdventurer.HairColor = (HairColor)selectHairColor.SelectedItem;
