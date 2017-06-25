@@ -1,0 +1,27 @@
+﻿CREATE TABLE [dbo].[Adventurer] (
+    [Id]               INT           NOT NULL,
+    [Name]             VARCHAR (50) NULL,
+    [Password]         VARCHAR (50) NULL,
+    [GenderId]         INT           NULL,
+    [HairColorId]      INT           NULL,
+    [HairStyleId]      INT           NULL,
+    [SkinColorId]      INT           NULL,
+    [EyeColorId]       INT    NULL,
+    [PersonalityId]    INT           NULL,
+    [HeightId]         INT           NULL,
+    [CurrentRegionId]  INT           NULL,
+    [CurrentPositionX] INT           NULL,
+    [CurrentPositionY] INT           NULL,
+    [CurrentPositionZ] INT           NULL,
+    [Created]          DATETIME      NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC), 
+    CONSTRAINT [FK_Adventurer_Gender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([Id]), 
+    CONSTRAINT [FK_Adventurer_HairColor] FOREIGN KEY ([HairColorId]) REFERENCES [HairColor]([Id]), 
+    CONSTRAINT [FK_Adventurer_HairStyle] FOREIGN KEY ([HairStyleId]) REFERENCES [HairStyle]([Id]), 
+    CONSTRAINT [FK_Adventurer_SkinColor] FOREIGN KEY ([SkinColorId]) REFERENCES [SkinColor]([Id]), 
+    CONSTRAINT [FK_Adventurer_EyeColor] FOREIGN KEY ([EyeColorId]) REFERENCES [EyeColor]([Id]), 
+    CONSTRAINT [FK_Adventurer_Personality] FOREIGN KEY ([PersonalityId]) REFERENCES [Personality]([Id]), 
+    CONSTRAINT [FK_Adventurer_Height] FOREIGN KEY ([HeightId]) REFERENCES [Height]([Id]), 
+    CONSTRAINT [FK_Adventurer_Region] FOREIGN KEY ([CurrentRegionId]) REFERENCES [Region]([Id])
+);
+
