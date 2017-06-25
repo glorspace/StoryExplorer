@@ -59,6 +59,7 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="Reference Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Gender.sql" />
@@ -73,5 +74,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="StoryExplorer.Database.publish.xml" />
+    <None Include="Reference Data\Gender.data.sql" />
+    <None Include="Reference Data\EyeColor.data.sql" />
+    <None Include="Reference Data\HairColor.data.sql" />
+    <None Include="Reference Data\HairStyle.data.sql" />
+    <None Include="Reference Data\Height.data.sql" />
+    <None Include="Reference Data\Personality.data.sql" />
+    <None Include="Reference Data\SkinColor.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Reference Data\Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>
