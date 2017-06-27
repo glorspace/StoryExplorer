@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="074f1f81-bc79-4d91-b1b0-d8234ae04bbb" ChangeDateTime="06/27/2017 00:40:15">
+    <Property Name="ElementName" Value="[dbo].[Scene].[NorthAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NorthAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e5667049-b9aa-40e8-8b48-344b3ec7201f" ChangeDateTime="06/27/2017 00:40:19">
+    <Property Name="ElementName" Value="[dbo].[Scene].[EastAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EastAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bf6b5d7d-3b6f-4192-a35b-a636a6d82f88" ChangeDateTime="06/27/2017 00:40:23">
+    <Property Name="ElementName" Value="[dbo].[Scene].[SouthAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SouthAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="35f95c47-7287-4f2a-9569-c4d7b6d86c6d" ChangeDateTime="06/27/2017 00:40:26">
+    <Property Name="ElementName" Value="[dbo].[Scene].[WestAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WestAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a4d7deb1-8859-4c60-9b1a-96a1ca41b1b4" ChangeDateTime="06/27/2017 00:40:29">
+    <Property Name="ElementName" Value="[dbo].[Scene].[UpAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UpAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3dac71c1-f2c5-4dec-8160-86b8f0289c50" ChangeDateTime="06/27/2017 00:40:34">
+    <Property Name="ElementName" Value="[dbo].[Scene].[DownAllowable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DownAllowed" />
+  </Operation>
+</Operations>

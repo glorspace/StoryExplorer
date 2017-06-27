@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Height]
 (
 	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
-    [Name] VARCHAR(50) NULL
+    [Name] VARCHAR(50) NOT NULL
 )
