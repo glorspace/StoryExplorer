@@ -42,4 +42,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DownAllowed" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="d74f6ae7-1933-4940-b482-e84f07e9897b" ChangeDateTime="06/27/2017 01:32:58">
+    <Property Name="ElementName" Value="[dbo].[RegionDesignatedAuthor].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RegionDesignatedAuthor]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8c1cf0e3-c898-4070-b198-441f87ad41da" ChangeDateTime="06/27/2017 01:37:33">
+    <Property Name="ElementName" Value="[dbo].[RegionScene].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RegionScene]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RegionId" />
+  </Operation>
 </Operations>

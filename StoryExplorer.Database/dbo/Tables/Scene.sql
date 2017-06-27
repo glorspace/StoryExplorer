@@ -11,5 +11,7 @@
     [SouthAllowed] BIT NOT NULL, 
     [WestAllowed] BIT NOT NULL, 
     [UpAllowed] BIT NOT NULL, 
-    [DownAllowed] BIT NOT NULL
+    [DownAllowed] BIT NOT NULL, 
+    [RegionId] INT NOT NULL, 
+    CONSTRAINT [FK_Scene_Region] FOREIGN KEY ([RegionId]) REFERENCES [Region]([Id])
 )
