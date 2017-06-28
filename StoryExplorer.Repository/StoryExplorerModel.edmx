@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StoryExplorerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adventurer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GenderId" Type="int" Nullable="false" />
+          <Property Name="HairColorId" Type="int" Nullable="false" />
+          <Property Name="HairStyleId" Type="int" Nullable="false" />
+          <Property Name="SkinColorId" Type="int" Nullable="false" />
+          <Property Name="EyeColorId" Type="int" Nullable="false" />
+          <Property Name="PersonalityId" Type="int" Nullable="false" />
+          <Property Name="HeightId" Type="int" Nullable="false" />
+          <Property Name="CurrentRegionId" Type="int" />
+          <Property Name="CurrentPositionX" Type="int" />
+          <Property Name="CurrentPositionY" Type="int" />
+          <Property Name="CurrentPositionZ" Type="int" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EyeColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HairColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HairStyle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Height">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RegionDesignatedAuthor">
+          <Key>
+            <PropertyRef Name="RegionId" />
+            <PropertyRef Name="DesignatedAuthorId" />
+          </Key>
+          <Property Name="RegionId" Type="int" Nullable="false" />
+          <Property Name="DesignatedAuthorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Scene">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="X" Type="int" Nullable="false" />
+          <Property Name="Y" Type="int" Nullable="false" />
+          <Property Name="Z" Type="int" Nullable="false" />
+          <Property Name="NorthAllowed" Type="bit" Nullable="false" />
+          <Property Name="EastAllowed" Type="bit" Nullable="false" />
+          <Property Name="SouthAllowed" Type="bit" Nullable="false" />
+          <Property Name="WestAllowed" Type="bit" Nullable="false" />
+          <Property Name="UpAllowed" Type="bit" Nullable="false" />
+          <Property Name="DownAllowed" Type="bit" Nullable="false" />
+          <Property Name="RegionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SkinColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Adventurer_EyeColor">
+          <End Role="EyeColor" Type="Self.EyeColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EyeColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="EyeColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_HairColor">
+          <End Role="HairColor" Type="Self.HairColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HairColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HairColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_HairStyle">
+          <End Role="HairStyle" Type="Self.HairStyle" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HairStyle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HairStyleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Height">
+          <End Role="Height" Type="Self.Height" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Height">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HeightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Personality">
+          <End Role="Personality" Type="Self.Personality" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="PersonalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="CurrentRegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_SkinColor">
+          <End Role="SkinColor" Type="Self.SkinColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SkinColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="SkinColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegionDesignatedAuthor_Adventurer">
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="1" />
+          <End Role="RegionDesignatedAuthor" Type="Self.RegionDesignatedAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adventurer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RegionDesignatedAuthor">
+              <PropertyRef Name="DesignatedAuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegionDesignatedAuthor_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="RegionDesignatedAuthor" Type="Self.RegionDesignatedAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RegionDesignatedAuthor">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scene_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Scene" Type="Self.Scene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Scene">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoryExplorerModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Adventurer" EntityType="Self.Adventurer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EyeColor" EntityType="Self.EyeColor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HairColor" EntityType="Self.HairColor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HairStyle" EntityType="Self.HairStyle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Height" EntityType="Self.Height" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personality" EntityType="Self.Personality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegionDesignatedAuthor" EntityType="Self.RegionDesignatedAuthor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Scene" EntityType="Self.Scene" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SkinColor" EntityType="Self.SkinColor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Adventurer_EyeColor" Association="Self.FK_Adventurer_EyeColor">
+            <End Role="EyeColor" EntitySet="EyeColor" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Gender" Association="Self.FK_Adventurer_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_HairColor" Association="Self.FK_Adventurer_HairColor">
+            <End Role="HairColor" EntitySet="HairColor" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_HairStyle" Association="Self.FK_Adventurer_HairStyle">
+            <End Role="HairStyle" EntitySet="HairStyle" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Height" Association="Self.FK_Adventurer_Height">
+            <End Role="Height" EntitySet="Height" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Personality" Association="Self.FK_Adventurer_Personality">
+            <End Role="Personality" EntitySet="Personality" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Region" Association="Self.FK_Adventurer_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_SkinColor" Association="Self.FK_Adventurer_SkinColor">
+            <End Role="SkinColor" EntitySet="SkinColor" />
+            <End Role="Adventurer" EntitySet="Adventurer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegionDesignatedAuthor_Adventurer" Association="Self.FK_RegionDesignatedAuthor_Adventurer">
+            <End Role="Adventurer" EntitySet="Adventurer" />
+            <End Role="RegionDesignatedAuthor" EntitySet="RegionDesignatedAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegionDesignatedAuthor_Region" Association="Self.FK_RegionDesignatedAuthor_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="RegionDesignatedAuthor" EntitySet="RegionDesignatedAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scene_Region" Association="Self.FK_Scene_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Scene" EntitySet="Scene" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StoryExplorerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adventurer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="HairColorId" Type="Int32" Nullable="false" />
+          <Property Name="HairStyleId" Type="Int32" Nullable="false" />
+          <Property Name="SkinColorId" Type="Int32" Nullable="false" />
+          <Property Name="EyeColorId" Type="Int32" Nullable="false" />
+          <Property Name="PersonalityId" Type="Int32" Nullable="false" />
+          <Property Name="HeightId" Type="Int32" Nullable="false" />
+          <Property Name="CurrentRegionId" Type="Int32" />
+          <Property Name="CurrentPositionX" Type="Int32" />
+          <Property Name="CurrentPositionY" Type="Int32" />
+          <Property Name="CurrentPositionZ" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EyeColor" Relationship="Self.FK_Adventurer_EyeColor" FromRole="Adventurer" ToRole="EyeColor" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK_Adventurer_Gender" FromRole="Adventurer" ToRole="Gender" />
+          <NavigationProperty Name="HairColor" Relationship="Self.FK_Adventurer_HairColor" FromRole="Adventurer" ToRole="HairColor" />
+          <NavigationProperty Name="HairStyle" Relationship="Self.FK_Adventurer_HairStyle" FromRole="Adventurer" ToRole="HairStyle" />
+          <NavigationProperty Name="Height" Relationship="Self.FK_Adventurer_Height" FromRole="Adventurer" ToRole="Height" />
+          <NavigationProperty Name="Personality" Relationship="Self.FK_Adventurer_Personality" FromRole="Adventurer" ToRole="Personality" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Adventurer_Region" FromRole="Adventurer" ToRole="Region" />
+          <NavigationProperty Name="SkinColor" Relationship="Self.FK_Adventurer_SkinColor" FromRole="Adventurer" ToRole="SkinColor" />
+          <NavigationProperty Name="Regions" Relationship="Self.RegionDesignatedAuthor" FromRole="Adventurer" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="EyeColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_EyeColor" FromRole="EyeColor" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_Gender" FromRole="Gender" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="HairColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_HairColor" FromRole="HairColor" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="HairStyle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_HairStyle" FromRole="HairStyle" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="Height">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_Height" FromRole="Height" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="Personality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_Personality" FromRole="Personality" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_Region" FromRole="Region" ToRole="Adventurer" />
+          <NavigationProperty Name="Scenes" Relationship="Self.FK_Scene_Region" FromRole="Region" ToRole="Scene" />
+          <NavigationProperty Name="Adventurers1" Relationship="Self.RegionDesignatedAuthor" FromRole="Region" ToRole="Adventurer" />
+        </EntityType>
+        <EntityType Name="Scene">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="X" Type="Int32" Nullable="false" />
+          <Property Name="Y" Type="Int32" Nullable="false" />
+          <Property Name="Z" Type="Int32" Nullable="false" />
+          <Property Name="NorthAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="EastAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="SouthAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="WestAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="UpAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="DownAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Scene_Region" FromRole="Scene" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="SkinColor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Adventurers" Relationship="Self.FK_Adventurer_SkinColor" FromRole="SkinColor" ToRole="Adventurer" />
+        </EntityType>
+        <Association Name="FK_Adventurer_EyeColor">
+          <End Role="EyeColor" Type="Self.EyeColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EyeColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="EyeColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_HairColor">
+          <End Role="HairColor" Type="Self.HairColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HairColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HairColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_HairStyle">
+          <End Role="HairStyle" Type="Self.HairStyle" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HairStyle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HairStyleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Height">
+          <End Role="Height" Type="Self.Height" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Height">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="HeightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Personality">
+          <End Role="Personality" Type="Self.Personality" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="PersonalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="CurrentRegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adventurer_SkinColor">
+          <End Role="SkinColor" Type="Self.SkinColor" Multiplicity="1" />
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SkinColor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adventurer">
+              <PropertyRef Name="SkinColorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scene_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Scene" Type="Self.Scene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Scene">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RegionDesignatedAuthor">
+          <End Role="Adventurer" Type="Self.Adventurer" Multiplicity="*" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="StoryExplorerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="Adventurers" EntityType="Self.Adventurer" />
+          <EntitySet Name="EyeColors" EntityType="Self.EyeColor" />
+          <EntitySet Name="Genders" EntityType="Self.Gender" />
+          <EntitySet Name="HairColors" EntityType="Self.HairColor" />
+          <EntitySet Name="HairStyles" EntityType="Self.HairStyle" />
+          <EntitySet Name="Heights" EntityType="Self.Height" />
+          <EntitySet Name="Personalities" EntityType="Self.Personality" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="Scenes" EntityType="Self.Scene" />
+          <EntitySet Name="SkinColors" EntityType="Self.SkinColor" />
+          <AssociationSet Name="FK_Adventurer_EyeColor" Association="Self.FK_Adventurer_EyeColor">
+            <End Role="EyeColor" EntitySet="EyeColors" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Gender" Association="Self.FK_Adventurer_Gender">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_HairColor" Association="Self.FK_Adventurer_HairColor">
+            <End Role="HairColor" EntitySet="HairColors" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_HairStyle" Association="Self.FK_Adventurer_HairStyle">
+            <End Role="HairStyle" EntitySet="HairStyles" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Height" Association="Self.FK_Adventurer_Height">
+            <End Role="Height" EntitySet="Heights" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Personality" Association="Self.FK_Adventurer_Personality">
+            <End Role="Personality" EntitySet="Personalities" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_Region" Association="Self.FK_Adventurer_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adventurer_SkinColor" Association="Self.FK_Adventurer_SkinColor">
+            <End Role="SkinColor" EntitySet="SkinColors" />
+            <End Role="Adventurer" EntitySet="Adventurers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scene_Region" Association="Self.FK_Scene_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Scene" EntitySet="Scenes" />
+          </AssociationSet>
+          <AssociationSet Name="RegionDesignatedAuthor" Association="Self.RegionDesignatedAuthor">
+            <End Role="Adventurer" EntitySet="Adventurers" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StoryExplorerModelStoreContainer" CdmEntityContainer="StoryExplorerEntities">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="StoryExplorerModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Adventurers">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Adventurer">
+              <MappingFragment StoreEntitySet="Adventurer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="HairColorId" ColumnName="HairColorId" />
+                <ScalarProperty Name="HairStyleId" ColumnName="HairStyleId" />
+                <ScalarProperty Name="SkinColorId" ColumnName="SkinColorId" />
+                <ScalarProperty Name="EyeColorId" ColumnName="EyeColorId" />
+                <ScalarProperty Name="PersonalityId" ColumnName="PersonalityId" />
+                <ScalarProperty Name="HeightId" ColumnName="HeightId" />
+                <ScalarProperty Name="CurrentRegionId" ColumnName="CurrentRegionId" />
+                <ScalarProperty Name="CurrentPositionX" ColumnName="CurrentPositionX" />
+                <ScalarProperty Name="CurrentPositionY" ColumnName="CurrentPositionY" />
+                <ScalarProperty Name="CurrentPositionZ" ColumnName="CurrentPositionZ" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EyeColors">
+            <EntityTypeMapping TypeName="StoryExplorerModel.EyeColor">
+              <MappingFragment StoreEntitySet="EyeColor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HairColors">
+            <EntityTypeMapping TypeName="StoryExplorerModel.HairColor">
+              <MappingFragment StoreEntitySet="HairColor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HairStyles">
+            <EntityTypeMapping TypeName="StoryExplorerModel.HairStyle">
+              <MappingFragment StoreEntitySet="HairStyle">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Heights">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Height">
+              <MappingFragment StoreEntitySet="Height">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personalities">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Personality">
+              <MappingFragment StoreEntitySet="Personality">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scenes">
+            <EntityTypeMapping TypeName="StoryExplorerModel.Scene">
+              <MappingFragment StoreEntitySet="Scene">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="Z" ColumnName="Z" />
+                <ScalarProperty Name="NorthAllowed" ColumnName="NorthAllowed" />
+                <ScalarProperty Name="EastAllowed" ColumnName="EastAllowed" />
+                <ScalarProperty Name="SouthAllowed" ColumnName="SouthAllowed" />
+                <ScalarProperty Name="WestAllowed" ColumnName="WestAllowed" />
+                <ScalarProperty Name="UpAllowed" ColumnName="UpAllowed" />
+                <ScalarProperty Name="DownAllowed" ColumnName="DownAllowed" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SkinColors">
+            <EntityTypeMapping TypeName="StoryExplorerModel.SkinColor">
+              <MappingFragment StoreEntitySet="SkinColor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RegionDesignatedAuthor" TypeName="StoryExplorerModel.RegionDesignatedAuthor" StoreEntitySet="RegionDesignatedAuthor">
+            <EndProperty Name="Adventurer">
+              <ScalarProperty Name="Id" ColumnName="DesignatedAuthorId" />
+            </EndProperty>
+            <EndProperty Name="Region">
+              <ScalarProperty Name="Id" ColumnName="RegionId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

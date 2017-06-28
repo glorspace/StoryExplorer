@@ -12,44 +12,44 @@ using StoryExplorer.Repository;
 
 namespace StoryExplorer.Api.Controllers
 {
-    public class RegionsController : ApiController
+    public class HairColorsController : ApiController
     {
         private StoryExplorerEntities db = new StoryExplorerEntities();
 
-        // GET: api/Regions
-        public IQueryable<Region> GetRegions()
+        // GET: api/HairColors
+        public IQueryable<HairColor> GetHairColors()
         {
-            return db.Regions;
+            return db.HairColors;
         }
 
-        // GET: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult GetRegion(int id)
+        // GET: api/HairColors/5
+        [ResponseType(typeof(HairColor))]
+        public IHttpActionResult GetHairColor(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            HairColor hairColor = db.HairColors.Find(id);
+            if (hairColor == null)
             {
                 return NotFound();
             }
 
-            return Ok(region);
+            return Ok(hairColor);
         }
 
-        // PUT: api/Regions/5
+        // PUT: api/HairColors/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRegion(int id, Region region)
+        public IHttpActionResult PutHairColor(int id, HairColor hairColor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != region.Id)
+            if (id != hairColor.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(region).State = EntityState.Modified;
+            db.Entry(hairColor).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace StoryExplorer.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RegionExists(id))
+                if (!HairColorExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace StoryExplorer.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Regions
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult PostRegion(Region region)
+        // POST: api/HairColors
+        [ResponseType(typeof(HairColor))]
+        public IHttpActionResult PostHairColor(HairColor hairColor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Regions.Add(region);
+            db.HairColors.Add(hairColor);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = region.Id }, region);
+            return CreatedAtRoute("DefaultApi", new { id = hairColor.Id }, hairColor);
         }
 
-        // DELETE: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult DeleteRegion(int id)
+        // DELETE: api/HairColors/5
+        [ResponseType(typeof(HairColor))]
+        public IHttpActionResult DeleteHairColor(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            HairColor hairColor = db.HairColors.Find(id);
+            if (hairColor == null)
             {
                 return NotFound();
             }
 
-            db.Regions.Remove(region);
+            db.HairColors.Remove(hairColor);
             db.SaveChanges();
 
-            return Ok(region);
+            return Ok(hairColor);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace StoryExplorer.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RegionExists(int id)
+        private bool HairColorExists(int id)
         {
-            return db.Regions.Count(e => e.Id == id) > 0;
+            return db.HairColors.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -12,44 +12,44 @@ using StoryExplorer.Repository;
 
 namespace StoryExplorer.Api.Controllers
 {
-    public class RegionsController : ApiController
+    public class PersonalitiesController : ApiController
     {
         private StoryExplorerEntities db = new StoryExplorerEntities();
 
-        // GET: api/Regions
-        public IQueryable<Region> GetRegions()
+        // GET: api/Personalities
+        public IQueryable<Personality> GetPersonalities()
         {
-            return db.Regions;
+            return db.Personalities;
         }
 
-        // GET: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult GetRegion(int id)
+        // GET: api/Personalities/5
+        [ResponseType(typeof(Personality))]
+        public IHttpActionResult GetPersonality(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Personality personality = db.Personalities.Find(id);
+            if (personality == null)
             {
                 return NotFound();
             }
 
-            return Ok(region);
+            return Ok(personality);
         }
 
-        // PUT: api/Regions/5
+        // PUT: api/Personalities/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRegion(int id, Region region)
+        public IHttpActionResult PutPersonality(int id, Personality personality)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != region.Id)
+            if (id != personality.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(region).State = EntityState.Modified;
+            db.Entry(personality).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace StoryExplorer.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RegionExists(id))
+                if (!PersonalityExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace StoryExplorer.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Regions
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult PostRegion(Region region)
+        // POST: api/Personalities
+        [ResponseType(typeof(Personality))]
+        public IHttpActionResult PostPersonality(Personality personality)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Regions.Add(region);
+            db.Personalities.Add(personality);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = region.Id }, region);
+            return CreatedAtRoute("DefaultApi", new { id = personality.Id }, personality);
         }
 
-        // DELETE: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult DeleteRegion(int id)
+        // DELETE: api/Personalities/5
+        [ResponseType(typeof(Personality))]
+        public IHttpActionResult DeletePersonality(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Personality personality = db.Personalities.Find(id);
+            if (personality == null)
             {
                 return NotFound();
             }
 
-            db.Regions.Remove(region);
+            db.Personalities.Remove(personality);
             db.SaveChanges();
 
-            return Ok(region);
+            return Ok(personality);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace StoryExplorer.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RegionExists(int id)
+        private bool PersonalityExists(int id)
         {
-            return db.Regions.Count(e => e.Id == id) > 0;
+            return db.Personalities.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -12,44 +12,44 @@ using StoryExplorer.Repository;
 
 namespace StoryExplorer.Api.Controllers
 {
-    public class RegionsController : ApiController
+    public class GendersController : ApiController
     {
         private StoryExplorerEntities db = new StoryExplorerEntities();
 
-        // GET: api/Regions
-        public IQueryable<Region> GetRegions()
+        // GET: api/Genders
+        public IQueryable<Gender> GetGenders()
         {
-            return db.Regions;
+            return db.Genders;
         }
 
-        // GET: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult GetRegion(int id)
+        // GET: api/Genders/5
+        [ResponseType(typeof(Gender))]
+        public IHttpActionResult GetGender(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Gender gender = db.Genders.Find(id);
+            if (gender == null)
             {
                 return NotFound();
             }
 
-            return Ok(region);
+            return Ok(gender);
         }
 
-        // PUT: api/Regions/5
+        // PUT: api/Genders/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRegion(int id, Region region)
+        public IHttpActionResult PutGender(int id, Gender gender)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != region.Id)
+            if (id != gender.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(region).State = EntityState.Modified;
+            db.Entry(gender).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace StoryExplorer.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RegionExists(id))
+                if (!GenderExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace StoryExplorer.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Regions
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult PostRegion(Region region)
+        // POST: api/Genders
+        [ResponseType(typeof(Gender))]
+        public IHttpActionResult PostGender(Gender gender)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Regions.Add(region);
+            db.Genders.Add(gender);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = region.Id }, region);
+            return CreatedAtRoute("DefaultApi", new { id = gender.Id }, gender);
         }
 
-        // DELETE: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult DeleteRegion(int id)
+        // DELETE: api/Genders/5
+        [ResponseType(typeof(Gender))]
+        public IHttpActionResult DeleteGender(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Gender gender = db.Genders.Find(id);
+            if (gender == null)
             {
                 return NotFound();
             }
 
-            db.Regions.Remove(region);
+            db.Genders.Remove(gender);
             db.SaveChanges();
 
-            return Ok(region);
+            return Ok(gender);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace StoryExplorer.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RegionExists(int id)
+        private bool GenderExists(int id)
         {
-            return db.Regions.Count(e => e.Id == id) > 0;
+            return db.Genders.Count(e => e.Id == id) > 0;
         }
     }
 }

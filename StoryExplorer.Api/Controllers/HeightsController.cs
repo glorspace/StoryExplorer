@@ -12,44 +12,44 @@ using StoryExplorer.Repository;
 
 namespace StoryExplorer.Api.Controllers
 {
-    public class RegionsController : ApiController
+    public class HeightsController : ApiController
     {
         private StoryExplorerEntities db = new StoryExplorerEntities();
 
-        // GET: api/Regions
-        public IQueryable<Region> GetRegions()
+        // GET: api/Heights
+        public IQueryable<Height> GetHeights()
         {
-            return db.Regions;
+            return db.Heights;
         }
 
-        // GET: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult GetRegion(int id)
+        // GET: api/Heights/5
+        [ResponseType(typeof(Height))]
+        public IHttpActionResult GetHeight(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Height height = db.Heights.Find(id);
+            if (height == null)
             {
                 return NotFound();
             }
 
-            return Ok(region);
+            return Ok(height);
         }
 
-        // PUT: api/Regions/5
+        // PUT: api/Heights/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRegion(int id, Region region)
+        public IHttpActionResult PutHeight(int id, Height height)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != region.Id)
+            if (id != height.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(region).State = EntityState.Modified;
+            db.Entry(height).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace StoryExplorer.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RegionExists(id))
+                if (!HeightExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace StoryExplorer.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Regions
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult PostRegion(Region region)
+        // POST: api/Heights
+        [ResponseType(typeof(Height))]
+        public IHttpActionResult PostHeight(Height height)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Regions.Add(region);
+            db.Heights.Add(height);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = region.Id }, region);
+            return CreatedAtRoute("DefaultApi", new { id = height.Id }, height);
         }
 
-        // DELETE: api/Regions/5
-        [ResponseType(typeof(Region))]
-        public IHttpActionResult DeleteRegion(int id)
+        // DELETE: api/Heights/5
+        [ResponseType(typeof(Height))]
+        public IHttpActionResult DeleteHeight(int id)
         {
-            Region region = db.Regions.Find(id);
-            if (region == null)
+            Height height = db.Heights.Find(id);
+            if (height == null)
             {
                 return NotFound();
             }
 
-            db.Regions.Remove(region);
+            db.Heights.Remove(height);
             db.SaveChanges();
 
-            return Ok(region);
+            return Ok(height);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace StoryExplorer.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RegionExists(int id)
+        private bool HeightExists(int id)
         {
-            return db.Regions.Count(e => e.Id == id) > 0;
+            return db.Heights.Count(e => e.Id == id) > 0;
         }
     }
 }
