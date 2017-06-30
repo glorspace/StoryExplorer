@@ -1,4 +1,4 @@
-<dom-module id="se-new-adventurer">
+<dom-module id="se-edit-adventurer">
     <template>
         <iron-ajax
             auto
@@ -29,12 +29,16 @@
             url="http://leviathan/StoryExplorer/Api/Heights"
             last-response="{{heights}}"></iron-ajax>
         <iron-ajax
-            id="createRequest"
+            auto
+            url="http://leviathan/StoryExplorer/Api/Adventurers/1"
+            last-response="{{adventurer}}"></iron-ajax>
+        <iron-ajax
+            id="updateRequest"
             url="http://leviathan/StoryExplorer/Api/Adventurers"
-            method="POST"
+            method="PUT"
             content-type="application/json"
             body="{{adventurer}}"></iron-ajax>
-        <paper-card heading="New Adventurer" class="cyan">
+        <paper-card heading="Edit Adventurer">
             <div class="card-content">
                 <paper-input label="Name" value="{{adventurer.Name}}"></paper-input>
                 <paper-input label="Password" value="{{adventurer.Password}}"></paper-input>
@@ -90,7 +94,7 @@
                 </paper-dropdown-menu>
             </div>
             <div class="card-actions">
-                <paper-button on-click="createAdventurer">Create</paper-button>
+                <paper-button on-click="updateAdventurer">Update</paper-button>
             </div>
         </paper-card>
     </template>
@@ -101,8 +105,8 @@
             properties: {
                 adventurer: { type: Object, notify: true, value: {}}
             },
-            createAdventurer: function () {
-                this.$.createRequest.generateRequest()
+            updateAdventurer: function () {
+                this.$.updateRequest.generateRequest()
             }
         });
     </script>
