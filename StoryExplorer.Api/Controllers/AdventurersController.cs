@@ -79,6 +79,7 @@ namespace StoryExplorer.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            adventurer.Created = DateTime.Now;
             db.Adventurers.Add(adventurer);
             db.SaveChanges();
 

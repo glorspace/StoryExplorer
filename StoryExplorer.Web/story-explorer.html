@@ -1,0 +1,40 @@
+<link rel="import" href="elements.html">
+<link rel="import" href="custom-elements/se-new-adventurer.html">
+
+<dom-module id="story-explorer">
+    <template>
+        <style is="custom-style">
+            :root {
+                --paper-card-header: {
+                    background-color: lightgreen;
+                };
+                --paper-card-actions: {
+                    background-color: green;
+                };
+                --paper-card: {
+                    box-sizing: border-box;
+                    max-width: 600px;
+                    margin: 3px;
+                    flex: 0 0 auto;                    
+                };
+                --paper-button: {
+                    background-color: white;
+                };
+            }
+        </style>
+
+        <se-new-adventurer></se-new-adventurer>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'story-explorer',
+            properties: {
+                newAdventurer: { type: Object, notify: true, value: {}}
+            },
+            createAdventurer: function () {
+                this.$.createRequest.generateRequest()
+            }
+        });
+    </script>
+</dom-module>
