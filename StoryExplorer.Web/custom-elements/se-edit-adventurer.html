@@ -103,21 +103,17 @@
         Polymer({
             is: 'se-edit-adventurer',
             properties: {
-                adventurer: { type: Object, notify: true, value: {}},
+                adventurer: { type: Object, notify: true},
                 adventurerId: { type: Number, notify: true }
             },
             updateAdventurer: function () {
-                self = this;
-                this.genders.forEach(function (gender) {
-                    if (self.adventurer.GenderId = gender.Id) {
-                        self.adventurer.Gender = gender;
-                    }                    
-                });
-                this.hairColors.forEach(function (hairColor) {
-                    if (self.adventurer.HairColorId = hairColor.Id) {
-                        self.adventurer.HairColor = hairColor;
-                    }                    
-                });
+                this.adventurer.Gender = null;
+                this.adventurer.HairColor = null;
+                this.adventurer.HairStyle = null;
+                this.adventurer.SkinColor = null;
+                this.adventurer.EyeColor = null;
+                this.adventurer.Personality = null;
+                this.adventurer.Height = null;
                 this.$.updateRequest.generateRequest()
             },
             getApiUrl: function (id) {
