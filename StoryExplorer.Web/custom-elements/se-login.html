@@ -1,0 +1,65 @@
+<dom-module id="se-login">
+    <template>
+        <iron-ajax
+            auto
+            id="getRequest"
+            url="http://leviathan/StoryExplorer/Api/Adventurers"
+            last-response="{{adventurers}}"></iron-ajax>
+        <iron-ajax
+            id="deleteRequest"
+            url="{{getApiUrl(adventurer.Id)}}"
+            method="DELETE"
+            content-type="application/json"
+            on-response="deleteResponse"
+            body="{{adventurer}}"></iron-ajax>
+        <paper-card heading="Login">
+            <div class="card-content">
+                <paper-dropdown-menu label="Adventurer">
+                    <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="{{adventurer}}">
+                        <template is="dom-repeat" items="{{adventurers}}">                    
+                            <paper-item value="{{item}}">{{item.Name}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>                
+                <paper-input label="Password" type="password" value="{{passwordAttempt}}"></paper-input>
+            </div>
+            <template is="dom-if" if="{{wrongPassword}}">
+                Password incorrect.
+            </template>
+            <div class="card-actions">
+                <paper-button on-click="checkPassword">Login</paper-button>
+                <paper-button on-click="changeToNew">New</paper-button>
+                <paper-button on-click="deleteAdventurer">Delete</paper-button>
+            </div>
+        </paper-card>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'se-login',
+            properties: {
+                adventurer: { type: Object, notify: true, value: {}},
+                passwordAttempt: { type: String }
+            },
+            checkPassword: function () {
+                if (this.passwordAttempt === this.adventurer.Password) {
+                    this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'edit', id: this.adventurer.Id}, bubbles: true, composed: true}));
+                } else {
+                    this.wrongPassword = true;
+                }
+            },
+            changeToNew: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'new'}, bubbles: true, composed: true}));
+            },
+            deleteAdventurer: function () {
+                this.$.deleteRequest.generateRequest();
+            },
+            deleteResponse: function () {                
+                this.$.getRequest.generateRequest();
+            },
+            getApiUrl: function (id) {
+                return 'http://leviathan/StoryExplorer/Api/Adventurers/' + id;
+            }
+        });
+    </script>
+</dom-module>

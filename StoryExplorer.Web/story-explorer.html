@@ -1,4 +1,5 @@
 <link rel="import" href="elements.html">
+<link rel="import" href="custom-elements/se-login.html">
 <link rel="import" href="custom-elements/se-new-adventurer.html">
 <link rel="import" href="custom-elements/se-edit-adventurer.html">
 
@@ -23,15 +24,28 @@
                 };
             }
         </style>
-        <iron-pages selected='1'>
-            <se-new-adventurer></se-new-adventurer>
-            <se-edit-adventurer adventurer-id='13'></se-edit-adventurer>
+        <iron-pages attr-for-selected="value" selected="{{selectedView}}">
+            <se-login value="login"></se-login>
+            <se-new-adventurer value="new"></se-new-adventurer>
+            <se-edit-adventurer value="edit" adventurer-id="{{selectedAdventurerId}}"></se-edit-adventurer>
         </iron-pages>
     </template>
 
     <script>
         Polymer({
-            is: 'story-explorer'
+            is: 'story-explorer',
+            properties: {
+                selectedView: { type: String, notify: true, value: 'login'},
+                selectedAdventurerId: { type: Number, notify: true }
+            },
+            ready: function () {
+                self = this;
+                window.addEventListener('change-view', function (e) {
+                    self.selectedView = e.detail.view;
+                    if (e.detail.id)
+                        self.selectedAdventurerId = e.detail.id;
+                });
+            }
         });
     </script>
 </dom-module>
