@@ -5,13 +5,6 @@
             id="getRequest"
             url="http://leviathan/StoryExplorer/Api/Adventurers"
             last-response="{{adventurers}}"></iron-ajax>
-        <iron-ajax
-            id="deleteRequest"
-            url="{{getApiUrl(adventurer.Id)}}"
-            method="DELETE"
-            content-type="application/json"
-            on-response="deleteResponse"
-            body="{{adventurer}}"></iron-ajax>
         <paper-card heading="Login">
             <div class="card-content">
                 <paper-dropdown-menu label="Adventurer">
@@ -29,7 +22,6 @@
             <div class="card-actions">
                 <paper-button on-click="checkPassword">Login</paper-button>
                 <paper-button on-click="changeToNew">New</paper-button>
-                <paper-button on-click="deleteAdventurer">Delete</paper-button>
             </div>
         </paper-card>
     </template>
@@ -41,21 +33,23 @@
                 adventurer: { type: Object, notify: true, value: {}},
                 passwordAttempt: { type: String }
             },
+            ready: function () {
+                var self = this;
+                window.addEventListener('refresh-login', function (e) {
+                    self.$.getRequest.generateRequest();
+                    self.passwordAttempt = '';
+                });
+            },
             checkPassword: function () {
                 if (this.passwordAttempt === this.adventurer.Password) {
-                    this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'edit', id: this.adventurer.Id}, bubbles: true, composed: true}));
+                    this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'adventurer', id: this.adventurer.Id}, bubbles: true, composed: true}));
                 } else {
                     this.wrongPassword = true;
                 }
             },
             changeToNew: function () {
-                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'new'}, bubbles: true, composed: true}));
-            },
-            deleteAdventurer: function () {
-                this.$.deleteRequest.generateRequest();
-            },
-            deleteResponse: function () {                
-                this.$.getRequest.generateRequest();
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'new-adventurer'}, bubbles: true, composed: true}));
+                this.dispatchEvent(new CustomEvent('refresh-new-adventurer', {bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
                 return 'http://leviathan/StoryExplorer/Api/Adventurers/' + id;

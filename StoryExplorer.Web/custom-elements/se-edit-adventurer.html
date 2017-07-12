@@ -37,6 +37,7 @@
             url="{{getApiUrl(adventurerId)}}"
             method="PUT"
             content-type="application/json"
+            on-response="updateResponse"
             body="{{adventurer}}"></iron-ajax>
         <paper-card heading="Edit Adventurer">
             <div class="card-content">
@@ -94,7 +95,8 @@
                 </paper-dropdown-menu>
             </div>
             <div class="card-actions">
-                <paper-button on-click="updateAdventurer">Update</paper-button>
+                <paper-button on-click="updateAdventurer">Save</paper-button>
+                <paper-button on-click="cancel">Cancel</paper-button>
             </div>
         </paper-card>
     </template>
@@ -114,7 +116,14 @@
                 this.adventurer.EyeColor = null;
                 this.adventurer.Personality = null;
                 this.adventurer.Height = null;
-                this.$.updateRequest.generateRequest()
+                this.$.updateRequest.generateRequest();
+            },
+            updateResponse: function () {                
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'adventurer'}, bubbles: true, composed: true}));                
+                this.dispatchEvent(new CustomEvent('refresh-adventurer', {bubbles: true, composed: true}));
+            },
+            cancel: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'adventurer'}, bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
                 return 'http://leviathan/StoryExplorer/Api/Adventurers/' + id;

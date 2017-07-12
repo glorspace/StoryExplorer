@@ -1,5 +1,6 @@
 <link rel="import" href="elements.html">
 <link rel="import" href="custom-elements/se-login.html">
+<link rel="import" href="custom-elements/se-adventurer.html">
 <link rel="import" href="custom-elements/se-new-adventurer.html">
 <link rel="import" href="custom-elements/se-edit-adventurer.html">
 
@@ -26,8 +27,9 @@
         </style>
         <iron-pages attr-for-selected="value" selected="{{selectedView}}">
             <se-login value="login"></se-login>
-            <se-new-adventurer value="new"></se-new-adventurer>
-            <se-edit-adventurer value="edit" adventurer-id="{{selectedAdventurerId}}"></se-edit-adventurer>
+            <se-adventurer value="adventurer" adventurer-id="{{selectedAdventurerId}}"></se-adventurer>
+            <se-new-adventurer value="new-adventurer"></se-new-adventurer>
+            <se-edit-adventurer value="edit-adventurer" adventurer-id="{{selectedAdventurerId}}"></se-edit-adventurer>
         </iron-pages>
     </template>
 
