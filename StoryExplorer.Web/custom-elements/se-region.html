@@ -1,0 +1,65 @@
+<dom-module id="se-region">
+    <template>
+        <iron-ajax
+            auto
+            id="getRequest"
+            url="{{getApiUrl(regionId)}}"
+            last-response="{{region}}"></iron-ajax>
+        <iron-ajax
+            id="deleteRequest"
+            url="{{getApiUrl(region.Id)}}"
+            method="DELETE"
+            content-type="application/json"
+            on-response="deleteResponse"
+            body="{{region}}"></iron-ajax>
+        <paper-card heading="{{region.Name}}">
+            <div class="card-content">
+                {{region.Description}}
+            </div>
+            <div class="card-actions">
+                <paper-button on-click="edit">Edit</paper-button>
+                <paper-button on-click="changeDesignatedAuthors">Change Designated Authors</paper-button>
+                <paper-button on-click="goToRegionMenu">Previous</paper-button>
+                <paper-button on-click="deleteRegion">Delete</paper-button>
+                <paper-button on-click="enter">Enter Region</paper-button>
+            </div>
+        </paper-card>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'se-region',
+            properties: {
+                region: { type: Object, notify: true}
+            },
+            ready: function () {
+                var self = this;
+                window.addEventListener('refresh-region', function (e) {
+                    self.$.getRequest.generateRequest();
+                });
+            },
+            edit: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'edit-region'}, bubbles: true, composed: true}));
+            },
+            deleteRegion: function () {
+                this.$.deleteRequest.generateRequest();
+            },
+            deleteResponse: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
+                this.dispatchEvent(new CustomEvent('refresh-region-menu', {bubbles: true, composed: true}));
+            },
+            changeDesignatedAuthors: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'designated-authors'}, bubbles: true, composed: true}));
+            },
+            goToRegionMenu: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
+            },
+            enter: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'explorer'}, bubbles: true, composed: true}));
+            },
+            getApiUrl: function (id) {
+                return 'http://leviathan/StoryExplorer/Api/Regions/' + id;
+            }
+        });
+    </script>
+</dom-module>

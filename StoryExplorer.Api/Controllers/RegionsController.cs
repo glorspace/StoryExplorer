@@ -19,7 +19,7 @@ namespace StoryExplorer.Api.Controllers
         // GET: api/Regions
         public IQueryable<Region> GetRegions()
         {
-            return db.Regions;
+            return db.Regions.Include("Scenes");
         }
 
         // GET: api/Regions/5
@@ -78,6 +78,8 @@ namespace StoryExplorer.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            region.Created = DateTime.Now;
 
             db.Regions.Add(region);
             db.SaveChanges();

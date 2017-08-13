@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdventurersController.cs" />
+    <Compile Include="Controllers\DesignatedAuthorsController.cs" />
     <Compile Include="Controllers\EyeColorsController.cs" />
     <Compile Include="Controllers\GendersController.cs" />
     <Compile Include="Controllers\HairColorsController.cs" />

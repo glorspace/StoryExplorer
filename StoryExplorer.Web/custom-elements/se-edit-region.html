@@ -1,0 +1,48 @@
+<dom-module id="se-edit-region">
+    <template>
+        <iron-ajax
+            auto
+            url="{{getApiUrl(regionId)}}"
+            last-response="{{region}}"></iron-ajax>
+        <iron-ajax
+            id="updateRequest"
+            url="{{getApiUrl(regionId)}}"
+            method="PUT"
+            content-type="application/json"
+            on-response="updateResponse"
+            body="{{region}}"></iron-ajax>
+        <paper-card heading="Edit Region">
+            <div class="card-content">
+                <paper-input label="Name" value="{{region.Name}}"></paper-input>
+                <paper-textarea label="Description" value="{{region.Description}}" rows=4 maxRows=4 always-float-label></paper-textarea> 
+            </div>
+            <div class="card-actions">
+                <paper-button on-click="updateRegion">Save</paper-button>
+                <paper-button on-click="cancel">Cancel</paper-button>
+            </div>
+        </paper-card>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'se-edit-region',
+            properties: {
+                region: { type: Object, notify: true},
+                regionId: { type: Number, notify: true }
+            },
+            updateRegion: function () {
+                this.$.updateRequest.generateRequest();
+            },
+            updateResponse: function () {                
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region'}, bubbles: true, composed: true}));                
+                this.dispatchEvent(new CustomEvent('refresh-region', {bubbles: true, composed: true}));
+            },
+            cancel: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region'}, bubbles: true, composed: true}));
+            },
+            getApiUrl: function (id) {
+                return 'http://leviathan/StoryExplorer/Api/Regions/' + id;
+            }
+        });
+    </script>
+</dom-module>

@@ -2,34 +2,6 @@
     <template>
         <iron-ajax
             auto
-            url="http://leviathan/StoryExplorer/Api/Genders"
-            last-response="{{genders}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/HairColors"
-            last-response="{{hairColors}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/HairStyles"
-            last-response="{{hairStyles}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/SkinColors"
-            last-response="{{skinColors}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/EyeColors"
-            last-response="{{eyeColors}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/Personalities"
-            last-response="{{personalities}}"></iron-ajax>
-        <iron-ajax
-            auto
-            url="http://leviathan/StoryExplorer/Api/Heights"
-            last-response="{{heights}}"></iron-ajax>
-        <iron-ajax
-            auto
             url="{{getApiUrl(adventurerId)}}"
             last-response="{{adventurer}}"></iron-ajax>
         <iron-ajax

@@ -4,7 +4,8 @@
             auto
             id="getRequest"
             url="http://leviathan/StoryExplorer/Api/Adventurers"
-            last-response="{{adventurers}}"></iron-ajax>
+            last-response="{{adventurers}}"
+            on-response="getResponse"></iron-ajax>
         <paper-card heading="Login">
             <div class="card-content">
                 <paper-dropdown-menu label="Adventurer">
@@ -50,6 +51,9 @@
             changeToNew: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'new-adventurer'}, bubbles: true, composed: true}));
                 this.dispatchEvent(new CustomEvent('refresh-new-adventurer', {bubbles: true, composed: true}));
+            },
+            getResponse: function () {
+                this.dispatchEvent(new CustomEvent('load-adventurer-attributes', {bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
                 return 'http://leviathan/StoryExplorer/Api/Adventurers/' + id;

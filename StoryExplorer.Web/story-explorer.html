@@ -3,16 +3,21 @@
 <link rel="import" href="custom-elements/se-adventurer.html">
 <link rel="import" href="custom-elements/se-new-adventurer.html">
 <link rel="import" href="custom-elements/se-edit-adventurer.html">
+<link rel="import" href="custom-elements/se-region-menu.html">
+<link rel="import" href="custom-elements/se-new-region.html">
+<link rel="import" href="custom-elements/se-region.html">
+<link rel="import" href="custom-elements/se-edit-region.html">
+<link rel="import" href="custom-elements/se-designated-authors.html">
 
 <dom-module id="story-explorer">
     <template>
         <style is="custom-style">
             :root {
                 --paper-card-header: {
-                    background-color: lightgreen;
+                    background-color: saddlebrown;
                 };
                 --paper-card-actions: {
-                    background-color: green;
+                    background-color: saddlebrown;
                 };
                 --paper-card: {
                     box-sizing: border-box;
@@ -24,12 +29,59 @@
                     background-color: white;
                 };
             }
-        </style>
+        </style>        
+        <iron-ajax
+            id="gendersRequest"
+            url="http://leviathan/StoryExplorer/Api/Genders"
+            last-response="{{genders}}"></iron-ajax>
+        <iron-ajax
+            id="hairColorsRequest"
+            url="http://leviathan/StoryExplorer/Api/HairColors"
+            last-response="{{hairColors}}"></iron-ajax>
+        <iron-ajax
+            id="hairStylesRequest"
+            url="http://leviathan/StoryExplorer/Api/HairStyles"
+            last-response="{{hairStyles}}"></iron-ajax>
+        <iron-ajax
+            id="skinColorsRequest"
+            url="http://leviathan/StoryExplorer/Api/SkinColors"
+            last-response="{{skinColors}}"></iron-ajax>
+        <iron-ajax
+            id="eyeColorsRequest"
+            url="http://leviathan/StoryExplorer/Api/EyeColors"
+            last-response="{{eyeColors}}"></iron-ajax>
+        <iron-ajax
+            id="personalitiesRequest"
+            url="http://leviathan/StoryExplorer/Api/Personalities"
+            last-response="{{personalities}}"></iron-ajax>
+        <iron-ajax
+            id="heightsRequest"
+            url="http://leviathan/StoryExplorer/Api/Heights"
+            last-response="{{heights}}"></iron-ajax>
         <iron-pages attr-for-selected="value" selected="{{selectedView}}">
             <se-login value="login"></se-login>
             <se-adventurer value="adventurer" adventurer-id="{{selectedAdventurerId}}"></se-adventurer>
-            <se-new-adventurer value="new-adventurer"></se-new-adventurer>
-            <se-edit-adventurer value="edit-adventurer" adventurer-id="{{selectedAdventurerId}}"></se-edit-adventurer>
+            <se-new-adventurer value="new-adventurer"
+                genders={{genders}}
+                hair-colors={{hairColors}}
+                hair-styles={{hairStyles}}
+                skin-colors={{skinColors}}
+                eye-colors={{eyeColors}}
+                personalities={{personalities}}
+                heights={{heights}}></se-new-adventurer>
+            <se-edit-adventurer value="edit-adventurer" adventurer-id="{{selectedAdventurerId}}"
+                genders={{genders}}
+                hair-colors={{hairColors}}
+                hair-styles={{hairStyles}}
+                skin-colors={{skinColors}}
+                eye-colors={{eyeColors}}
+                personalities={{personalities}}
+                heights={{heights}}></se-edit-adventurer>
+            <se-region-menu value="region-menu" adventurer-id="{{selectedAdventurerId}}"></se-region-menu>
+            <se-new-region value="new-region" adventurer-id="{{selectedAdventurerId}}"></se-new-region>
+            <se-region value="region" region-id="{{selectedRegionId}}" adventurer-id="{{selectedAdventurerId}}"></se-region>
+            <se-edit-region value="edit-region" region-id="{{selectedRegionId}}"></se-edit-region>
+            <se-designated-authors value="designated-authors" region-id="{{selectedRegionId}}" adventurer-id="{{selectedAdventurerId}}"></se-designated-authors>
         </iron-pages>
     </template>
 
@@ -38,7 +90,8 @@
             is: 'story-explorer',
             properties: {
                 selectedView: { type: String, notify: true, value: 'login'},
-                selectedAdventurerId: { type: Number, notify: true }
+                selectedAdventurerId: { type: Number, notify: true },
+                selectedRegionId: { type: Number, notify: true }
             },
             ready: function () {
                 self = this;
@@ -46,6 +99,19 @@
                     self.selectedView = e.detail.view;
                     if (e.detail.id)
                         self.selectedAdventurerId = e.detail.id;
+                    if (e.detail.adventurerId)
+                        self.selectedAdventurerId = e.detail.adventurerId;
+                    if (e.detail.regionId)
+                        self.selectedRegionId = e.detail.regionId;                    
+                });
+                window.addEventListener('load-adventurer-attributes', function (e) {
+                    self.$.gendersRequest.generateRequest();
+                    self.$.hairColorsRequest.generateRequest();
+                    self.$.hairStylesRequest.generateRequest();
+                    self.$.skinColorsRequest.generateRequest();
+                    self.$.eyeColorsRequest.generateRequest();
+                    self.$.personalitiesRequest.generateRequest();
+                    self.$.heightsRequest.generateRequest();
                 });
             }
         });
