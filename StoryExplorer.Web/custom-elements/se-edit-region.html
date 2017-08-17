@@ -19,6 +19,7 @@
             <div class="card-actions">
                 <paper-button on-click="updateRegion">Save</paper-button>
                 <paper-button on-click="cancel">Cancel</paper-button>
+                <paper-button on-click="changeDesignatedAuthors">Change Designated Authors</paper-button>
             </div>
         </paper-card>
     </template>
@@ -39,6 +40,9 @@
             },
             cancel: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region'}, bubbles: true, composed: true}));
+            },
+            changeDesignatedAuthors: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'designated-authors'}, bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
                 return 'http://leviathan/StoryExplorer/Api/Regions/' + id;

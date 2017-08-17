@@ -5,7 +5,7 @@
             id="getRequest"
             url="http://leviathan/StoryExplorer/Api/Regions"
             last-response="{{regions}}"></iron-ajax>
-        <paper-card heading="Region Menu">
+        <paper-card heading="Select Region">
             <div class="card-content">
                 <paper-dropdown-menu label="Region">
                     <paper-listbox slot="dropdown-content" attr-for-selected="value" selected="{{region}}">
@@ -16,7 +16,7 @@
                 </paper-dropdown-menu>                
             </div>
             <div class="card-actions">
-                <paper-button on-click="enterRegion">Enter</paper-button>
+                <paper-button on-click="enterRegion">Select</paper-button>
                 <paper-button on-click="changeToNew">New</paper-button>
                 <paper-button on-click="goToRegionMenu">Previous</paper-button>
             </div>

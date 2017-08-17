@@ -12,7 +12,7 @@
             content-type="application/json"
             on-response="deleteResponse"
             body="{{adventurer}}"></iron-ajax>
-        <paper-card heading="{{adventurer.Name}}">
+        <paper-card heading="Adventurer Profile: {{adventurer.Name}}">
             <div class="card-content">
                 <paper-input label="Gender" value="{{adventurer.Gender.Name}}" readonly></paper-input>
                 <paper-input label="Hair Color" value="{{adventurer.HairColor.Name}}" readonly></paper-input>

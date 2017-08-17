@@ -49,7 +49,10 @@ namespace StoryExplorer.Api.Controllers
                 return BadRequest();
             }
 
-            db.Entry(region).State = EntityState.Modified;
+            Region dbRegion = db.Regions.Find(id);
+            dbRegion.Name = region.Name;
+            dbRegion.Description = region.Description;
+            //db.Entry(region).State = EntityState.Modified;
 
             try
             {

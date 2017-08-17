@@ -76,7 +76,7 @@
                 }
             },
             done: function () {
-                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region'}, bubbles: true, composed: true}));
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'edit-region'}, bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
                 return 'http://leviathan/StoryExplorer/Api/Regions/' + id + '/DesignatedAuthors';

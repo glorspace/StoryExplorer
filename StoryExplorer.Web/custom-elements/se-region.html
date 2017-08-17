@@ -18,7 +18,6 @@
             </div>
             <div class="card-actions">
                 <paper-button on-click="edit">Edit</paper-button>
-                <paper-button on-click="changeDesignatedAuthors">Change Designated Authors</paper-button>
                 <paper-button on-click="goToRegionMenu">Previous</paper-button>
                 <paper-button on-click="deleteRegion">Delete</paper-button>
                 <paper-button on-click="enter">Enter Region</paper-button>
@@ -47,9 +46,6 @@
             deleteResponse: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
                 this.dispatchEvent(new CustomEvent('refresh-region-menu', {bubbles: true, composed: true}));
-            },
-            changeDesignatedAuthors: function () {
-                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'designated-authors'}, bubbles: true, composed: true}));
             },
             goToRegionMenu: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
