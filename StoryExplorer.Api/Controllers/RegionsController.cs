@@ -12,6 +12,7 @@ using StoryExplorer.Repository;
 
 namespace StoryExplorer.Api.Controllers
 {
+    [RoutePrefix("api")]
     public class RegionsController : ApiController
     {
         private StoryExplorerEntities db = new StoryExplorerEntities();
@@ -104,6 +105,26 @@ namespace StoryExplorer.Api.Controllers
             db.SaveChanges();
 
             return Ok(region);
+        }
+
+        // POST
+        [ResponseType(typeof(Adventurer))]
+        [Route("Regions/{regionId}/Scenes", Name = "PostScene")]
+        public IHttpActionResult PostScene(int regionId, Scene scene)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Region region = db.Regions.Find(regionId);
+
+            
+            db.Scenes.Add(scene);
+            region.Scenes.Add(scene);
+            db.SaveChanges();
+
+            return CreatedAtRoute("PostScene", new { id = scene.Id }, scene);
         }
 
         protected override void Dispose(bool disposing)

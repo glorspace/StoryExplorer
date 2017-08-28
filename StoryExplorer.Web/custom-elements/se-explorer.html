@@ -1,0 +1,199 @@
+<dom-module id="se-explorer">
+    <template>
+        <style>
+            .justified {
+                --ms-flex-pack: var(--layout-justified_-_-ms-flex-pack);
+                --webkit-justify-content: var(--layout-justified_-_-webkit-justify-content);
+                justify-content: var(--layout-justified_-_justify-content);
+            }
+            .centered {
+                --ms-flex-line-pack: var(--layout-center-aligned_-_-ms-flex-line-pack);
+                --webkit-align-content: var(--layout-center-aligned_-_-webkit-align-content);
+                --ms-align-content: var(--layout-center-aligned_-_-ms-align-content);
+                align-content: center;
+                align-self: center;
+            }
+            .horizontal {
+                display: var(--layout-horizontal_-_display);
+                -ms-flex-direction: var(--layout-horizontal_-_-ms-flex-direction);
+                -webkit-flex-direction: var(--layout-horizontal_-_-webkit-flex-direction);
+                flex-direction: var(--layout-horizontal_-_flex-direction);
+            }
+            .directions {
+                width: 272px;
+                height: 160px;
+                margin: 0 auto;  
+                position: absolute;
+                left:0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+            paper-button.north {
+                position: absolute;
+                top: 10px;
+                left: 90px;
+            }
+            paper-button.east {
+                position: absolute;
+                top: 65px;
+                left: 180px;
+            }
+            paper-button.south {
+                position: absolute;
+                top: 120px;
+                left: 90px;
+            }
+            paper-button.west {
+                position: absolute;
+                top: 65px;
+                left: 0;
+            }
+            paper-button.up {
+                position: absolute;
+                height: 20px;
+                top: 60px;
+                left: 90px;
+            }
+            paper-button.down {
+                position: absolute;
+                height: 20px;
+                top: 90px;
+                left: 90px;
+            }
+        </style>
+        <iron-ajax
+            auto
+            id="getRequest"
+            url="{{getApiUrl(regionId)}}"
+            last-response="{{region}}"></iron-ajax>
+        <iron-ajax
+            id="sceneRequest"
+            url="{{getSceneApiUrl(regionId)}}"
+            method="POST"
+            content-type="application/json"
+            on-response="sceneResponse"
+            body="{{scene}}"></iron-ajax>
+        <paper-card heading="{{region.Name}}">
+            <div class="card-content">
+                {{region.Description}}
+            </div>
+            <div class="card-actions">
+                <paper-button on-click="exit">Exit Region</paper-button>
+            </div>
+        </paper-card>
+        
+        <template is="dom-if" if="{{!editMode}}">
+            <paper-card heading="{{title}}">
+                <div class="card-content">
+                    <p>Coordinates: [{{xPos}}, {{yPos}}, {{zPos}}]</p>
+                    {{description}}
+                </div>
+                <div class="card-actions" style="min-width: 270px; min-height: 160px;">
+                    <div class="directions">
+                        <paper-button on-click="north" class="north">North</paper-button>
+                        <paper-button on-click="west" class="west">West</paper-button>
+                        <paper-button on-click="up" class="up">Up</paper-button>
+                        <paper-button on-click="down" class="down">Down</paper-button>
+                        <paper-button on-click="east" class="east">East</paper-button>
+                        <paper-button on-click="south" class="south">South</paper-button>
+                    </div>
+                </div>
+            </paper-card>                
+        </template>
+        <template is="dom-if" if="{{editMode}}">
+            <paper-card heading="Add Scene">
+                <div class="card-content">
+                    <paper-input label="Title" value="{{scene.title}}"></paper-input>
+                    <p>Coordinates: [{{xPos}}, {{yPos}}, {{zPos}}]</p>
+                    <paper-textarea label="Description" value="{{scene.description}}" rows=4 maxRows=4 always-float-label></paper-textarea> 
+                </div>
+                <div class="card-actions">
+                    <paper-button on-click="addScene">Add Scene</paper-button>
+                </div>
+            </paper-card>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'se-explorer',
+            properties: {
+                region: { type: Object, notify: true },
+                regionId: { type: Number, notify: true },
+                title: { type: String, notify: true, value: '' },
+                description: { type: String, notify: true, value: '' },
+                scene: { type: Object, notify: true, value: {} },
+                xPos: { type: Number, notify: true, value: 0 },                
+                yPos: { type: Number, notify: true, value: 0 },                
+                zPos: { type: Number, notify: true, value: 0 },
+                editMode: { type: Boolean, notify: true, value: false }
+            },
+            observers: ['getTitleAndDescription(region, xPos, yPos, zPos)'],
+            exit: function () {
+                this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
+            },
+            getTitleAndDescription: function (region, x, y, z) {
+                var self = this;
+                if (this.region) {
+                    var sceneFound = false;
+                    this.region.Scenes.forEach(function (scene) {
+                        if (scene.X == self.xPos && scene.Y == self.yPos && scene.Z == self.zPos) {
+                            self.title = scene.Title;
+                            self.description = scene.Description;
+                            sceneFound = true;
+                        }
+                    });
+                    
+                    if (!sceneFound) {
+                        this.editMode = true;
+                    }
+                }
+            },
+            north: function () {
+                this.yPos++;
+            },
+            south: function () {
+                this.yPos--;
+            },
+            east: function () {
+                this.xPos++;
+            },
+            west: function () {
+                this.xPos--;
+            },
+            up: function () {
+                this.zPos++;
+            },
+            down: function () {
+                this.zPos--;
+            },
+            addScene: function () {
+                this.scene.X = this.xPos;
+                this.scene.Y = this.yPos;
+                this.scene.Z = this.zPos;
+                this.scene.RegionId = this.regionId;
+                this.scene.NorthAllowed = true;
+                this.scene.SouthAllowed = true;
+                this.scene.EastAllowed = true;
+                this.scene.WestAllowed = true;
+                this.scene.UpAllowed = true;
+                this.scene.DownAllowed = true;
+                this.$.sceneRequest.generateRequest();
+            },
+            sceneResponse: function () {
+                this.title = this.scene.Title;
+                this.description = this.scene.Description;
+                this.editMode = false;
+                this.$.getRequest.generateRequest();
+                this.dispatchEvent(new CustomEvent('refresh-region', {bubbles: true, composed: true}));
+            },
+            getApiUrl: function (id) {
+                return 'http://leviathan/StoryExplorer/Api/Regions/' + id;
+            },
+            getSceneApiUrl: function (id) {
+                return this.getApiUrl(id) + '/Scenes';
+            }
+        });
+    </script>
+</dom-module>

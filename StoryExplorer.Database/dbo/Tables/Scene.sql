@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Scene]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
     [Title] VARCHAR(50) NOT NULL, 
     [Description] VARCHAR(MAX) NOT NULL, 
     [X] INT NOT NULL, 

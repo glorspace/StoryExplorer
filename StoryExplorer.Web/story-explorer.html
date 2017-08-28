@@ -8,6 +8,7 @@
 <link rel="import" href="custom-elements/se-region.html">
 <link rel="import" href="custom-elements/se-edit-region.html">
 <link rel="import" href="custom-elements/se-designated-authors.html">
+<link rel="import" href="custom-elements/se-explorer.html">
 
 <dom-module id="story-explorer">
     <template>
@@ -84,6 +85,7 @@
             <se-region value="region" region-id="{{selectedRegionId}}" adventurer-id="{{selectedAdventurerId}}"></se-region>
             <se-edit-region value="edit-region" region-id="{{selectedRegionId}}"></se-edit-region>
             <se-designated-authors value="designated-authors" region-id="{{selectedRegionId}}" adventurer-id="{{selectedAdventurerId}}"></se-designated-authors>
+            <se-explorer value="explorer" region-id="{{selectedRegionId}}" adventurer-id="{{selectedAdventurerId}}"></se-explorer>
         </iron-pages>
     </template>
 

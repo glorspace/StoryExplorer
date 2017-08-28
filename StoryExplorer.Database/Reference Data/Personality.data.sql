@@ -1,9 +1,14 @@
-﻿DELETE FROM Personality
+﻿SET IDENTITY_INSERT [dbo].[Personality] ON
 
-SET IDENTITY_INSERT [dbo].[Personality] ON
-INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (1, N'Stoic')
-INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (2, N'Mischievous')
-INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (3, N'Boisterous')
-INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (4, N'Melancholic')
-INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (5, N'Whimsical')
+IF NOT EXISTS (SELECT [Id] FROM [dbo].[Personality] WHERE [Id] = 1)
+	INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (1, N'Stoic')
+IF NOT EXISTS (SELECT [Id] FROM [dbo].[Personality] WHERE [Id] = 2)
+	INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (2, N'Mischievous')
+IF NOT EXISTS (SELECT [Id] FROM [dbo].[Personality] WHERE [Id] = 3)
+	INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (3, N'Boisterous')
+IF NOT EXISTS (SELECT [Id] FROM [dbo].[Personality] WHERE [Id] = 4)
+	INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (4, N'Melancholic')
+IF NOT EXISTS (SELECT [Id] FROM [dbo].[Personality] WHERE [Id] = 5)
+	INSERT INTO [dbo].[Personality] ([Id], [Name]) VALUES (5, N'Whimsical')
+
 SET IDENTITY_INSERT [dbo].[Personality] OFF

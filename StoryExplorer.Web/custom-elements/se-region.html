@@ -50,7 +50,7 @@
             goToRegionMenu: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
             },
-            enter: function () {
+            enter: function () {                
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'explorer'}, bubbles: true, composed: true}));
             },
             getApiUrl: function (id) {
