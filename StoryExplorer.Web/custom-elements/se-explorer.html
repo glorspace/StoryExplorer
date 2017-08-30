@@ -66,7 +66,8 @@
             auto
             id="getRequest"
             url="{{getApiUrl(regionId)}}"
-            last-response="{{region}}"></iron-ajax>
+            last-response="{{region}}"
+            on-response="initialize"></iron-ajax>
         <iron-ajax
             id="sceneRequest"
             url="{{getSceneApiUrl(regionId)}}"
@@ -83,7 +84,7 @@
             </div>
         </paper-card>
         
-        <template is="dom-if" if="{{!editMode}}">
+        <template is="dom-if" if="{{explorerMode}}">
             <paper-card heading="{{title}}">
                 <div class="card-content">
                     <p>Coordinates: [{{xPos}}, {{yPos}}, {{zPos}}]</p>
@@ -101,15 +102,27 @@
                 </div>
             </paper-card>                
         </template>
+        <template is="dom-if" if="{{confirmEdit}}">
+            <paper-card heading="New Scene Confirmation">
+                <div class="card-content">
+                    No scene has yet been written at these coordinates. Would you like to write one now?
+                </div>
+                <div class="card-actions">
+                    <paper-button on-click="edit">Yes</paper-button>
+                    <paper-button on-click="cancelEdit">No</paper-button>
+                </div>
+            </paper-card>
+        </template>
         <template is="dom-if" if="{{editMode}}">
             <paper-card heading="Add Scene">
                 <div class="card-content">
-                    <paper-input label="Title" value="{{scene.title}}"></paper-input>
-                    <p>Coordinates: [{{xPos}}, {{yPos}}, {{zPos}}]</p>
-                    <paper-textarea label="Description" value="{{scene.description}}" rows=4 maxRows=4 always-float-label></paper-textarea> 
+                    <paper-input label="Title" value="{{scene.Title}}"></paper-input>
+                    <p>Coordinates: [{{scene.X}}, {{scene.Y}}, {{scene.Z}}]</p>
+                    <paper-textarea label="Description" value="{{scene.Description}}" rows=4 maxRows=4 always-float-label></paper-textarea> 
                 </div>
                 <div class="card-actions">
                     <paper-button on-click="addScene">Add Scene</paper-button>
+                    <paper-button on-click="cancelEdit">Cancel</paper-button>
                 </div>
             </paper-card>
         </template>
@@ -127,51 +140,81 @@
                 xPos: { type: Number, notify: true, value: 0 },                
                 yPos: { type: Number, notify: true, value: 0 },                
                 zPos: { type: Number, notify: true, value: 0 },
-                editMode: { type: Boolean, notify: true, value: false }
+                explorerMode: { type: Boolean, notify: true, value: true },
+                editMode: { type: Boolean, notify: true, value: false },
+                confirmEdit: { type: Boolean, notify: true, value: false }
             },
-            observers: ['getTitleAndDescription(region, xPos, yPos, zPos)'],
+            initialize: function () {
+                if (!this.init) {
+                    this.tryMove(this.xPos, this.yPos, this.zPos);
+                    this.init = true;
+                }
+            },
             exit: function () {
                 this.dispatchEvent(new CustomEvent('change-view', {detail: {view: 'region-menu'}, bubbles: true, composed: true}));
             },
-            getTitleAndDescription: function (region, x, y, z) {
-                var self = this;
-                if (this.region) {
-                    var sceneFound = false;
-                    this.region.Scenes.forEach(function (scene) {
-                        if (scene.X == self.xPos && scene.Y == self.yPos && scene.Z == self.zPos) {
-                            self.title = scene.Title;
-                            self.description = scene.Description;
-                            sceneFound = true;
-                        }
-                    });
-                    
-                    if (!sceneFound) {
-                        this.editMode = true;
-                    }
-                }
-            },
             north: function () {
-                this.yPos++;
+                this.tryMove(this.xPos, this.yPos + 1, this.zPos);
             },
             south: function () {
-                this.yPos--;
+                this.tryMove(this.xPos, this.yPos - 1, this.zPos);
             },
             east: function () {
-                this.xPos++;
+                this.tryMove(this.xPos + 1, this.yPos, this.zPos);
             },
             west: function () {
-                this.xPos--;
+                this.tryMove(this.xPos - 1, this.yPos, this.zPos);
             },
             up: function () {
-                this.zPos++;
+                this.tryMove(this.xPos, this.yPos, this.zPos + 1);
             },
             down: function () {
-                this.zPos--;
+                this.tryMove(this.xPos, this.yPos, this.zPos - 1);
+            },
+            tryMove: function (x, y, z) {
+                // find out if the scene exists
+                // if yes, just go there
+                // if not, first prompt to see if you want to create a new scene
+                // if yes, go to editMode
+                // if no, don't go anywhere
+                var foundScene = this.findScene(x, y, z);
+
+                if (foundScene) {
+                    this.title = foundScene.Title;
+                    this.description = foundScene.Description;
+                    this.xPos = foundScene.X;
+                    this.yPos = foundScene.Y;
+                    this.zPos = foundScene.Z;
+                } else {
+                    this.scene.Title = '';
+                    this.scene.Description = '';
+                    this.scene.X = x;
+                    this.scene.Y = y;
+                    this.scene.Z = z;
+                    this.explorerMode = false;
+                    this.confirmEdit = true;                    
+                }
+            },
+            findScene: function (x, y, z) {
+                var foundScene = null;
+                this.region.Scenes.forEach(function (scene) {
+                    if (scene.X == x && scene.Y == y && scene.Z == z) {
+                        foundScene = scene;
+                    }
+                });
+
+                return foundScene;
+            },
+            edit: function () {
+                this.confirmEdit = false;
+                this.editMode = true;
+            },
+            cancelEdit: function () {
+                this.editMode = false;
+                this.confirmEdit = false;
+                this.explorerMode = true;
             },
             addScene: function () {
-                this.scene.X = this.xPos;
-                this.scene.Y = this.yPos;
-                this.scene.Z = this.zPos;
                 this.scene.RegionId = this.regionId;
                 this.scene.NorthAllowed = true;
                 this.scene.SouthAllowed = true;
@@ -185,6 +228,10 @@
                 this.title = this.scene.Title;
                 this.description = this.scene.Description;
                 this.editMode = false;
+                this.explorerMode = true;
+                this.xPos = this.scene.X;
+                this.yPos = this.scene.Y;
+                this.zPos = this.scene.Z;
                 this.$.getRequest.generateRequest();
                 this.dispatchEvent(new CustomEvent('refresh-region', {bubbles: true, composed: true}));
             },
