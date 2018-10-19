@@ -148,13 +148,17 @@ namespace StoryExplorer.DataModel
 		/// <returns>A list of all available persisted XML files for the specified entity type.</returns>
 		protected static IEnumerable<string> GetNames(string folderPath) => DirectoryListing(folderPath).Select(x => x.Substring(0, x.IndexOf(".xml", StringComparison.Ordinal)));
 
-		/// <summary>
-		/// Provides a list of Region instances for all saved Regions on the local system.
-		/// </summary>
-		/// <returns>A list of Region instances.</returns>
-		protected static IEnumerable<T> GetAll<T>(string folderPath) where T : PersistableObject, new() => Directory.EnumerateFiles(folderPath)?.Select(Load<T>).ToList();
+	    /// <summary>
+	    /// Provides a list of Region instances for all saved Regions on the local system.
+	    /// </summary>
+	    /// <returns>A list of Region instances.</returns>
+	    protected static IEnumerable<T> GetAll<T>(string folderPath) where T : PersistableObject, new()
+	    {
+            VerifyDirectory(folderPath);
+	        return Directory.EnumerateFiles(folderPath)?.Select(Load<T>).ToList();
+	    }
 
-		/// <summary>
+	    /// <summary>
 		/// Custom implementation to show a meaningful string representation of the instance.
 		/// </summary>
 		/// <returns>String representation of the instance based on specified name.</returns>
