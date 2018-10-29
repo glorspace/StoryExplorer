@@ -9,9 +9,9 @@ namespace StoryExplorer.DataModel
 	/// <summary>
 	/// Base class that provides common code for persisting entity data to XML files.
 	/// </summary>
-	public class PersistableObject
+	public abstract class PersistableObject
 	{
-		public virtual string Name { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Creates a new XML data file for the entity.

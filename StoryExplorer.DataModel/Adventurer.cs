@@ -24,8 +24,7 @@ namespace StoryExplorer.DataModel
 			Created = DateTime.Now;
 			New();
 		}
-
-		public override string Name { get; set; }
+        
 		public string Password { get; set; }
 		public Gender Gender { get; set; }
 		public HairColor HairColor { get; set; }
