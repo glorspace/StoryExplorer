@@ -148,8 +148,13 @@ namespace StoryExplorer.ConsoleApp
 			try
 			{
 				Console.Write("Enter the name of the region: ");
-				var name = Console.ReadLine();
-				return Region.Load(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+			    var name = String.Empty;
+			    do
+			    {
+			        name = Console.ReadLine();
+			    } while (String.IsNullOrWhiteSpace(name));
+
+                return Region.Load(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
 			}
 			catch (FileNotFoundException exc)
 			{
