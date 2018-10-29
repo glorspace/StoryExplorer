@@ -125,9 +125,207 @@ namespace StoryExplorer.Tests
 				// Assert
 				Assert.AreEqual(expected, exc.Message);
 			}
-		}
+        }
 
-		[TestMethod()]
+        [TestMethod]
+        public void PeekNorth()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.North);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(0, coords.X);
+            Assert.AreEqual(1, coords.Y);
+            Assert.AreEqual(0, coords.Z);
+        }
+
+        [TestMethod]
+        public void PeekSouth()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.South);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(0, coords.X);
+            Assert.AreEqual(-1, coords.Y);
+            Assert.AreEqual(0, coords.Z);
+        }
+
+        [TestMethod]
+        public void PeekEast()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.East);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(1, coords.X);
+            Assert.AreEqual(0, coords.Y);
+            Assert.AreEqual(0, coords.Z);
+        }
+
+        [TestMethod]
+        public void PeekWest()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.West);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(-1, coords.X);
+            Assert.AreEqual(0, coords.Y);
+            Assert.AreEqual(0, coords.Z);
+        }
+
+        [TestMethod]
+        public void PeekUp()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.Up);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(0, coords.X);
+            Assert.AreEqual(0, coords.Y);
+            Assert.AreEqual(1, coords.Z);
+        }
+
+        [TestMethod]
+        public void PeekDown()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            var coords = adventurer.Peek(Direction.Down);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+            Assert.AreEqual(0, coords.X);
+            Assert.AreEqual(0, coords.Y);
+            Assert.AreEqual(-1, coords.Z);
+        }
+
+        [TestMethod]
+        public void MoveNorth()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.North);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(1, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod]
+        public void MoveSouth()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.South);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(-1, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod]
+        public void MoveEast()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.East);
+
+            // Assert
+            Assert.AreEqual(1, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod]
+        public void MoveWest()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.West);
+
+            // Assert
+            Assert.AreEqual(-1, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod]
+        public void MoveUp()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.Up);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(1, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod]
+        public void MoveDown()
+        {
+            // Arrange
+            var adventurer = new Adventurer();
+
+            // Act
+            adventurer.Move(Direction.Down);
+
+            // Assert
+            Assert.AreEqual(0, adventurer.CurrentPosition.X);
+            Assert.AreEqual(0, adventurer.CurrentPosition.Y);
+            Assert.AreEqual(-1, adventurer.CurrentPosition.Z);
+        }
+
+        [TestMethod()]
 		public void ToStringTest()
 		{
 			// Arrange

@@ -91,14 +91,14 @@ namespace StoryExplorer.WpfApp
 		public void RefreshCurrentScene()
 		{
 			CurrentScene = Region.GetScene(Adventurer.CurrentPosition);
-			CurrentScene.AllowableMoves = Region.GetAllowableMoves(CurrentScene);
+			CurrentScene.AllowableMoves = Region.GetAllowableMoves(Adventurer);
 		}
 
 		public bool AttemptMove(Direction direction)
 		{
-			if (Region.GetScene(Adventurer.CurrentPosition.Peek(direction)) != null)
+			if (Region.GetScene(Adventurer.Peek(direction)) != null)
 			{
-				Adventurer.CurrentPosition.Move(direction);
+				Adventurer.Move(direction);
 				Adventurer.Save();
 				return true;
 			}
@@ -110,13 +110,11 @@ namespace StoryExplorer.WpfApp
 		{
 			var scene = new Scene
 			{
-				Coordinates = Adventurer.CurrentPosition.Peek(direction),
+				Coordinates = Adventurer.Peek(direction),
 				Title = String.Empty,
 				Description = String.Empty
 			};
 			CurrentScene = scene;
-			//Region.Map.Add(scene);
-			//Adventurer.CurrentPosition.Move(direction);
 		}
 
 		public void SaveNewScene()

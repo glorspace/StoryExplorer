@@ -107,37 +107,37 @@ namespace StoryExplorer.DataModel
 			Save();
 		}
 
-		/// <summary>
-		/// Discovers all directions in which a defined Scene could be found if an Adventurer was to move
-		/// that way and returns them in a list.
-		/// </summary>
-		/// <param name="scene">The Scene instance from which potential moves could be made.</param>
-		/// <returns>A list of directions in which an Adventurer could move from the specified Scene.</returns>
-		public List<Direction> GetAllowableMoves(Scene scene)
+        /// <summary>
+        /// Discovers all directions in which a defined Scene could be found if an Adventurer was to move
+        /// that way and returns them in a list.
+        /// </summary>
+        /// <param name="adventurer">The Adventurer instance for which potential moves could be made.</param>
+        /// <returns>A list of directions in which an Adventurer could move from the specified Scene.</returns>
+        public List<Direction> GetAllowableMoves(Adventurer adventurer)
 		{
 			var allowablesMoves = new List<Direction>();
 
-			if (GetScene(scene.Coordinates.Peek(Direction.North)) != null)
+			if (GetScene(adventurer.Peek(Direction.North)) != null)
 			{
 				allowablesMoves.Add(Direction.North);
 			}
-			if (GetScene(scene.Coordinates.Peek(Direction.East)) != null)
+			if (GetScene(adventurer.Peek(Direction.East)) != null)
 			{
 				allowablesMoves.Add(Direction.East);
 			}
-			if (GetScene(scene.Coordinates.Peek(Direction.South)) != null)
+			if (GetScene(adventurer.Peek(Direction.South)) != null)
 			{
 				allowablesMoves.Add(Direction.South);
 			}
-			if (GetScene(scene.Coordinates.Peek(Direction.West)) != null)
+			if (GetScene(adventurer.Peek(Direction.West)) != null)
 			{
 				allowablesMoves.Add(Direction.West);
 			}
-			if (GetScene(scene.Coordinates.Peek(Direction.Up)) != null)
+			if (GetScene(adventurer.Peek(Direction.Up)) != null)
 			{
 				allowablesMoves.Add(Direction.Up);
 			}
-			if (GetScene(scene.Coordinates.Peek(Direction.Down)) != null)
+			if (GetScene(adventurer.Peek(Direction.Down)) != null)
 			{
 				allowablesMoves.Add(Direction.Down);
 			}

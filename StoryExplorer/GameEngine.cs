@@ -156,9 +156,9 @@ namespace StoryExplorer.ConsoleApp
 
 		private void AttemptMove(Direction direction)
 		{
-			if (Region.GetScene(Adventurer.CurrentPosition.Peek(direction)) != null)
+			if (Region.GetScene(Adventurer.Peek(direction)) != null)
 			{
-				Adventurer.CurrentPosition.Move(direction);
+				Adventurer.Move(direction);
 				ShowScene();
 			}
 			else if (Region.Mode == RegionMode.Explorer)
@@ -168,8 +168,8 @@ namespace StoryExplorer.ConsoleApp
 			}
 			else if (RegionHelpers.ChooseToCreateNewScene())
 			{
-				Region.AddScene(RegionHelpers.CreateNewScene(Adventurer.CurrentPosition.Peek(direction)));
-				Adventurer.CurrentPosition.Move(direction);
+				Region.AddScene(RegionHelpers.CreateNewScene(Adventurer.Peek(direction)));
+				Adventurer.Move(direction);
 				ShowScene();
 			}
 			else
@@ -185,7 +185,7 @@ namespace StoryExplorer.ConsoleApp
 			Console.WriteLine($"[ {scene.Title} ]");
 			Console.WriteLine($"{scene.Description}");
 			Console.Write("[ ");
-			Region.GetAllowableMoves(scene).ForEach(x => Console.Write(x.ToString() + " "));
+			Region.GetAllowableMoves(Adventurer).ForEach(x => Console.Write(x.ToString() + " "));
 			Console.WriteLine("]");
 
 			if (enableSpeech)
