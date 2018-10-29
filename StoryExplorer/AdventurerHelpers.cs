@@ -56,7 +56,12 @@ namespace StoryExplorer.ConsoleApp
 			try
 			{
 				Console.Write("Enter the name of your adventurer: ");
-				var name = Console.ReadLine();
+			    var name = String.Empty;
+			    do
+			    {
+			        name = Console.ReadLine();
+                } while (String.IsNullOrWhiteSpace(name));
+
 				var adventurer = Adventurer.Load(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
 				if (String.IsNullOrEmpty(adventurer.Password))
 				{
