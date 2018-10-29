@@ -55,11 +55,6 @@ namespace StoryExplorer.WpfApp
 
 			Adventurer.CurrentRegion = Region;
 
-			if (Adventurer.CurrentPosition == null)
-			{
-				Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
-			}
-
 			Adventurer.Save();
 		}
 

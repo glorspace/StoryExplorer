@@ -9,11 +9,9 @@ namespace StoryExplorer.DataModel
 	/// <summary>
 	/// Represents a point in 3-dimensional space in a story region grid.
 	/// </summary>
-	public class Coordinates
+	public struct Coordinates
 	{
-		public Coordinates() { }
-
-		public Coordinates(int x, int y, int z) : this()
+		public Coordinates(int x, int y, int z)
 		{
 			X = x;
 			Y = y;
@@ -81,34 +79,6 @@ namespace StoryExplorer.DataModel
 				default:
 					throw new ArgumentException("Unexpected direction provided to Move().");
 			}
-		}
-
-		/// <summary>
-		/// Custom implementation to define equality for Coordinates objects to be when X, Y and Z all have the
-		/// same values.
-		/// </summary>
-		/// <param name="obj">A Coordinates object to test for equality with the current Coordinates object.</param>
-		/// <returns>True is the test object is equal to the current object, false if not.</returns>
-		public override bool Equals(object obj)
-		{
-			var testObject = obj as Coordinates;
-
-			if (testObject == null)
-			{
-				return false;
-			}
-
-			return (X == testObject.X) && (Y == testObject.Y) && (Z == testObject.Z);
-		}
-
-		/// <summary>
-		/// Override implementation because it is recommended to override GetHashCode() if you override
-		/// Equals(). Included simply to avoid a warning message.
-		/// </summary>
-		/// <returns>Integer hash code.</returns>
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
 		}
 
 		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}";
