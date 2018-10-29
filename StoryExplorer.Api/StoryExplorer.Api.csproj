@@ -125,9 +125,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
+    <ProjectReference Include="..\StoryExplorer.EFModel\StoryExplorer.EFModel.csproj">
       <Project>{98594075-3e2a-4fb9-b07f-b975d84319b2}</Project>
-      <Name>StoryExplorer.Repository</Name>
+      <Name>StoryExplorer.EFModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Api", "StoryE
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StoryExplorer.Database", "StoryExplorer.Database\StoryExplorer.Database.sqlproj", "{C091488F-8B76-4EF5-9D51-47851EE92BD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Repository", "StoryExplorer.Repository\StoryExplorer.Repository.csproj", "{98594075-3E2A-4FB9-B07F-B975D84319B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.EFModel", "StoryExplorer.EFModel\StoryExplorer.EFModel.csproj", "{98594075-3E2A-4FB9-B07F-B975D84319B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
