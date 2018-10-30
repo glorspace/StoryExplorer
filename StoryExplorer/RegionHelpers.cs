@@ -1,13 +1,22 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using StoryExplorer.Domain;
+using StoryExplorer.Repository;
 
 namespace StoryExplorer.ConsoleApp
 {
 	class RegionHelpers
 	{
-		internal static void ChooseRegionMode(Region region)
+	    private readonly IRegionRepository regionRepository;
+
+	    public RegionHelpers(IRegionRepository repository)
+	    {
+	        regionRepository = repository;
+	    }
+
+        internal static void ChooseRegionMode(Region region)
 		{
 			if (Menus.Confirm("Would you like to enable author mode for this session?"))
 			{
@@ -21,7 +30,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		internal static void EditRegionDescription(Region region)
+		internal void EditRegionDescription(Region region)
 		{
 			ShowRegionProfile(region);
 			Console.WriteLine();
@@ -30,7 +39,7 @@ namespace StoryExplorer.ConsoleApp
 			if (!String.IsNullOrEmpty(newDescription))
 			{
 				region.Description = newDescription;
-				region.Save();
+				regionRepository.Update(region.Name, region);
 			}
 			else
 			{
@@ -60,7 +69,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		internal static void AddDesignatedAuthor(Region region)
+		internal void AddDesignatedAuthor(Region region)
 		{
 			ShowDesignatedAuthors(region);
 			Console.Write("Enter the name of an adventurer that you want to allow to author scenes in this region: ");
@@ -71,8 +80,8 @@ namespace StoryExplorer.ConsoleApp
 				if (region.DesignatedAuthors.Find(x => x == author) == null && author != region.OwnerName)
 				{
 					region.DesignatedAuthors.Add(author);
-					region.Save();
-				}
+				    regionRepository.Update(region.Name, region);
+                }
 			}
 			else
 			{
@@ -81,7 +90,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		internal static void RemoveDesignatedAuthor(Region region)
+		internal void RemoveDesignatedAuthor(Region region)
 		{
 			if (ShowDesignatedAuthors(region))
 			{
@@ -90,8 +99,8 @@ namespace StoryExplorer.ConsoleApp
 				if (region.DesignatedAuthors.Find(x => x == author) != null)
 				{
 					region.DesignatedAuthors.Remove(author);
-					region.Save();
-				}
+				    regionRepository.Update(region.Name, region);
+                }
 				else
 				{
 					Console.WriteLine("The name you entered is not among those designated to author scenes in this region.");
@@ -103,7 +112,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		internal static Region CreateRegion(Adventurer creator)
+		internal Region CreateRegion(Adventurer creator)
 		{
 			var name = String.Empty;
 			while (String.IsNullOrEmpty(name))
@@ -113,30 +122,34 @@ namespace StoryExplorer.ConsoleApp
 				name = Console.ReadLine();
 			}
 
-			Region region;
+			Region region = new Region(name, creator.Name);
 
-			try
-			{
-				region = new Region(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name), creator.Name);
-				Console.Write("Describe this new region in a few sentences: ");
-				region.Description = Console.ReadLine();
-				region.Save();
-				Console.Write("Your new region needs an opening scene. Press enter to continue...");
-				Console.ReadLine();
-				region.AddScene(CreateNewScene(new Coordinates(0, 0, 0)));
-			}
-			catch (IOException)
-			{
-				Console.WriteLine("A saved region by that name already exists. You'll need to pick a different name.");
-				region = CreateRegion(creator);
-			}
+		    try
+		    {
+		        regionRepository.Create(region);
+		    }
+		    catch (IOException)
+		    {
+		        Console.WriteLine("A saved region by that name already exists. You'll need to pick a different name.");
+		        return CreateRegion(creator);
+		    }
+            
+			region = new Region(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name), creator.Name);
+			Console.Write("Describe this new region in a few sentences: ");
+			region.Description = Console.ReadLine();
+			regionRepository.Update(region.Name, region);
+            Console.Write("Your new region needs an opening scene. Press enter to continue...");
+			Console.ReadLine();
+			region.Map.Add(CreateNewScene(new Coordinates(0, 0, 0)));
+			regionRepository.Update(region.Name, region);
 
 			return region;
 		}
 
-		internal static Region LoadSavedRegion(Adventurer creator)
+		internal Region LoadSavedRegion(Adventurer creator)
 		{
-			var names = Region.GetNames();
+			var names = regionRepository.ReadAll().ToList().Select(x => x.Name);
+
 			Console.WriteLine();
 			Console.WriteLine("Regions that have already been created:");
 			Console.WriteLine("=======================================");
@@ -154,14 +167,14 @@ namespace StoryExplorer.ConsoleApp
 			        name = Console.ReadLine();
 			    } while (String.IsNullOrWhiteSpace(name));
 
-                return Region.Load(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+                return regionRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
 			}
 			catch (FileNotFoundException exc)
 			{
 				Console.WriteLine($"{exc.Message} You can try again with a different name if you would like.");
 				Console.Write("Press enter to continue...");
 				Console.ReadLine();
-				return Menus.RegionMenu(creator);
+				return Menus.RegionMenu(regionRepository, creator);
 			}
 		}
 
@@ -206,9 +219,9 @@ namespace StoryExplorer.ConsoleApp
 
 		internal static Scene CreateNewScene(Coordinates coordinates)
 		{
-			var scene = new Scene();
-			scene.Coordinates = coordinates;
-			Console.WriteLine();
+		    var scene = new Scene { Coordinates = coordinates };
+
+		    Console.WriteLine();
 			Console.Write("Enter a title for this scene: ");
 			scene.Title = Console.ReadLine();
 			Console.WriteLine();
@@ -217,12 +230,12 @@ namespace StoryExplorer.ConsoleApp
 			return scene;
 		}
 
-		internal static void OptionallyAssumeOwnership(Region region, Adventurer adventurer)
+		internal void OptionallyAssumeOwnership(Region region, Adventurer adventurer)
 		{
 			if (Menus.Confirm("This region does not appear to have an owner. Would you like to assume ownership of this region?"))
 			{
 				region.OwnerName = adventurer.Name;
-				region.Save();
+			    regionRepository.Update(region.Name, region);
 			}
 		}
 

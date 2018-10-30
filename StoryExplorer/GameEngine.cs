@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Speech.Synthesis;
-using StoryExplorer.DataModel;
+using StoryExplorer.Domain;
+using StoryExplorer.Repository;
 
 namespace StoryExplorer.ConsoleApp
 {
@@ -8,33 +10,40 @@ namespace StoryExplorer.ConsoleApp
 	{
 		private readonly bool speechEnabled;
 		private readonly SpeechSynthesizer synth = new SpeechSynthesizer();
-		public Adventurer Adventurer { get; set; }
+        
+	    public IAdventurerRepository AdventurerRepository { get; set; }
+	    public IRegionRepository RegionRepository { get; set; }
+	    public ISceneRepository SceneRepository { get; set; }
+        public Adventurer Adventurer { get; set; }
 		public Region Region { get; set; }
 
-		public GameEngine (Adventurer adventurer, Region region, bool enableSpeech)
+		public GameEngine (IAdventurerRepository adventurerRepository, IRegionRepository regionRepository, ISceneRepository sceneRepository, Adventurer adventurer, Region region, bool enableSpeech)
 		{
-			Adventurer = adventurer;
+		    AdventurerRepository = adventurerRepository;
+		    RegionRepository = regionRepository;
+		    SceneRepository = sceneRepository;
+            Adventurer = adventurer;
 			Region = region;
 			speechEnabled = enableSpeech;
 
-			if (Region.Name == Adventurer.CurrentRegion?.Name)
+			if (Region.Name == Adventurer.CurrentRegionName)
 			{
-				if (Region.GetScene(Adventurer.CurrentPosition) == null)
+				if (SceneRepository.Read(Region, Adventurer.CurrentPosition) == null)
 				{
 					Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
-					Adventurer.Save();
+				    AdventurerRepository.Update(Adventurer.Name, Adventurer);
 				}
 			}
 			else
 			{
 				Adventurer.CurrentRegionName = Region.Name;
 				Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
-				Adventurer.Save();
-			}
+			    AdventurerRepository.Update(Adventurer.Name, Adventurer);
+            }
 
-			if (Region.Owner?.Name == null)
+			if (Region.OwnerName == null)
 			{
-				RegionHelpers.OptionallyAssumeOwnership(Region, Adventurer);
+				new RegionHelpers(regionRepository).OptionallyAssumeOwnership(Region, Adventurer);
 			}
 		}
 
@@ -103,7 +112,7 @@ namespace StoryExplorer.ConsoleApp
 					case "logout":
 						Console.WriteLine();
 						Console.WriteLine("Saving current position in this story region...");
-						Adventurer.Save();
+						AdventurerRepository.Update(Adventurer.Name, Adventurer);
 						Console.WriteLine();
 						Console.WriteLine("Leaving the story world. Goodbye.");
 						return;
@@ -133,14 +142,14 @@ namespace StoryExplorer.ConsoleApp
 
 		private void EditScene()
 		{
-			var scene = Region.GetScene(Adventurer.CurrentPosition);
+			var scene = SceneRepository.Read(Region, Adventurer.CurrentPosition);
 			
 			if (Menus.Confirm("Would you like to edit the scene title?"))
 			{
 				Console.WriteLine();
 				Console.Write("Enter a new title for this scene: ");
 				scene.Title = Console.ReadLine();
-				Region.Save();
+				RegionRepository.Update(Region.Name, Region);
 			}
 			
 			if (Menus.Confirm("Would you like to edit the scene description?"))
@@ -148,15 +157,15 @@ namespace StoryExplorer.ConsoleApp
 				Console.WriteLine();
 				Console.Write("Enter a new description for this scene: ");
 				scene.Description = Console.ReadLine();
-				Region.Save();
-			}
+			    RegionRepository.Update(Region.Name, Region);
+            }
 
 			ShowScene();
 		}
 
 		private void AttemptMove(Direction direction)
 		{
-			if (Region.GetScene(Adventurer.Peek(direction)) != null)
+			if (SceneRepository.Read(Region, Adventurer.Peek(direction)) != null)
 			{
 				Adventurer.Move(direction);
 				ShowScene();
@@ -168,8 +177,9 @@ namespace StoryExplorer.ConsoleApp
 			}
 			else if (RegionHelpers.ChooseToCreateNewScene())
 			{
-				Region.AddScene(RegionHelpers.CreateNewScene(Adventurer.Peek(direction)));
+				SceneRepository.Create(Region, RegionHelpers.CreateNewScene(Adventurer.Peek(direction)));
 				Adventurer.Move(direction);
+                AdventurerRepository.Update(Adventurer.Name, Adventurer);
 				ShowScene();
 			}
 			else
@@ -180,12 +190,16 @@ namespace StoryExplorer.ConsoleApp
 
 		private void ShowScene(bool enableSpeech)
 		{
-			var scene = Region.GetScene(Adventurer.CurrentPosition);
+			var scene = Region.Map.Find(x =>
+		        x.Coordinates.X == Adventurer.CurrentPosition.X &&
+		        x.Coordinates.Y == Adventurer.CurrentPosition.Y &&
+		        x.Coordinates.Z == Adventurer.CurrentPosition.Z);
+
 			Console.WriteLine();
 			Console.WriteLine($"[ {scene.Title} ]");
 			Console.WriteLine($"{scene.Description}");
 			Console.Write("[ ");
-			Region.GetAllowableMoves(Adventurer).ForEach(x => Console.Write(x.ToString() + " "));
+			SceneRepository.GetAllowableMoves(Region, Adventurer).ToList().ForEach(x => Console.Write(x.ToString() + " "));
 			Console.WriteLine("]");
 
 			if (enableSpeech)

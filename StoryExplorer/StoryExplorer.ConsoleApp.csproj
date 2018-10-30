@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StoryExplorer.ConsoleApp</RootNamespace>
     <AssemblyName>StoryExplorer.ConsoleApp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,9 +67,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoryExplorer.DataModel\StoryExplorer.DataModel.csproj">
-      <Project>{b8278331-100a-42ed-99f6-42f79840f6cb}</Project>
-      <Name>StoryExplorer.DataModel</Name>
+    <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
+      <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
+      <Name>StoryExplorer.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
+      <Project>{571976eb-fe60-495f-9d26-d8b7ed2f8e8a}</Project>
+      <Name>StoryExplorer.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

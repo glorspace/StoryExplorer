@@ -39,5 +39,43 @@ namespace StoryExplorer.Repository
             region.Map.Remove(oldScene);
             regionRepository.Update(region.Name, region);
         }
+
+        /// <summary>
+        /// Discovers all directions in which a defined Scene could be found if an Adventurer was to move
+        /// that way and returns them in a list.
+        /// </summary>
+        /// <param name="adventurer">The Adventurer instance for which potential moves could be made.</param>
+        /// <returns>A list of directions in which an Adventurer could move from the specified Scene.</returns>
+        public IEnumerable<Direction> GetAllowableMoves(Region region, Adventurer adventurer)
+        {
+            var allowablesMoves = new List<Direction>();
+
+            if (Read(region, adventurer.Peek(Direction.North)) != null)
+            {
+                allowablesMoves.Add(Direction.North);
+            }
+            if (Read(region, adventurer.Peek(Direction.East)) != null)
+            {
+                allowablesMoves.Add(Direction.East);
+            }
+            if (Read(region, adventurer.Peek(Direction.South)) != null)
+            {
+                allowablesMoves.Add(Direction.South);
+            }
+            if (Read(region, adventurer.Peek(Direction.West)) != null)
+            {
+                allowablesMoves.Add(Direction.West);
+            }
+            if (Read(region, adventurer.Peek(Direction.Up)) != null)
+            {
+                allowablesMoves.Add(Direction.Up);
+            }
+            if (Read(region, adventurer.Peek(Direction.Down)) != null)
+            {
+                allowablesMoves.Add(Direction.Down);
+            }
+
+            return allowablesMoves;
+        }
     }
 }

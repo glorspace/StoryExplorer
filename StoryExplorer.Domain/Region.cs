@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace StoryExplorer.Domain
 {
@@ -14,6 +15,8 @@ namespace StoryExplorer.Domain
         public List<string> DesignatedAuthors { get; set; } = new List<string>();
         public List<Scene> Map { get; set; } = new List<Scene>();
         public DateTime Created { get; set; }
+        [XmlIgnore]
+        public RegionMode Mode { get; set; }
 
         public Region() { }
 

@@ -1,14 +1,23 @@
-﻿using StoryExplorer.DataModel;
+﻿using StoryExplorer.Domain;
+using StoryExplorer.Repository;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace StoryExplorer.ConsoleApp
 {
 	class AdventurerHelpers
 	{
+	    private readonly IAdventurerRepository adventurerRepository;
+        public AdventurerHelpers(IAdventurerRepository repository)
+        {
+            adventurerRepository = repository;
+        }
 
-		public static Adventurer CreateAdventurer()
+		public Adventurer CreateAdventurer()
 		{
 			string name = String.Empty;
 			while (String.IsNullOrEmpty(name))
@@ -17,11 +26,11 @@ namespace StoryExplorer.ConsoleApp
 				name = Console.ReadLine();
 			}
 
-			Adventurer adventurer;
+			Adventurer adventurer = new Adventurer(name);
 
 			try
 			{
-				adventurer = new Adventurer(name);
+				adventurerRepository.Create(adventurer);
 			}
 			catch (IOException)
 			{
@@ -43,9 +52,10 @@ namespace StoryExplorer.ConsoleApp
 			return adventurer;
 		}
 
-		public static Adventurer LoadSavedAdventurer()
+		public Adventurer LoadSavedAdventurer()
 		{
-			var names = Adventurer.GetNames();
+		    var names = adventurerRepository.ReadAll().ToList().Select(x => x.Name);
+
 			Console.WriteLine("Adventurers that have already been created:");
 			Console.WriteLine("===========================================");
 			foreach (var name in names)
@@ -62,7 +72,7 @@ namespace StoryExplorer.ConsoleApp
 			        name = Console.ReadLine();
                 } while (String.IsNullOrWhiteSpace(name));
 
-				var adventurer = Adventurer.Load(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+				var adventurer = adventurerRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
 				if (String.IsNullOrEmpty(adventurer.Password))
 				{
 					NoPasswordFound(adventurer);
@@ -90,7 +100,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		public static void NoPasswordFound(Adventurer adventurer)
+		public void NoPasswordFound(Adventurer adventurer)
 		{
 			if (Menus.Confirm("No password has been set for this adventurer. Would you like to set one now?"))
 			{
@@ -98,7 +108,7 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		public static string ReadPassword(char mask)
+		public string ReadPassword(char mask)
 		{
 			var password = String.Empty;
 			var key = Console.ReadKey(true);
@@ -151,15 +161,15 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		public static void CreatePassword(Adventurer adventurer)
+		public void CreatePassword(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.Write("Enter a password that will be required to access this adventurer: ");
 			adventurer.Password = ReadPassword('*');
-			adventurer.Save();
+			adventurerRepository.Update(adventurer.Name, adventurer);
 		}
 
-		public static void ChooseGender(Adventurer adventurer)
+		public void ChooseGender(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Gender:");
@@ -182,10 +192,10 @@ namespace StoryExplorer.ConsoleApp
 					ChooseGender(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChooseHairColor(Adventurer adventurer)
+		public void ChooseHairColor(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Hair Color:");
@@ -216,10 +226,10 @@ namespace StoryExplorer.ConsoleApp
 					ChooseHairColor(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChooseHairStyle(Adventurer adventurer)
+		public void ChooseHairStyle(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Hair Style:");
@@ -270,10 +280,10 @@ namespace StoryExplorer.ConsoleApp
 					ChooseHairStyle(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChooseSkinColor(Adventurer adventurer)
+		public void ChooseSkinColor(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Skin Color:");
@@ -304,10 +314,10 @@ namespace StoryExplorer.ConsoleApp
 					ChooseSkinColor(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChooseEyeColor(Adventurer adventurer)
+		public void ChooseEyeColor(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Eye Color:");
@@ -342,10 +352,10 @@ namespace StoryExplorer.ConsoleApp
 					ChooseEyeColor(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChoosePersonality(Adventurer adventurer)
+		public void ChoosePersonality(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Personality:");
@@ -380,10 +390,10 @@ namespace StoryExplorer.ConsoleApp
 					ChoosePersonality(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 
-		public static void ChooseHeight(Adventurer adventurer)
+		public void ChooseHeight(Adventurer adventurer)
 		{
 			Console.WriteLine();
 			Console.WriteLine("Choose Height:");
@@ -410,7 +420,7 @@ namespace StoryExplorer.ConsoleApp
 					ChooseHeight(adventurer);
 					break;
 			}
-			adventurer.Save();
-		}
+		    adventurerRepository.Update(adventurer.Name, adventurer);
+        }
 	}
 }

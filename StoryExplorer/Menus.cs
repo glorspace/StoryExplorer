@@ -1,12 +1,15 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
+using StoryExplorer.Domain;
+using StoryExplorer.Repository;
 
 namespace StoryExplorer.ConsoleApp
 {
 	class Menus
 	{
-		internal static Adventurer AdventurerMenu()
+		internal static Adventurer AdventurerMenu(IAdventurerRepository adventurerRepository)
 		{
+            var helpers = new AdventurerHelpers(adventurerRepository);
+
 			Adventurer adventurer = null;
 			Console.WriteLine();
 			Console.WriteLine("Adventurer Menu:");
@@ -21,11 +24,11 @@ namespace StoryExplorer.ConsoleApp
 			{
 				case '1':
 					Console.WriteLine();
-					adventurer = AdventurerHelpers.CreateAdventurer();
+					adventurer = helpers.CreateAdventurer();
 					break;
 				case '2':
 					Console.WriteLine();
-					adventurer = AdventurerHelpers.LoadSavedAdventurer();
+					adventurer = helpers.LoadSavedAdventurer();
 					break;
 				case 'q':
 				case 'Q':
@@ -35,21 +38,23 @@ namespace StoryExplorer.ConsoleApp
 					Console.WriteLine();
 					Console.Write("Invalid selection. Press enter to continue...");
 					Console.ReadLine();
-					return AdventurerMenu();
+					return AdventurerMenu(adventurerRepository);
 			}
 
 			if (adventurer == null)
 			{
-				return AdventurerMenu();
+				return AdventurerMenu(adventurerRepository);
 			}
 			Console.WriteLine();
 			Console.WriteLine($"{adventurer.Name} is ready for adventure!");
-			return AdventurerLoadedMenu(adventurer);
+			return AdventurerLoadedMenu(adventurerRepository, adventurer);
 		}
 
-		private static Adventurer AdventurerLoadedMenu(Adventurer adventurer)
+		private static Adventurer AdventurerLoadedMenu(IAdventurerRepository adventurerRepository, Adventurer adventurer)
 		{
-			Console.WriteLine();
+		    var helpers = new AdventurerHelpers(adventurerRepository);
+
+            Console.WriteLine();
 			Console.WriteLine("What do you want to do next?");
 			Console.WriteLine("============================");
 			Console.WriteLine("1) Show adventurer profile");
@@ -64,17 +69,17 @@ namespace StoryExplorer.ConsoleApp
 			{
 				case '1':
 					AdventurerHelpers.ShowAdventurerProfile(adventurer);
-					return AdventurerLoadedMenu(adventurer);
+					return AdventurerLoadedMenu(adventurerRepository, adventurer);
 				case '2':
-					AdventurerHelpers.CreatePassword(adventurer);
-					return AdventurerLoadedMenu(adventurer);
+					helpers.CreatePassword(adventurer);
+					return AdventurerLoadedMenu(adventurerRepository, adventurer);
 				case '3':
 					if (Menus.Confirm("Are you sure you want to delete this adventurer?"))
 					{
-						adventurer.Delete();
-						return AdventurerMenu();
+					    adventurerRepository.Delete(adventurer.Name);
+						return AdventurerMenu(adventurerRepository);
 					}
-					return AdventurerLoadedMenu(adventurer);
+					return AdventurerLoadedMenu(adventurerRepository, adventurer);
 				case '4':
 					return adventurer;
 				case 'q':
@@ -85,12 +90,14 @@ namespace StoryExplorer.ConsoleApp
 					Console.Write("Invalid selection. Press enter to continue...");
 					Console.ReadLine();
 					Console.WriteLine();
-					return AdventurerLoadedMenu(adventurer);
+					return AdventurerLoadedMenu(adventurerRepository, adventurer);
 			}
 		}
 
-		internal static Region RegionMenu(Adventurer adventurer)
+		internal static Region RegionMenu(IRegionRepository regionRepository, Adventurer adventurer)
 		{
+            var helpers = new RegionHelpers(regionRepository);
+
 			Region region = null;
 			Console.WriteLine();
 			Console.WriteLine("Region Menu:");
@@ -104,10 +111,10 @@ namespace StoryExplorer.ConsoleApp
 			switch (key.KeyChar)
 			{
 				case '1':
-					region = RegionHelpers.CreateRegion(adventurer);
+					region = helpers.CreateRegion(adventurer);
 					break;
 				case '2':
-					region = RegionHelpers.LoadSavedRegion(adventurer);
+					region = helpers.LoadSavedRegion(adventurer);
 					break;
 				case 'q':
 				case 'Q':
@@ -116,12 +123,12 @@ namespace StoryExplorer.ConsoleApp
 					Console.WriteLine();
 					Console.Write("Invalid selection. Press enter to continue...");
 					Console.ReadLine();
-					return RegionMenu(adventurer);
+					return RegionMenu(regionRepository, adventurer);
 			}
 
 			if (adventurer.Name == region.OwnerName)
 			{
-				return RegionOwnerMenu(region);
+				return RegionOwnerMenu(regionRepository, region);
 			}
 			else
 			{
@@ -129,9 +136,11 @@ namespace StoryExplorer.ConsoleApp
 			}
 		}
 
-		private static Region RegionOwnerMenu(Region region)
+		private static Region RegionOwnerMenu(IRegionRepository regionRepository, Region region)
 		{
-			Console.WriteLine();
+            var helpers = new RegionHelpers(regionRepository);
+
+            Console.WriteLine();
 			Console.WriteLine("What do you want to do next?");
 			Console.WriteLine("============================");
 			Console.WriteLine("1) Show region profile");
@@ -148,19 +157,19 @@ namespace StoryExplorer.ConsoleApp
 			{
 				case '1':
 					RegionHelpers.ShowRegionProfile(region);
-					return RegionOwnerMenu(region);
+					return RegionOwnerMenu(regionRepository, region);
 				case '2':
-					RegionHelpers.EditRegionDescription(region);
-					return RegionOwnerMenu(region);
+					helpers.EditRegionDescription(region);
+					return RegionOwnerMenu(regionRepository, region);
 				case '3':
 					RegionHelpers.ShowDesignatedAuthors(region);
-					return RegionOwnerMenu(region);
+					return RegionOwnerMenu(regionRepository, region);
 				case '4':
-					RegionHelpers.AddDesignatedAuthor(region);
-					return RegionOwnerMenu(region);
+					helpers.AddDesignatedAuthor(region);
+					return RegionOwnerMenu(regionRepository, region);
 				case '5':
-					RegionHelpers.RemoveDesignatedAuthor(region);
-					return RegionOwnerMenu(region);
+					helpers.RemoveDesignatedAuthor(region);
+					return RegionOwnerMenu(regionRepository, region);
 				case '6':
 					RegionHelpers.ChooseRegionMode(region);
 					break;
@@ -172,7 +181,7 @@ namespace StoryExplorer.ConsoleApp
 					Console.Write("Invalid selection. Press enter to continue...");
 					Console.ReadLine();
 					Console.WriteLine();
-					return RegionOwnerMenu(region);
+					return RegionOwnerMenu(regionRepository, region);
 			}
 
 			return region;
