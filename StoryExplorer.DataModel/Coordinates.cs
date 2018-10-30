@@ -23,5 +23,5 @@ namespace StoryExplorer.DataModel
 		public int Z { get; set; }
         
 		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}";
-	}	
+	}
 }

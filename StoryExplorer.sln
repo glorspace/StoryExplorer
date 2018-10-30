@@ -17,6 +17,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StoryExplorer.Database", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.EFModel", "StoryExplorer.EFModel\StoryExplorer.EFModel.csproj", "{98594075-3E2A-4FB9-B07F-B975D84319B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Repository", "StoryExplorer.Repository\StoryExplorer.Repository.csproj", "{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Domain", "StoryExplorer.Domain\StoryExplorer.Domain.csproj", "{5F64B93F-F39A-4A10-B262-437E1F907F67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 		{98594075-3E2A-4FB9-B07F-B975D84319B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98594075-3E2A-4FB9-B07F-B975D84319B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98594075-3E2A-4FB9-B07F-B975D84319B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F64B93F-F39A-4A10-B262-437E1F907F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F64B93F-F39A-4A10-B262-437E1F907F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F64B93F-F39A-4A10-B262-437E1F907F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F64B93F-F39A-4A10-B262-437E1F907F67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
