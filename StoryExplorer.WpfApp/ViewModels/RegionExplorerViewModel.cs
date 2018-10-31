@@ -6,14 +6,23 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using StoryExplorer.Domain;
 using StoryExplorer.Repository;
+using StoryExplorer.WpfApp.Config;
 
 namespace StoryExplorer.WpfApp
 {
 	public class RegionExplorerViewModel
 	{
-        private readonly IAdventurerRepository adventurerRepository = new XmlAdventurerRepository();
-        private readonly IRegionRepository regionRepository = new XmlRegionRepository();
+	    private readonly IAdventurerRepository adventurerRepository;
+	    private readonly IRegionRepository regionRepository;
 	    private readonly ISceneRepository sceneRepository;
+
+        public RegionExplorerViewModel()
+	    {
+	        adventurerRepository = new RepositoryConfig().AdventurerRepository;
+	        regionRepository = new RepositoryConfig().RegionRepository;
+	        sceneRepository = new RepositoryConfig().SceneRepository;
+	    }
+
         public Adventurer Adventurer { get; set; }
 		public Region Region { get; set; }
 		public Scene CurrentScene { get; set; }
@@ -49,11 +58,6 @@ namespace StoryExplorer.WpfApp
 				return authors;
 			}
 		}
-
-	    public RegionExplorerViewModel()
-	    {
-	        sceneRepository = new SceneRepository(regionRepository);
-        }
 
 		public void InitializeAdventurer()
 		{

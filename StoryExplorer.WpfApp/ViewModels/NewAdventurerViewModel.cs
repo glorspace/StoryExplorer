@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using StoryExplorer.Domain;
 using StoryExplorer.Repository;
+using StoryExplorer.WpfApp.Config;
 
 namespace StoryExplorer.WpfApp
 {
 	public class NewAdventurerViewModel
 	{
-        private readonly IAdventurerRepository adventurerRepository = new XmlAdventurerRepository();
+	    private readonly IAdventurerRepository adventurerRepository = new RepositoryConfig().AdventurerRepository;
 
-		public IEnumerable<Gender> GenderList { get; set; } = Enum.GetValues(typeof(Gender)).Cast<Gender>();
+        public IEnumerable<Gender> GenderList { get; set; } = Enum.GetValues(typeof(Gender)).Cast<Gender>();
 		public IEnumerable<HairColor> HairColorList { get; set; } = Enum.GetValues(typeof(HairColor)).Cast<HairColor>();
 		public IEnumerable<HairStyle> HairStyleList { get; set; } = Enum.GetValues(typeof(HairStyle)).Cast<HairStyle>();
 		public IEnumerable<SkinColor> SkinColorList { get; set; } = Enum.GetValues(typeof(SkinColor)).Cast<SkinColor>();
