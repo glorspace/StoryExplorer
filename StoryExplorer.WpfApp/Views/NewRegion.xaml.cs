@@ -1,5 +1,4 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using StoryExplorer.Domain;
 
 namespace StoryExplorer.WpfApp
 {
@@ -63,8 +63,8 @@ namespace StoryExplorer.WpfApp
 				Description = sceneDescription.Text.Trim(),
 				Coordinates = new Coordinates(0, 0, 0)
 			};
-			region.AddScene(scene);
-			region.Save();
+			region.Map.Add(scene);
+		    viewModel.SaveRegion(region);
 
 			DialogResult = true;
 		}

@@ -1,15 +1,20 @@
-﻿using StoryExplorer.DataModel;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using StoryExplorer.Domain;
+using StoryExplorer.Repository;
 
 namespace StoryExplorer.WpfApp
 {
 	public class RegionExplorerViewModel
 	{
-		public Adventurer Adventurer { get; set; }
+        private readonly IAdventurerRepository adventurerRepository = new XmlAdventurerRepository();
+        private readonly IRegionRepository regionRepository = new XmlRegionRepository();
+	    private readonly ISceneRepository sceneRepository;
+        public Adventurer Adventurer { get; set; }
 		public Region Region { get; set; }
 		public Scene CurrentScene { get; set; }
 		public RegionMode Mode { get; set; }
@@ -22,7 +27,7 @@ namespace StoryExplorer.WpfApp
 
 				if (Region != null)
 				{
-					nonAuthors = Adventurer.GetAllSavedAdventurers().Select(x => x.Name).Except(Region.DesignatedAuthors).ToList();
+                    nonAuthors = adventurerRepository.ReadAll().Select(x => x.Name).Except(Region.DesignatedAuthors).ToList();
 					nonAuthors.Remove(Adventurer.Name);
 				}
 
@@ -45,6 +50,11 @@ namespace StoryExplorer.WpfApp
 			}
 		}
 
+	    public RegionExplorerViewModel()
+	    {
+	        sceneRepository = new SceneRepository(regionRepository);
+        }
+
 		public void InitializeAdventurer()
 		{
 			if (Adventurer.CurrentRegionName != Region.Name)
@@ -52,55 +62,53 @@ namespace StoryExplorer.WpfApp
 				Adventurer.CurrentRegionName = Region.Name;
 				Adventurer.CurrentPosition = new Coordinates(0, 0, 0);
 			}
-
-			Adventurer.CurrentRegion = Region;
-
-			Adventurer.Save();
+            
+            adventurerRepository.Update(Adventurer.Name, Adventurer);
 		}
 
 		public void SetRegionDescription(string description)
 		{
 			Region.Description = description;
-			Region.Save();
-		}
+		    regionRepository.Update(Region.Name, Region);
+        }
 
 		public void AddDesignatedAuthor(string name)
 		{
 			Region.DesignatedAuthors.Add(name);
-			Region.Save();
-		}
+		    regionRepository.Update(Region.Name, Region);
+        }
 
 		public void RemoveDesignatedAuthor(string name)
 		{
 			Region.DesignatedAuthors.Remove(name);
-			Region.Save();
-		}
+		    regionRepository.Update(Region.Name, Region);
+        }
 
 		public void SetCurrentSceneTitle(string title)
 		{
 			CurrentScene.Title = title;
-			Region.Save();
-		}
+		    regionRepository.Update(Region.Name, Region);
+        }
 
 		public void SetCurrentSceneDescription(string description)
 		{
 			CurrentScene.Description = description;
-			Region.Save();
-		}
+		    regionRepository.Update(Region.Name, Region);
+        }
 
 		public void RefreshCurrentScene()
 		{
-			CurrentScene = Region.GetScene(Adventurer.CurrentPosition);
-			CurrentScene.AllowableMoves = Region.GetAllowableMoves(Adventurer);
+		    CurrentScene = sceneRepository.Read(Region, Adventurer.CurrentPosition);
+		    CurrentScene.AllowableMoves = sceneRepository.GetAllowableMoves(Region, Adventurer).ToList();
 		}
 
 		public bool AttemptMove(Direction direction)
 		{
-			if (Region.GetScene(Adventurer.Peek(direction)) != null)
+			if (sceneRepository.Read(Region, Adventurer.CurrentPosition) != null)
 			{
 				Adventurer.Move(direction);
-				Adventurer.Save();
-				return true;
+			    adventurerRepository.Update(Adventurer.Name, Adventurer);
+                return true;
 			}
 
 			return false;
@@ -120,9 +128,9 @@ namespace StoryExplorer.WpfApp
 		public void SaveNewScene()
 		{
 			Region.Map.Add(CurrentScene);
-			Region.Save();
+		    regionRepository.Update(Region.Name, Region);
 			Adventurer.CurrentPosition = new Coordinates(CurrentScene.Coordinates.X, CurrentScene.Coordinates.Y, CurrentScene.Coordinates.Z);
-			Adventurer.Save();
-		}
+		    adventurerRepository.Update(Adventurer.Name, Adventurer);
+        }
 	}
 }

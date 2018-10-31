@@ -1,5 +1,4 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using StoryExplorer.Domain;
 
 namespace StoryExplorer.WpfApp
 {
@@ -66,7 +66,7 @@ namespace StoryExplorer.WpfApp
 			{
 				var newRegionName = newRegionWindow.GetNewRegionName();
 				newRegionWindow.Close();				
-				viewModel.AllSavedRegions = Region.GetAllSavedRegions();
+				viewModel.RefreshRegionList();
 				foreach (var region in viewModel.AllSavedRegions)
 				{
 					if (region.Name == newRegionName)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using StoryExplorer.DataModel;
+using StoryExplorer.Domain;
 
 namespace StoryExplorer.WpfApp
 {
@@ -33,7 +33,7 @@ namespace StoryExplorer.WpfApp
 			labelEyeColor.Content = adventurer.EyeColor;
 			labelPersonality.Content = adventurer.Personality;
 			labelHeight.Content = adventurer.Height;
-			labelCurrentRegion.Content = adventurer.CurrentRegion?.Name ?? "None";
+			labelCurrentRegion.Content = adventurer.CurrentRegionName ?? "None";
 			labelCreatedDate.Content = adventurer.Created.ToShortDateString();
 
 			if (adventurer.Gender == Gender.Female)
@@ -72,7 +72,7 @@ namespace StoryExplorer.WpfApp
 			if (MessageBox.Show("Are you sure you want to delete this adventurer permanently?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
 				var viewModel = (AdventurerMenuViewModel)DataContext;
-				viewModel.SelectedAdventurer.Delete();
+				viewModel.DeleteSelectedAdventurer();
 				mainWindow.refreshAdventurers();
 				mainWindow.Show();
 				goBack = true;
@@ -131,7 +131,7 @@ namespace StoryExplorer.WpfApp
 		{
 			var viewModel = (AdventurerMenuViewModel)DataContext;
 			viewModel.SelectedAdventurer.Password = newPassword.Password;
-			viewModel.SelectedAdventurer.Save();
+			viewModel.SaveSelectedAdventurer();
 			hideChangePasswordControls();
 		}
 

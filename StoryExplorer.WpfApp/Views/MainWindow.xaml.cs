@@ -1,5 +1,4 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using StoryExplorer.Domain;
 
 namespace StoryExplorer.WpfApp
 {
@@ -85,7 +85,7 @@ namespace StoryExplorer.WpfApp
 				newAdventurerWindow.Close();
 
 				var viewModel = (MainWindowViewModel)DataContext;
-				viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
+                viewModel.RefreshAdventurerList();
 				foreach (var adventurer in viewModel.AllSavedAdventurers)
 				{
 					if (adventurer.Name == newAdventurerName)
@@ -102,8 +102,8 @@ namespace StoryExplorer.WpfApp
 		public void refreshAdventurers()
 		{
 			var viewModel = (MainWindowViewModel)DataContext;
-			viewModel.AllSavedAdventurers = Adventurer.GetAllSavedAdventurers();
-			BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
+		    viewModel.RefreshAdventurerList();
+            BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
 		}
 	}
 }

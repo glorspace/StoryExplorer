@@ -1,5 +1,4 @@
-﻿using StoryExplorer.DataModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using StoryExplorer.Domain;
 
 namespace StoryExplorer.WpfApp
 {
@@ -56,7 +56,9 @@ namespace StoryExplorer.WpfApp
 					newAdventurer.EyeColor = (EyeColor)selectEyeColor.SelectedItem;
 					newAdventurer.Personality = (Personality)selectPersonality.SelectedItem;
 					newAdventurer.Height = (Height)selectHeight.SelectedItem;
-					newAdventurer.Save();
+
+                    var viewModel = (NewAdventurerViewModel)DataContext;
+				    viewModel.AddAdventurer(newAdventurer);
 
 					// resetting name to title-cased version for retrieval by the main window
 					adventurerName.Text = newAdventurer.Name;
