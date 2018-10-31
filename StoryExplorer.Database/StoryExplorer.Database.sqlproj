@@ -83,6 +83,7 @@
     <None Include="Reference Data\Height.data.sql" />
     <None Include="Reference Data\Personality.data.sql" />
     <None Include="Reference Data\SkinColor.data.sql" />
+    <None Include="StoryExplorer.CAELBL39R32.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Reference Data\Script.PostDeployment1.sql" />
