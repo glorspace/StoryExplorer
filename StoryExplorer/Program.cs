@@ -11,7 +11,7 @@ namespace StoryExplorer.ConsoleApp
 			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
             IAdventurerRepository adventurerRepository = new XmlAdventurerRepository();
             IRegionRepository regionRepository = new XmlRegionRepository();
-            ISceneRepository sceneRepository = new XmlSceneRepository();
+            ISceneRepository sceneRepository = new SceneRepository(regionRepository);
 
 			var adventurer = Menus.AdventurerMenu(adventurerRepository);
 			if (adventurer != null)

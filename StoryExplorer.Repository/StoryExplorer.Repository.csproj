@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlAdventurerRepository.cs" />
     <Compile Include="XmlRegionRepository.cs" />
-    <Compile Include="XmlSceneRepository.cs" />
+    <Compile Include="SceneRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">

@@ -7,9 +7,14 @@ using StoryExplorer.Domain;
 
 namespace StoryExplorer.Repository
 {
-    public class XmlSceneRepository : ISceneRepository
+    public class SceneRepository : ISceneRepository
     {
-        private readonly XmlRegionRepository regionRepository = new XmlRegionRepository();
+        private readonly IRegionRepository regionRepository;
+
+        public SceneRepository(IRegionRepository regionRepo)
+        {
+            regionRepository = regionRepo;
+        }
 
         public void Create(Region region, Scene scene)
         {
