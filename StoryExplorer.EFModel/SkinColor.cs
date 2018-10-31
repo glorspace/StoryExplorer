@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.EFModel
 {
     using System;
     using System.Collections.Generic;
