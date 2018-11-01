@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ISceneRepository.cs" />
     <Compile Include="SqlAdventurerRepository.cs" />
+    <Compile Include="SqlRegionRepository.cs" />
     <Compile Include="XmlFileSystemClient.cs" />
     <Compile Include="IAdventurerRepository.cs" />
     <Compile Include="IRegionRepository.cs" />
