@@ -36,24 +36,8 @@ namespace StoryExplorer.Repository
             using (var dbContext = new StoryExplorerEntities())
             {
                 var adventurers = new List<Domain.Adventurer>();
-                dbContext.Adventurers.ToList().ForEach(adventurer => adventurers.Add(new Domain.Adventurer
-                {
-                    Name = adventurer.Name,
-                    Password = adventurer.Password,
-                    Gender = (Domain.Gender)Enum.Parse(typeof(Domain.Gender), adventurer.Gender.Name),
-                    HairColor = (Domain.HairColor)Enum.Parse(typeof(Domain.HairColor), adventurer.HairColor.Name),
-                    HairStyle = (Domain.HairStyle)Enum.Parse(typeof(Domain.HairStyle), adventurer.HairStyle.Name),
-                    SkinColor = (Domain.SkinColor)Enum.Parse(typeof(Domain.SkinColor), adventurer.SkinColor.Name),
-                    EyeColor = (Domain.EyeColor)Enum.Parse(typeof(Domain.EyeColor), adventurer.EyeColor.Name),
-                    Personality = (Domain.Personality)Enum.Parse(typeof(Domain.Personality), adventurer.Personality.Name),
-                    Height = (Domain.Height)Enum.Parse(typeof(Domain.Height), adventurer.Height.Name),
-                    Created = adventurer.Created,
-                    CurrentRegionName = dbContext.Regions.FirstOrDefault(a => a.Id == adventurer.CurrentRegionId)?.Name,
-                    CurrentPosition = new Coordinates(
-                        adventurer.CurrentPositionX ?? 0,
-                        adventurer.CurrentPositionY ?? 0,
-                        adventurer.CurrentPositionZ ?? 0)
-                }));
+                dbContext.Adventurers.ToList().ForEach(adventurer =>
+                    adventurers.Add(ConvertEntityToDomainObject(adventurer, dbContext)));
                 return adventurers;
             }
         }
@@ -62,26 +46,8 @@ namespace StoryExplorer.Repository
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var result = dbContext.Adventurers.Where(x => x.Name == name)
-                    .Select(adventurer => new Domain.Adventurer
-                {
-                    Name = adventurer.Name,
-                    Password = adventurer.Password,
-                    Gender = (Domain.Gender)Enum.Parse(typeof(Domain.Gender), adventurer.Gender.Name),
-                    HairColor = (Domain.HairColor)Enum.Parse(typeof(Domain.HairColor), adventurer.HairColor.Name),
-                    HairStyle = (Domain.HairStyle)Enum.Parse(typeof(Domain.HairStyle), adventurer.HairStyle.Name),
-                    SkinColor = (Domain.SkinColor)Enum.Parse(typeof(Domain.SkinColor), adventurer.SkinColor.Name),
-                    EyeColor = (Domain.EyeColor)Enum.Parse(typeof(Domain.EyeColor), adventurer.EyeColor.Name),
-                    Personality = (Domain.Personality)Enum.Parse(typeof(Domain.Personality), adventurer.Personality.Name),
-                    Height = (Domain.Height)Enum.Parse(typeof(Domain.Height), adventurer.Height.Name),
-                    Created = adventurer.Created,
-                    CurrentRegionName = dbContext.Regions.Find(adventurer.CurrentRegionId).Name,
-                    CurrentPosition = new Coordinates(
-                        adventurer.CurrentPositionX ?? 0,
-                        adventurer.CurrentPositionY ?? 0,
-                        adventurer.CurrentPositionZ ?? 0)
-                }).FirstOrDefault();
-                return result;
+                var adventurer = dbContext.Adventurers.FirstOrDefault(x => x.Name == name);
+                return ConvertEntityToDomainObject(adventurer, dbContext);
             }
         }
 
@@ -116,6 +82,28 @@ namespace StoryExplorer.Repository
                 dbContext.Adventurers.Remove(adventurer);
                 dbContext.SaveChanges();
             }
+        }
+
+        private Domain.Adventurer ConvertEntityToDomainObject(EFModel.Adventurer adventurer, StoryExplorerEntities dbContext)
+        {
+            return new Domain.Adventurer
+            {
+                Name = adventurer.Name,
+                Password = adventurer.Password,
+                Gender = (Domain.Gender)Enum.Parse(typeof(Domain.Gender), adventurer.Gender.Name),
+                HairColor = (Domain.HairColor)Enum.Parse(typeof(Domain.HairColor), adventurer.HairColor.Name),
+                HairStyle = (Domain.HairStyle)Enum.Parse(typeof(Domain.HairStyle), adventurer.HairStyle.Name),
+                SkinColor = (Domain.SkinColor)Enum.Parse(typeof(Domain.SkinColor), adventurer.SkinColor.Name),
+                EyeColor = (Domain.EyeColor)Enum.Parse(typeof(Domain.EyeColor), adventurer.EyeColor.Name),
+                Personality = (Domain.Personality)Enum.Parse(typeof(Domain.Personality), adventurer.Personality.Name),
+                Height = (Domain.Height)Enum.Parse(typeof(Domain.Height), adventurer.Height.Name),
+                Created = adventurer.Created,
+                CurrentRegionName = dbContext.Regions.Find(adventurer.CurrentRegionId)?.Name,
+                CurrentPosition = new Coordinates(
+                    adventurer.CurrentPositionX ?? 0,
+                    adventurer.CurrentPositionY ?? 0,
+                    adventurer.CurrentPositionZ ?? 0)
+            };
         }
     }
 }

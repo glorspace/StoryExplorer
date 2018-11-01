@@ -39,7 +39,8 @@ namespace StoryExplorer.Repository
             using (var dbContext = new StoryExplorerEntities())
             {
                 var regions = new List<Domain.Region>();
-                dbContext.Regions.ToList().ForEach(region => regions.Add(ConvertEntityToDomainObject(region, dbContext)));
+                dbContext.Regions.ToList().ForEach(region =>
+                    regions.Add(ConvertEntityToDomainObject(region, dbContext)));
                 return regions;
             }
         }
@@ -48,10 +49,8 @@ namespace StoryExplorer.Repository
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var result = dbContext.Regions.Where(x => x.Name == name)
-                    .Select(region => ConvertEntityToDomainObject(region, dbContext))
-                    .FirstOrDefault();
-                return result;
+                var region = dbContext.Regions.FirstOrDefault(x => x.Name == name);
+                return ConvertEntityToDomainObject(region, dbContext);
             }
         }
 
