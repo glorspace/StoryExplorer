@@ -7,8 +7,8 @@
     <ProjectGuid>{98594075-3E2A-4FB9-B07F-B975D84319B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StoryExplorer.Repository</RootNamespace>
-    <AssemblyName>StoryExplorer.Repository</AssemblyName>
+    <RootNamespace>StoryExplorer.EFModel</RootNamespace>
+    <AssemblyName>StoryExplorer.EFModel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
