@@ -64,7 +64,7 @@
       <Project>{b8278331-100a-42ed-99f6-42f79840f6cb}</Project>
       <Name>StoryExplorer.DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StoryExplorer\StoryExplorer.ConsoleApp.csproj">
+    <ProjectReference Include="..\StoryExplorer.ConsoleApp\StoryExplorer.ConsoleApp.csproj">
       <Project>{6094f748-f071-4d6b-8bb0-c63f6d80b7b7}</Project>
       <Name>StoryExplorer.ConsoleApp</Name>
     </ProjectReference>

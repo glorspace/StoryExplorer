@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.ConsoleApp", "StoryExplorer\StoryExplorer.ConsoleApp.csproj", "{6094F748-F071-4D6B-8BB0-C63F6D80B7B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.ConsoleApp", "StoryExplorer.ConsoleApp\StoryExplorer.ConsoleApp.csproj", "{6094F748-F071-4D6B-8BB0-C63F6D80B7B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryExplorer.Tests", "StoryExplorer.Tests\StoryExplorer.Tests.csproj", "{D9AA2016-9623-4C60-B263-6D6E518AEFC8}"
 EndProject
