@@ -103,12 +103,12 @@ namespace StoryExplorer.WpfApp
 		public void RefreshCurrentScene()
 		{
 		    CurrentScene = sceneRepository.Read(Region, Adventurer.CurrentPosition);
-		    CurrentScene.AllowableMoves = sceneRepository.GetAllowableMoves(Region, Adventurer).ToList();
+		    CurrentScene.AllowableMoves = sceneRepository.GetAllowableMoves(Region, Adventurer)?.ToList();
 		}
 
 		public bool AttemptMove(Direction direction)
 		{
-			if (sceneRepository.Read(Region, Adventurer.CurrentPosition) != null)
+			if (sceneRepository.Read(Region, Adventurer.Peek(direction)) != null)
 			{
 				Adventurer.Move(direction);
 			    adventurerRepository.Update(Adventurer.Name, Adventurer);

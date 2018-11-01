@@ -17,7 +17,7 @@ namespace StoryExplorer.WpfApp
 
 	    public void SaveRegion(Region region)
 	    {
-	        regionRepository.Update(region.Name, region);
+	        regionRepository.Create(region);
         }
 	}
 }

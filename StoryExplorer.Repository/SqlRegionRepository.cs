@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using StoryExplorer.Domain;
 using StoryExplorer.EFModel;
-using Adventurer = StoryExplorer.Domain.Adventurer;
-using Region = StoryExplorer.EFModel.Region;
+using Scene = StoryExplorer.Domain.Scene;
 
 namespace StoryExplorer.Repository
 {
@@ -20,8 +19,16 @@ namespace StoryExplorer.Repository
                     Name = region.Name,
                     Description = region.Description,
                     OwnerId = dbContext.Adventurers.FirstOrDefault(adventurer => adventurer.Name == region.OwnerName)?.Id ?? 0,
-                    Created = region.Created
+                    Created = region.Created,
                 };
+                region.Map.ForEach(scene => newRegion.Scenes.Add(new EFModel.Scene
+                {
+                    Title = scene.Title,
+                    Description = scene.Description,
+                    X = scene.Coordinates.X,
+                    Y = scene.Coordinates.Y,
+                    Z = scene.Coordinates.Z
+                }));
                 dbContext.Regions.Add(newRegion);
                 dbContext.SaveChanges();
             }
@@ -31,7 +38,8 @@ namespace StoryExplorer.Repository
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var regions = dbContext.Regions.Select(region => ConvertEntityToDomainObject(region, dbContext));
+                var regions = new List<Domain.Region>();
+                dbContext.Regions.ToList().ForEach(region => regions.Add(ConvertEntityToDomainObject(region, dbContext)));
                 return regions;
             }
         }
@@ -110,7 +118,7 @@ namespace StoryExplorer.Repository
             deletedAuthors.ForEach(author => dbRegion.Adventurers1.Remove(author));
         }
 
-        private void UpdateScenes(Region dbRegion, Domain.Region region)
+        private void UpdateScenes(EFModel.Region dbRegion, Domain.Region region)
         {
             foreach (var scene in region.Map)
             {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using StoryExplorer.Domain;
 using StoryExplorer.EFModel;
-using Region = StoryExplorer.Domain.Region;
 
 namespace StoryExplorer.Repository
 {
@@ -36,7 +35,8 @@ namespace StoryExplorer.Repository
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var adventurers = dbContext.Adventurers.Select(adventurer => new Domain.Adventurer
+                var adventurers = new List<Domain.Adventurer>();
+                dbContext.Adventurers.ToList().ForEach(adventurer => adventurers.Add(new Domain.Adventurer
                 {
                     Name = adventurer.Name,
                     Password = adventurer.Password,
@@ -48,12 +48,12 @@ namespace StoryExplorer.Repository
                     Personality = (Domain.Personality)Enum.Parse(typeof(Domain.Personality), adventurer.Personality.Name),
                     Height = (Domain.Height)Enum.Parse(typeof(Domain.Height), adventurer.Height.Name),
                     Created = adventurer.Created,
-                    CurrentRegionName = dbContext.Regions.Find(adventurer.CurrentRegionId).Name,
+                    CurrentRegionName = dbContext.Regions.FirstOrDefault(a => a.Id == adventurer.CurrentRegionId)?.Name,
                     CurrentPosition = new Coordinates(
                         adventurer.CurrentPositionX ?? 0,
                         adventurer.CurrentPositionY ?? 0,
                         adventurer.CurrentPositionZ ?? 0)
-                });
+                }));
                 return adventurers;
             }
         }
@@ -116,7 +116,6 @@ namespace StoryExplorer.Repository
                 dbContext.Adventurers.Remove(adventurer);
                 dbContext.SaveChanges();
             }
-
         }
     }
 }

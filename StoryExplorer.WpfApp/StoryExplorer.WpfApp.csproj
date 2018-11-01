@@ -36,7 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +137,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -168,6 +178,10 @@
     <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
       <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
       <Name>StoryExplorer.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryExplorer.EFModel\StoryExplorer.EFModel.csproj">
+      <Project>{98594075-3e2a-4fb9-b07f-b975d84319b2}</Project>
+      <Name>StoryExplorer.EFModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
       <Project>{571976eb-fe60-495f-9d26-d8b7ed2f8e8a}</Project>
