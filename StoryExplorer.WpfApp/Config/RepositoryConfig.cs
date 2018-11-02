@@ -14,9 +14,9 @@ namespace StoryExplorer.WpfApp.Config
 
         public RepositoryConfig()
         {
-            AdventurerRepository = new SqlAdventurerRepository();
-            RegionRepository = new SqlRegionRepository();
-            SceneRepository = new SceneRepository(RegionRepository);
+            AdventurerRepository = RepositoryFactory.GetAdventurerRepository();
+            RegionRepository = RepositoryFactory.GetRegionRepository();
+            SceneRepository = RepositoryFactory.GetSceneRepository();
         }
     }
 }

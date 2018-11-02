@@ -9,9 +9,9 @@ namespace StoryExplorer.ConsoleApp
 		static void Main(string[] args)
 		{
 			Console.SetIn(new StreamReader(Console.OpenStandardInput(8192)));
-            IAdventurerRepository adventurerRepository = new SqlAdventurerRepository();
-            IRegionRepository regionRepository = new SqlRegionRepository();
-            ISceneRepository sceneRepository = new SceneRepository(regionRepository);
+            IAdventurerRepository adventurerRepository = RepositoryFactory.GetAdventurerRepository();
+            IRegionRepository regionRepository = RepositoryFactory.GetRegionRepository();
+            ISceneRepository sceneRepository = RepositoryFactory.GetSceneRepository();
 
 			var adventurer = Menus.AdventurerMenu(adventurerRepository);
 			if (adventurer != null)
