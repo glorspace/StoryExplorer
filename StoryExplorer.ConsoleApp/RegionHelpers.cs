@@ -160,12 +160,20 @@ namespace StoryExplorer.ConsoleApp
 
 			try
 			{
-				Console.Write("Enter the name of the region: ");
+			    Region region = null;
 			    var name = String.Empty;
 			    do
 			    {
-			        name = Console.ReadLine();
-			    } while (String.IsNullOrWhiteSpace(name));
+			        do
+			        {
+			            Console.Write("Enter the name of the region: ");
+			            name = Console.ReadLine();
+                    } while (String.IsNullOrWhiteSpace(name));
+
+			        region = regionRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+			        if (region == null)
+			            Console.WriteLine("ERROR: Invalid region name. Please try again.");
+                } while (region == null);
 
                 return regionRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
 			}

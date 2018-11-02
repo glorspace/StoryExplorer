@@ -65,14 +65,22 @@ namespace StoryExplorer.ConsoleApp
 
 			try
 			{
-				Console.Write("Enter the name of your adventurer: ");
 			    var name = String.Empty;
+			    Adventurer adventurer = null;
 			    do
 			    {
-			        name = Console.ReadLine();
-                } while (String.IsNullOrWhiteSpace(name));
+			        do
+			        {
+			            Console.Write("Enter the name of your adventurer: ");
+                        name = Console.ReadLine();
+			        } while (String.IsNullOrWhiteSpace(name));
 
-				var adventurer = adventurerRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+			        adventurer = adventurerRepository.Read(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name));
+                    if (adventurer == null)
+                        Console.WriteLine("ERROR: Invalid character name. Please try again.");
+                } while (adventurer == null);
+
+				
 				if (String.IsNullOrEmpty(adventurer.Password))
 				{
 					NoPasswordFound(adventurer);

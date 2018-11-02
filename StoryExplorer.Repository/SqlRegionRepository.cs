@@ -49,8 +49,12 @@ namespace StoryExplorer.Repository
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var region = dbContext.Regions.FirstOrDefault(x => x.Name == name);
-                return ConvertEntityToDomainObject(region, dbContext);
+                var entity = dbContext.Regions.FirstOrDefault(x => x.Name == name);
+                Domain.Region domainObject = null;
+                if (entity != null)
+                    domainObject = ConvertEntityToDomainObject(entity, dbContext);
+
+                return domainObject;
             }
         }
 
