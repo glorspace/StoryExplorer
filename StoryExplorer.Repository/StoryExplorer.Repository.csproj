@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISceneRepository.cs" />
+    <Compile Include="MockAdventurerRepository.cs" />
+    <Compile Include="MockRegionRepository.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="SqlAdventurerRepository.cs" />
     <Compile Include="SqlRegionRepository.cs" />

@@ -48,7 +48,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -58,6 +60,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionTests.cs" />
     <Compile Include="SceneTests.cs" />
+    <Compile Include="RegionEntryViewModelTests.cs" />
+    <Compile Include="MainWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryExplorer.DataModel\StoryExplorer.DataModel.csproj">
@@ -68,6 +72,21 @@
       <Project>{6094f748-f071-4d6b-8bb0-c63f6d80b7b7}</Project>
       <Name>StoryExplorer.ConsoleApp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
+      <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
+      <Name>StoryExplorer.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
+      <Project>{571976eb-fe60-495f-9d26-d8b7ed2f8e8a}</Project>
+      <Name>StoryExplorer.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryExplorer.WpfApp\StoryExplorer.WpfApp.csproj">
+      <Project>{6bc8f6aa-8773-44cc-86aa-95bde9287136}</Project>
+      <Name>StoryExplorer.WpfApp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
