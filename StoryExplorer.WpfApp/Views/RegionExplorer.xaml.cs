@@ -340,7 +340,6 @@ namespace StoryExplorer.WpfApp
 
 		private void east_Click(object sender, RoutedEventArgs e)
 		{
-
 			if (AttemptMove(Direction.East))
 			{
 				RefreshSceneElements();
@@ -349,7 +348,6 @@ namespace StoryExplorer.WpfApp
 
 		private void south_Click(object sender, RoutedEventArgs e)
 		{
-
 			if (AttemptMove(Direction.South))
 			{
 				RefreshSceneElements();
@@ -358,7 +356,6 @@ namespace StoryExplorer.WpfApp
 
 		private void west_Click(object sender, RoutedEventArgs e)
 		{
-
 			if (AttemptMove(Direction.West))
 			{
 				RefreshSceneElements();
@@ -367,7 +364,6 @@ namespace StoryExplorer.WpfApp
 
 		private void up_Click(object sender, RoutedEventArgs e)
 		{
-
 			if (AttemptMove(Direction.Up))
 			{
 				RefreshSceneElements();
@@ -376,7 +372,6 @@ namespace StoryExplorer.WpfApp
 
 		private void down_Click(object sender, RoutedEventArgs e)
 		{
-
 			if (AttemptMove(Direction.Down))
 			{
 				RefreshSceneElements();

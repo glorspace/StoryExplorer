@@ -20,8 +20,8 @@ namespace StoryExplorer.WpfApp
 	public partial class RegionEntry : Window
 	{
 		private Window previousWindow;
-		private bool goBack = false;
-        private RegionEntryViewModel viewModel;
+	    private RegionEntryViewModel viewModel;
+        private bool goBack = false;
 
         public RegionEntry()
 		{

@@ -55,16 +55,10 @@ namespace StoryExplorer.WpfApp
 		private void create_Click(object sender, RoutedEventArgs e)
 		{
 			viewModel.RegionName = regionName.Text.Trim();
-			var region = new Region(viewModel.RegionName, viewModel.AdventurerName);
-			region.Description = regionDescription.Text.Trim();
-			var scene = new Scene()
-			{
-				Title = sceneTitle.Text.Trim(),
-				Description = sceneDescription.Text.Trim(),
-				Coordinates = new Coordinates(0, 0, 0)
-			};
-			region.Map.Add(scene);
-		    viewModel.SaveRegion(region);
+			viewModel.RegionDescription = regionDescription.Text.Trim();
+		    viewModel.SceneTitle = sceneTitle.Text.Trim();
+		    viewModel.SceneDescription = sceneDescription.Text.Trim();
+		    viewModel.CreateRegion();
 
 			DialogResult = true;
 		}
