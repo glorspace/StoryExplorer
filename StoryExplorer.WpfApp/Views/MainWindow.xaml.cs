@@ -21,10 +21,13 @@ namespace StoryExplorer.WpfApp
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow()
+        private MainWindowViewModel viewModel;
+
+        public MainWindow()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (MainWindowViewModel)DataContext;
+        }
 
 		private void loadCancel_Click(object sender, RoutedEventArgs e)
 		{
@@ -84,7 +87,6 @@ namespace StoryExplorer.WpfApp
 				var newAdventurerName = newAdventurerWindow.GetNewAdventurerName();
 				newAdventurerWindow.Close();
 
-				var viewModel = (MainWindowViewModel)DataContext;
                 viewModel.RefreshAdventurerList();
 				foreach (var adventurer in viewModel.AllSavedAdventurers)
 				{
@@ -101,7 +103,6 @@ namespace StoryExplorer.WpfApp
 
 		public void refreshAdventurers()
 		{
-			var viewModel = (MainWindowViewModel)DataContext;
 		    viewModel.RefreshAdventurerList();
             BindingOperations.GetBindingExpressionBase(selectAdventurer, ItemsControl.ItemsSourceProperty).UpdateTarget();
 		}

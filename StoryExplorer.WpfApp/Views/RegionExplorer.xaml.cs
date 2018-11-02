@@ -24,21 +24,22 @@ namespace StoryExplorer.WpfApp
 		private readonly Window previousWindow;
 		private readonly bool isOwner = true;
 		private bool goBack;
+        private RegionExplorerViewModel viewModel;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public RegionExplorer()
+        public RegionExplorer()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (RegionExplorerViewModel)DataContext;
+        }
 
 		public RegionExplorer(Window previous, Adventurer adventurer, Region region) : this()
 		{
 			previousWindow = previous;
 
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.Adventurer = adventurer;
 			viewModel.Region = region;
 
@@ -65,7 +66,7 @@ namespace StoryExplorer.WpfApp
 
 		#region Private Methods
 
-		private void SetRegionMode(RegionExplorerViewModel viewModel)
+		private void SetRegionMode()
 		{
 			viewModel.Mode = mode.IsChecked.HasValue && mode.IsChecked.Value ? RegionMode.Author : RegionMode.Explorer;
 
@@ -112,7 +113,6 @@ namespace StoryExplorer.WpfApp
 
 		private void RefreshSceneElements()
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.RefreshCurrentScene();
 
 			sceneTitle.GetBindingExpression(ContentProperty)?.UpdateTarget();
@@ -184,22 +184,19 @@ namespace StoryExplorer.WpfApp
 
 		private bool AttemptMove(Direction direction)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			if (viewModel.AttemptMove(direction))
 			{
 				return true;
 			}
-			else
+
+			if (viewModel.Mode == RegionMode.Author)
 			{
-				if (viewModel.Mode == RegionMode.Author)
+				if (MessageBox.Show("This scene has not yet been written. Would you like to create it now?", "Scene Creation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 				{
-					if (MessageBox.Show("This scene has not yet been written. Would you like to create it now?", "Scene Creation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-					{
-						OpenNewSceneEditor(direction);
-					}
+					OpenNewSceneEditor(direction);
 				}
-				return false;				
 			}
+			return false;
 		}
 
 		private void OpenRegionDescriptionEditor()
@@ -219,7 +216,6 @@ namespace StoryExplorer.WpfApp
 
 		private void OpenSceneTitleEditor()
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			sceneTitleTextBox.Text = viewModel.CurrentScene.Title;
 
 			sceneTitleViewer.Visibility = Visibility.Collapsed;
@@ -244,7 +240,6 @@ namespace StoryExplorer.WpfApp
 
 		private void OpenSceneDescriptionEditor()
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			sceneDescriptionTextBox.Text = viewModel.CurrentScene.Description;
 
 			sceneDescriptionViewer.Visibility = Visibility.Collapsed;
@@ -267,7 +262,6 @@ namespace StoryExplorer.WpfApp
 
 		private void OpenNewSceneEditor(Direction direction)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.CreateNewScene(direction);			
 
 			sceneTitleViewer.Visibility = Visibility.Collapsed;
@@ -290,25 +284,8 @@ namespace StoryExplorer.WpfApp
 
 		private void RefreshDesignatedAuthorsEditor()
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
-
-			if (viewModel.NonAuthors.Count == 0)
-			{
-				addDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				addDesignatedAuthorsControls.Visibility = Visibility.Visible;
-			}
-
-			if (viewModel.Region.DesignatedAuthors.Count == 0)
-			{
-				removeDesignatedAuthorsControls.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				removeDesignatedAuthorsControls.Visibility = Visibility.Visible;
-			}
+			addDesignatedAuthorsControls.Visibility = viewModel.NonAuthors.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+            removeDesignatedAuthorsControls.Visibility = viewModel.Region.DesignatedAuthors.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
 
 			nonAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
 			designatedAuthors.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
@@ -346,10 +323,9 @@ namespace StoryExplorer.WpfApp
 		{
 			HideRegionMenuControls();
 			ShowExplorerControls();
-
-			var viewModel = (RegionExplorerViewModel)DataContext;
+            
 			viewModel.InitializeAdventurer();
-			SetRegionMode(viewModel);
+			SetRegionMode();
 
 			RefreshSceneElements();
 		}
@@ -419,7 +395,6 @@ namespace StoryExplorer.WpfApp
 
 		private void saveRegionDescription_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.SetRegionDescription(regionDescriptionTextBox.Text.Trim());
 			regionDescription.Text = viewModel.Region.Description;
 
@@ -443,7 +418,6 @@ namespace StoryExplorer.WpfApp
 
 		private void saveSceneTitle_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.SetCurrentSceneTitle(sceneTitleTextBox.Text.Trim());
 			sceneTitle.GetBindingExpression(ContentProperty)?.UpdateTarget();
 			CloseSceneTitleEditor();
@@ -466,7 +440,6 @@ namespace StoryExplorer.WpfApp
 
 		private void saveSceneDescription_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.SetCurrentSceneDescription(sceneDescriptionTextBox.Text.Trim());
 			sceneDescription.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
 			CloseSceneDescriptionEditor();
@@ -479,7 +452,6 @@ namespace StoryExplorer.WpfApp
 
 		private void addDesignatedAuthor_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.AddDesignatedAuthor((string)nonAuthors.SelectedItem);
 			RefreshDesignatedAuthorsEditor();
 			addDesignatedAuthor.IsEnabled = false;
@@ -487,7 +459,6 @@ namespace StoryExplorer.WpfApp
 
 		private void removeDesignatedAuthor_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.RemoveDesignatedAuthor((string)designatedAuthors.SelectedItem);
 			RefreshDesignatedAuthorsEditor();
 			removeDesignatedAuthor.IsEnabled = false;
@@ -530,7 +501,6 @@ namespace StoryExplorer.WpfApp
 
 		private void saveNewScene_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionExplorerViewModel)DataContext;
 			viewModel.CurrentScene.Title = newSceneTitleTextBox.Text.Trim();
 			viewModel.CurrentScene.Description = newSceneDescriptionTextBox.Text.Trim();
 			viewModel.SaveNewScene();

@@ -20,10 +20,13 @@ namespace StoryExplorer.WpfApp
 	/// </summary>
 	public partial class NewAdventurer : Window
 	{
-		public NewAdventurer()
+        private NewAdventurerViewModel viewModel;
+
+        public NewAdventurer()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (NewAdventurerViewModel)DataContext;
+        }
 
 		public string GetNewAdventurerName()
 		{
@@ -57,7 +60,6 @@ namespace StoryExplorer.WpfApp
 					newAdventurer.Personality = (Personality)selectPersonality.SelectedItem;
 					newAdventurer.Height = (Height)selectHeight.SelectedItem;
 
-                    var viewModel = (NewAdventurerViewModel)DataContext;
 				    viewModel.AddAdventurer(newAdventurer);
 
 					// resetting name to title-cased version for retrieval by the main window

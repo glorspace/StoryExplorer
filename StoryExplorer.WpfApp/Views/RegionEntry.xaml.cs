@@ -21,16 +21,17 @@ namespace StoryExplorer.WpfApp
 	{
 		private Window previousWindow;
 		private bool goBack = false;
+        private RegionEntryViewModel viewModel;
 
-		public RegionEntry()
+        public RegionEntry()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (RegionEntryViewModel)DataContext;
+        }
 		public RegionEntry(Window previous, Adventurer adventurer) : this()
 		{
 			previousWindow = previous;
-
-			var viewModel = (RegionEntryViewModel)DataContext;
+            
 			viewModel.Adventurer = adventurer;
 		}
 
@@ -59,7 +60,6 @@ namespace StoryExplorer.WpfApp
 
 		private void newRegion_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionEntryViewModel)DataContext;
 			var newRegionWindow = new NewRegion(viewModel.Adventurer.Name);
 			var regionCreated = newRegionWindow.ShowDialog();
 			if (regionCreated.HasValue && regionCreated.Value)
@@ -82,7 +82,6 @@ namespace StoryExplorer.WpfApp
 
 		private void load_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (RegionEntryViewModel)DataContext;
 			var region = (Region)selectRegion.SelectedItem;
 			this.Hide();
 			RegionExplorer regionMenuWindow = new RegionExplorer(this, viewModel.Adventurer, region);

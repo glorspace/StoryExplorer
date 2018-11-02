@@ -11,18 +11,19 @@ namespace StoryExplorer.WpfApp
 	public partial class AdventurerMenu : Window
 	{
 		private MainWindow mainWindow;
+	    private AdventurerMenuViewModel viewModel;
 		private bool goBack = false;
 
 		public AdventurerMenu()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (AdventurerMenuViewModel)DataContext;
+        }
 
 		public AdventurerMenu(MainWindow previous, Adventurer adventurer) : this()
 		{
 			mainWindow = previous;
-
-			var viewModel = (AdventurerMenuViewModel)DataContext;
+            
 			viewModel.SelectedAdventurer = adventurer;
 
 			adventurerName.Content = adventurer.Name;
@@ -71,7 +72,6 @@ namespace StoryExplorer.WpfApp
 		{
 			if (MessageBox.Show("Are you sure you want to delete this adventurer permanently?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
 			{
-				var viewModel = (AdventurerMenuViewModel)DataContext;
 				viewModel.DeleteSelectedAdventurer();
 				mainWindow.refreshAdventurers();
 				mainWindow.Show();
@@ -82,7 +82,6 @@ namespace StoryExplorer.WpfApp
 
 		private void chooseRegion_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (AdventurerMenuViewModel)DataContext;
 			Hide();
 			var regionEntryWindow = new RegionEntry(this, viewModel.SelectedAdventurer);
 			regionEntryWindow.Show();
@@ -90,9 +89,7 @@ namespace StoryExplorer.WpfApp
 
 		private void checkPasswordFields()
 		{
-			var viewModel = (AdventurerMenuViewModel)DataContext;
-
-			if (oldPassword.Password == viewModel.SelectedAdventurer.Password &&
+		    if (oldPassword.Password == viewModel.SelectedAdventurer.Password &&
 				newPassword.Password == confirmPassword.Password)
 			{
 				commitPassword.IsEnabled = true;
@@ -129,7 +126,6 @@ namespace StoryExplorer.WpfApp
 
 		private void commitPassword_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (AdventurerMenuViewModel)DataContext;
 			viewModel.SelectedAdventurer.Password = newPassword.Password;
 			viewModel.SaveSelectedAdventurer();
 			hideChangePasswordControls();

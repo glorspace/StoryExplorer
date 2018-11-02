@@ -19,20 +19,21 @@ namespace StoryExplorer.WpfApp
 	/// </summary>
 	public partial class NewRegion : Window
 	{
-		public NewRegion()
+        private NewRegionViewModel viewModel;
+
+        public NewRegion()
 		{
 			InitializeComponent();
-		}
+		    viewModel = (NewRegionViewModel)DataContext;
+        }
 
 		public NewRegion(string adventurerName) : this()
 		{
-			var viewModel = (NewRegionViewModel)DataContext;
 			viewModel.AdventurerName = adventurerName;
 		}
 
 		internal string GetNewRegionName()
 		{
-			var viewModel = (NewRegionViewModel)DataContext;
 			return viewModel.RegionName;
 		}
 
@@ -53,7 +54,6 @@ namespace StoryExplorer.WpfApp
 
 		private void create_Click(object sender, RoutedEventArgs e)
 		{
-			var viewModel = (NewRegionViewModel)DataContext;
 			viewModel.RegionName = regionName.Text.Trim();
 			var region = new Region(viewModel.RegionName, viewModel.AdventurerName);
 			region.Description = regionDescription.Text.Trim();
