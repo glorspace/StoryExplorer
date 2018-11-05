@@ -1,27 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using StoryExplorer.Domain;
 using StoryExplorer.Repository;
-using StoryExplorer.WpfApp.Config;
 
 namespace StoryExplorer.WpfApp
 {
 	public class RegionExplorerViewModel
 	{
-	    private readonly IAdventurerRepository adventurerRepository;
-	    private readonly IRegionRepository regionRepository;
-	    private readonly ISceneRepository sceneRepository;
-
-        public RegionExplorerViewModel()
-	    {
-	        adventurerRepository = new RepositoryConfig().AdventurerRepository;
-	        regionRepository = new RepositoryConfig().RegionRepository;
-	        sceneRepository = new RepositoryConfig().SceneRepository;
-	    }
+	    private readonly IAdventurerRepository adventurerRepository = RepositoryFactory.Get<IAdventurerRepository>();
+        private readonly IRegionRepository regionRepository = RepositoryFactory.Get<IRegionRepository>();
+        private readonly ISceneRepository sceneRepository = RepositoryFactory.Get<ISceneRepository>();
 
         public Adventurer Adventurer { get; set; }
 		public Region Region { get; set; }

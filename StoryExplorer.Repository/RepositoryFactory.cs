@@ -2,29 +2,22 @@
 using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 namespace StoryExplorer.Repository
 {
     public static class RepositoryFactory
     {
-        public static IAdventurerRepository GetAdventurerRepository()
+        public static T Get<T>() where T : class
         {
-            var repoInstance = GetRepositoryInstance("AdventurerRepositoryType");
-            IAdventurerRepository repo = repoInstance as IAdventurerRepository;
-            return repo;
-        }
+            object instance;
+            instance = typeof(T) != typeof(ISceneRepository)
+                ? GetRepositoryInstance(typeof(T).Name)
+                : new SceneRepository(Get<IRegionRepository>());
 
-        public static IRegionRepository GetRegionRepository()
-        {
-            var repoInstance = GetRepositoryInstance("RegionRepositoryType");
-            IRegionRepository repo = repoInstance as IRegionRepository;
-            return repo;
-        }
-
-        public static ISceneRepository GetSceneRepository()
-        {
-            return new SceneRepository(GetRegionRepository());
+            var repository = instance as T;
+            return repository;
         }
 
         private static object GetRepositoryInstance(string repoTypeName)

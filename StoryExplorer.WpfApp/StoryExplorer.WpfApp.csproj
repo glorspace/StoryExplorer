@@ -64,7 +64,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Config\RepositoryConfig.cs" />
     <Compile Include="ViewModels\AdventurerMenuViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NewAdventurerViewModel.cs" />

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Collections.Generic;
 using StoryExplorer.Domain;
 using StoryExplorer.Repository;
-using StoryExplorer.WpfApp.Config;
 
 namespace StoryExplorer.WpfApp
 {
 	public class MainWindowViewModel
 	{
-	    private readonly IAdventurerRepository adventurerRepository = new RepositoryConfig().AdventurerRepository;
+	    private readonly IAdventurerRepository adventurerRepository = RepositoryFactory.Get<IAdventurerRepository>();
         public IEnumerable<Adventurer> AllSavedAdventurers { get; set; }
 
 		public MainWindowViewModel()
