@@ -10,27 +10,27 @@ namespace StoryExplorer.Repository
 
         public void Create(Adventurer adventurer)
         {
-            XmlFileSystemClient.Create(adventurer.Name, adventurer, StorageFolder);
+            XmlFileSystemService.Create(adventurer.Name, adventurer, StorageFolder);
         }
 
         public IEnumerable<Adventurer> ReadAll()
         {
-            return XmlFileSystemClient.GetAll<Adventurer>(StorageFolder);
+            return XmlFileSystemService.GetAll<Adventurer>(StorageFolder);
         }
 
         public Adventurer Read(string name)
         {
-            return XmlFileSystemClient.Load<Adventurer>(name, StorageFolder);
+            return XmlFileSystemService.Load<Adventurer>(name, StorageFolder);
         }
 
         public void Update(string name, Adventurer adventurer)
         {
-            XmlFileSystemClient.Save(name, adventurer, StorageFolder);
+            XmlFileSystemService.Save(name, adventurer, StorageFolder);
         }
 
         public void Delete(string name)
         {
-            XmlFileSystemClient.Delete(name, StorageFolder);
+            XmlFileSystemService.Delete(name, StorageFolder);
         }
     }
 }

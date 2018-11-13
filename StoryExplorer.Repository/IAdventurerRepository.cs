@@ -5,10 +5,10 @@ namespace StoryExplorer.Repository
 {
     public interface IAdventurerRepository
     {
-        void Delete(string name);
         void Create(Adventurer adventurer);
+        IEnumerable<Adventurer> ReadAll();
         Adventurer Read(string name);
         void Update(string name, Adventurer adventurer);
-        IEnumerable<Adventurer> ReadAll();
+        void Delete(string name);
     }
 }

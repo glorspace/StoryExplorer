@@ -10,27 +10,27 @@ namespace StoryExplorer.Repository
 
         public void Create(Region region)
         {
-            XmlFileSystemClient.Create(region.Name, region, StorageFolder);
+            XmlFileSystemService.Create(region.Name, region, StorageFolder);
         }
 
         public IEnumerable<Region> ReadAll()
         {
-            return XmlFileSystemClient.GetAll<Region>(StorageFolder);
+            return XmlFileSystemService.GetAll<Region>(StorageFolder);
         }
 
         public Region Read(string name)
         {
-            return XmlFileSystemClient.Load<Region>(name, StorageFolder);
+            return XmlFileSystemService.Load<Region>(name, StorageFolder);
         }
 
         public void Update(string name, Region region)
         {
-            XmlFileSystemClient.Save(name, region, StorageFolder);
+            XmlFileSystemService.Save(name, region, StorageFolder);
         }
 
         public void Delete(string name)
         {
-            XmlFileSystemClient.Delete(name, StorageFolder);
+            XmlFileSystemService.Delete(name, StorageFolder);
         }
     }
 }

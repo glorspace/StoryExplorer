@@ -12,7 +12,7 @@ namespace StoryExplorer.Repository
     /// <summary>
 	/// Provides common code for persisting entity data to XML files.
 	/// </summary>
-	public abstract class XmlFileSystemClient
+	public abstract class XmlFileSystemService
     {
         /// <summary>
         /// Creates a new XML data file for the entity.
