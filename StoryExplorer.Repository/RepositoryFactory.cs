@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using StoryExplorer.Repository.Implementations;
+using StoryExplorer.Repository.Interfaces;
 
 namespace StoryExplorer.Repository
 {

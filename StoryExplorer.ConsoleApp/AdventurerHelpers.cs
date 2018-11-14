@@ -1,15 +1,13 @@
-﻿using StoryExplorer.Domain;
-using StoryExplorer.Repository;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
 namespace StoryExplorer.ConsoleApp
 {
-	class AdventurerHelpers
+    class AdventurerHelpers
 	{
 	    private readonly IAdventurerRepository adventurerRepository;
         public AdventurerHelpers(IAdventurerRepository repository)

@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using StoryExplorer.Domain;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Services
 {
     /// <summary>
 	/// Provides common code for persisting entity data to XML files.

@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using StoryExplorer.Domain;
-using StoryExplorer.Repository;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
 namespace StoryExplorer.ConsoleApp
 {

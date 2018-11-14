@@ -60,10 +60,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
-      <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
-      <Name>StoryExplorer.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
       <Project>{571976EB-FE60-495F-9D26-D8B7ED2F8E8A}</Project>
       <Name>StoryExplorer.Repository</Name>

@@ -72,10 +72,6 @@
       <Project>{6094f748-f071-4d6b-8bb0-c63f6d80b7b7}</Project>
       <Name>StoryExplorer.ConsoleApp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
-      <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
-      <Name>StoryExplorer.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\StoryExplorer.Repository\StoryExplorer.Repository.csproj">
       <Project>{571976eb-fe60-495f-9d26-d8b7ed2f8e8a}</Project>
       <Name>StoryExplorer.Repository</Name>

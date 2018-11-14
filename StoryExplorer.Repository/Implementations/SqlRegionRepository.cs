@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using StoryExplorer.Domain;
 using StoryExplorer.EFModel;
-using Scene = StoryExplorer.Domain.Scene;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
+using Region = StoryExplorer.Repository.Models.Region;
+using Scene = StoryExplorer.Repository.Models.Scene;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Implementations
 {
     public class SqlRegionRepository : IRegionRepository
     {
-        public void Create(Domain.Region region)
+        public void Create(Region region)
         {
             using (var dbContext = new StoryExplorerEntities())
             {
@@ -34,23 +34,23 @@ namespace StoryExplorer.Repository
             }
         }
 
-        public IEnumerable<Domain.Region> ReadAll()
+        public IEnumerable<Region> ReadAll()
         {
             using (var dbContext = new StoryExplorerEntities())
             {
-                var regions = new List<Domain.Region>();
+                var regions = new List<Region>();
                 dbContext.Regions.ToList().ForEach(region =>
                     regions.Add(ConvertEntityToDomainObject(region, dbContext)));
                 return regions;
             }
         }
 
-        public Domain.Region Read(string name)
+        public Region Read(string name)
         {
             using (var dbContext = new StoryExplorerEntities())
             {
                 var entity = dbContext.Regions.FirstOrDefault(x => x.Name == name);
-                Domain.Region domainObject = null;
+                Region domainObject = null;
                 if (entity != null)
                     domainObject = ConvertEntityToDomainObject(entity, dbContext);
 
@@ -58,7 +58,7 @@ namespace StoryExplorer.Repository
             }
         }
 
-        public void Update(string name, Domain.Region region)
+        public void Update(string name, Region region)
         {
             using (var dbContext = new StoryExplorerEntities())
             {
@@ -85,16 +85,16 @@ namespace StoryExplorer.Repository
 
         }
 
-        private Domain.Region ConvertEntityToDomainObject(EFModel.Region region, StoryExplorerEntities dbContext)
+        private Region ConvertEntityToDomainObject(EFModel.Region region, StoryExplorerEntities dbContext)
         {
-            return new Domain.Region
+            return new Region
             {
                 Name = region.Name,
                 Description = region.Description,
                 OwnerName = dbContext.Adventurers.Find(region.OwnerId).Name,
                 Created = region.Created,
                 DesignatedAuthors = region.Adventurers1.Select(adventurer => adventurer.Name).ToList(),
-                Map = region.Scenes.Select(scene => new Domain.Scene
+                Map = region.Scenes.Select(scene => new Scene
                 {
                     Title = scene.Title,
                     Description = scene.Description,
@@ -103,7 +103,7 @@ namespace StoryExplorer.Repository
             };
         }
 
-        private void UpdateDesignatedAuthors(EFModel.Region dbRegion, Domain.Region region, StoryExplorerEntities dbContext)
+        private void UpdateDesignatedAuthors(EFModel.Region dbRegion, Region region, StoryExplorerEntities dbContext)
         {
             foreach (var authorName in region.DesignatedAuthors)
             {
@@ -121,7 +121,7 @@ namespace StoryExplorer.Repository
             deletedAuthors.ForEach(author => dbRegion.Adventurers1.Remove(author));
         }
 
-        private void UpdateScenes(EFModel.Region dbRegion, Domain.Region region)
+        private void UpdateScenes(EFModel.Region dbRegion, Region region)
         {
             foreach (var scene in region.Map)
             {
@@ -152,13 +152,13 @@ namespace StoryExplorer.Repository
             RemoveDeletedScenes(dbRegion, region);
         }
 
-        private void RemoveDeletedScenes(EFModel.Region dbRegion, Domain.Region region)
+        private void RemoveDeletedScenes(EFModel.Region dbRegion, Region region)
         {
             var deletedScenes = dbRegion.Scenes.Where(scene => SceneNotFound(scene, region.Map)).ToList();
             deletedScenes.ForEach(scene => dbRegion.Scenes.Remove(scene));
         }
 
-        private bool SceneNotFound(EFModel.Scene scene, List<Domain.Scene> map)
+        private bool SceneNotFound(EFModel.Scene scene, List<Scene> map)
         {
             return !map.Any(s =>
                 s.Coordinates.X == scene.X &&

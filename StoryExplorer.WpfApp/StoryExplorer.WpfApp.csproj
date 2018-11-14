@@ -174,10 +174,6 @@
     <Resource Include="Images\VSO_Backward_outline_24x.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StoryExplorer.Domain\StoryExplorer.Domain.csproj">
-      <Project>{5f64b93f-f39a-4a10-b262-437e1f907f67}</Project>
-      <Name>StoryExplorer.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\StoryExplorer.EFModel\StoryExplorer.EFModel.csproj">
       <Project>{98594075-3e2a-4fb9-b07f-b975d84319b2}</Project>
       <Name>StoryExplorer.EFModel</Name>

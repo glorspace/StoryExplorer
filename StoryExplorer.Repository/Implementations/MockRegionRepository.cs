@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StoryExplorer.Domain;
-using DateTime = System.DateTime;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Implementations
 {
     public class MockRegionRepository : IRegionRepository
     {

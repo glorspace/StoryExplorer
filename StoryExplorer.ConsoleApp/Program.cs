@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using StoryExplorer.Repository;
+using StoryExplorer.Repository.Interfaces;
 
 namespace StoryExplorer.ConsoleApp
 {

@@ -1,9 +1,5 @@
-﻿using StoryExplorer.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StoryExplorer.Repository.Implementations;
+using StoryExplorer.Repository.Interfaces;
 
 namespace DataMigrationClient
 {

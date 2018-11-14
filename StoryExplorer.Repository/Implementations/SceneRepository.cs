@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StoryExplorer.Domain;
+﻿using System.Collections.Generic;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Implementations
 {
     public class SceneRepository : ISceneRepository
     {

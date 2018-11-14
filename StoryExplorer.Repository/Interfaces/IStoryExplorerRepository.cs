@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Interfaces
 {
     public interface IStoryExplorerRepository<T>
     {

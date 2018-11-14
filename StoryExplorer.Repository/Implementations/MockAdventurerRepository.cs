@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StoryExplorer.Domain;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Implementations
 {
     public class MockAdventurerRepository : IAdventurerRepository
     {

@@ -1,13 +1,14 @@
-﻿<Window x:Class="StoryExplorer.WpfApp.NewAdventurer"
+﻿<Window x:Class="StoryExplorer.WpfApp.Views.NewAdventurer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoryExplorer.WpfApp"
+        xmlns:viewModels="clr-namespace:StoryExplorer.WpfApp.ViewModels"
         mc:Ignorable="d"
         Title="New Adventurer" Height="426" Width="579" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Window.DataContext>
-        <local:NewAdventurerViewModel/>
+        <viewModels:NewAdventurerViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.Background>

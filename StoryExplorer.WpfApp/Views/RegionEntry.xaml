@@ -1,13 +1,14 @@
-﻿<Window x:Class="StoryExplorer.WpfApp.RegionEntry"
+﻿<Window x:Class="StoryExplorer.WpfApp.Views.RegionEntry"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoryExplorer.WpfApp"
+        xmlns:viewModels="clr-namespace:StoryExplorer.WpfApp.ViewModels"
         mc:Ignorable="d"
         Title="Choose a Story Region" Height="680" Width="900" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <local:RegionEntryViewModel/>
+        <viewModels:RegionEntryViewModel/>
     </Window.DataContext>
     <StackPanel>
         <StackPanel.Background>

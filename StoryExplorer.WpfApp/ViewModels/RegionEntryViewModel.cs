@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using StoryExplorer.Domain;
 using StoryExplorer.Repository;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
-namespace StoryExplorer.WpfApp
+namespace StoryExplorer.WpfApp.ViewModels
 {
 	public class RegionEntryViewModel
 	{

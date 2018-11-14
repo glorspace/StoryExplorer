@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using StoryExplorer.Domain;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
+using StoryExplorer.Repository.Services;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Implementations
 {
     public class XmlAdventurerRepository : IAdventurerRepository
     {

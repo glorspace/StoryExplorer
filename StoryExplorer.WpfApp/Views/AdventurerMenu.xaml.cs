@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using StoryExplorer.Domain;
+using StoryExplorer.Repository.Models;
+using StoryExplorer.WpfApp.ViewModels;
 
-namespace StoryExplorer.WpfApp
+namespace StoryExplorer.WpfApp.Views
 {
 	/// <summary>
 	/// Interaction logic for AdventurerMenu.xaml

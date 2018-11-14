@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StoryExplorer.WpfApp;
+using StoryExplorer.WpfApp.ViewModels;
 
 namespace StoryExplorer.Tests
 {

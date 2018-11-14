@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StoryExplorer.Domain;
+using StoryExplorer.Repository.Models;
 
-namespace StoryExplorer.Repository
+namespace StoryExplorer.Repository.Interfaces
 {
     public interface ISceneRepository
     {

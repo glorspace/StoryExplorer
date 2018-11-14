@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Speech.Synthesis;
-using StoryExplorer.Domain;
-using StoryExplorer.Repository;
+using StoryExplorer.Repository.Interfaces;
+using StoryExplorer.Repository.Models;
 
 namespace StoryExplorer.ConsoleApp
 {
