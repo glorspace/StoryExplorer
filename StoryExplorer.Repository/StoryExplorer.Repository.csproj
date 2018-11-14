@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStoryExplorerRepository.cs" />
     <Compile Include="ISceneRepository.cs" />
     <Compile Include="MockAdventurerRepository.cs" />
     <Compile Include="MockRegionRepository.cs" />
