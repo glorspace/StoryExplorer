@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IStoryExplorerRepository.cs" />
     <Compile Include="Interfaces\ISceneRepository.cs" />
     <Compile Include="Implementations\MockAdventurerRepository.cs" />

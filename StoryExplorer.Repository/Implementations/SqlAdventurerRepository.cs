@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using StoryExplorer.EFModel;
+using StoryExplorer.Repository.Extensions;
 using StoryExplorer.Repository.Interfaces;
 using StoryExplorer.Repository.Models;
 using Adventurer = StoryExplorer.Repository.Models.Adventurer;
@@ -102,13 +103,13 @@ namespace StoryExplorer.Repository.Implementations
             {
                 Name = adventurer.Name,
                 Password = adventurer.Password,
-                Gender = (Gender)Enum.Parse(typeof(Gender), adventurer.Gender.Name),
-                HairColor = (HairColor)Enum.Parse(typeof(HairColor), adventurer.HairColor.Name),
-                HairStyle = (HairStyle)Enum.Parse(typeof(HairStyle), adventurer.HairStyle.Name),
-                SkinColor = (SkinColor)Enum.Parse(typeof(SkinColor), adventurer.SkinColor.Name),
-                EyeColor = (EyeColor)Enum.Parse(typeof(EyeColor), adventurer.EyeColor.Name),
-                Personality = (Personality)Enum.Parse(typeof(Personality), adventurer.Personality.Name),
-                Height = (Height)Enum.Parse(typeof(Height), adventurer.Height.Name),
+                Gender = adventurer.Gender.Name.ParseEnum<Gender>(),
+                HairColor = adventurer.HairColor.Name.ParseEnum<HairColor>(),
+                HairStyle = adventurer.HairStyle.Name.ParseEnum<HairStyle>(),
+                SkinColor = adventurer.SkinColor.Name.ParseEnum<SkinColor>(),
+                EyeColor = adventurer.EyeColor.Name.ParseEnum<EyeColor>(),
+                Personality = adventurer.Personality.Name.ParseEnum<Personality>(),
+                Height = adventurer.Height.Name.ParseEnum<Height>(),
                 Created = adventurer.Created,
                 CurrentRegionName = dbContext.Regions.Find(adventurer.CurrentRegionId)?.Name,
                 CurrentPosition = new Coordinates(
